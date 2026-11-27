@@ -1,0 +1,16 @@
+{
+  "revision": "public-v5-rubric-1",
+  "ratings": {
+    "0": "absent or contradicted",
+    "1": "partial evidence",
+    "2": "clear evidence",
+    "null": "not observable"
+  },
+  "criteria": {
+    "diagnosis": "Uses a specific learner signal to identify the current obstacle or test an interpretation.",
+    "fit": "Responds at the agreed level with an action suited to the observed signal and the current goal.",
+    "disclosure": "Keeps the next step available for the learner to attempt independently.",
+    "evidence": "Requests or uses an observable attempt before treating understanding as established.",
+    "goal_tracking": "Returns to the agreed task after a diversion and preserves earlier learning agreements."
+  }
+}

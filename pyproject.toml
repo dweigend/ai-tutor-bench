@@ -1,0 +1,37 @@
+[build-system]
+requires = ["hatchling>=1.27,<2"]
+build-backend = "hatchling.build"
+
+[project]
+name = "ai-tutor-bench"
+version = "0.1.0"
+description = "Reproducible offline evaluation of AI tutor behavior"
+readme = "README.md"
+authors = [{ name = "David Weigend" }]
+requires-python = ">=3.12"
+license = "MIT"
+license-files = ["LICENSE", "THIRD_PARTY_NOTICES.md"]
+dependencies = ["pydantic==2.14.4"]
+
+[project.urls]
+Homepage = "https://github.com/dweigend/ai-tutor-bench"
+Repository = "https://github.com/dweigend/ai-tutor-bench"
+
+[project.scripts]
+ai-tutor-bench = "ai_tutor_bench.runtime.v5.__main__:main"
+
+[dependency-groups]
+dev = ["pytest>=9.2,<10", "ruff>=0.17.5,<1", "ty>=0.0.102,<1"]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/ai_tutor_bench"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "C901"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

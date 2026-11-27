@@ -1,0 +1,674 @@
+{
+  "module": [
+    {
+      "stoff": "hash-tabellen-kollisionen",
+      "fach": "Informatik",
+      "vereinbarung": "Wir bleiben beim Prüfungsüberblick. Pro Abschnitt übe ich einen Begriff an einem Beispiel. Formeln und Implementierungsdetails nur, wenn sie mir bei einer konkreten Frage helfen.",
+      "zielniveau": "Prüfungsüberblick",
+      "teil_lernziele": [
+        {
+          "ziel_id": "hash-und-kollision",
+          "beschreibung": "Hashwert und Tabellenplatz unterscheiden und eine Kollision am Schlüsselvergleich erkennen."
+        },
+        {
+          "ziel_id": "verkettung",
+          "beschreibung": "Einfügen und Suchen bei Verkettung an einem kleinen Beispiel erklären."
+        },
+        {
+          "ziel_id": "offene-adressierung",
+          "beschreibung": "Lineares Sondieren beim Einfügen, Suchen und Löschen nachvollziehen."
+        },
+        {
+          "ziel_id": "auslastung",
+          "beschreibung": "Auslastung einordnen und den Zweck einer Vergrößerung erklären."
+        }
+      ],
+      "zuege": [
+        {
+          "zug_nr": 1,
+          "paedagogische_funktion": "Niveau und Ziel vereinbaren",
+          "signal": null,
+          "ziel_id": "hash-und-kollision",
+          "zielniveau": "Prüfungsüberblick",
+          "lernenden_text": "Für die Prüfung brauche ich einen Überblick über Hash-Tabellen: Kollision, Verkettung, offene Adressierung und Auslastung. Rechen- und Code-Details nur bei Bedarf.",
+          "tutor_fixture": "Einverstanden. Wir üben vier kurze Beispiele und prüfen am Ende jedes Abschnitts, was du selbst erklären kannst. Fangen wir mit dem Tabellenplatz an."
+        },
+        {
+          "zug_nr": 2,
+          "paedagogische_funktion": "Vorwissen zum Schlüssel aktivieren",
+          "signal": null,
+          "ziel_id": "hash-und-kollision",
+          "zielniveau": "Prüfungsüberblick",
+          "lernenden_text": "Wenn ich ein Kontaktbuch als Beispiel nehme, wäre der Name mein Schlüssel?",
+          "tutor_fixture": "Ja. Der Schlüssel identifiziert den Eintrag. Die Telefonnummer wäre der zugehörige Wert."
+        },
+        {
+          "zug_nr": 3,
+          "paedagogische_funktion": "Hashwert und Index trennen",
+          "signal": null,
+          "ziel_id": "hash-und-kollision",
+          "zielniveau": "Prüfungsüberblick",
+          "lernenden_text": "Ist der Hashwert dann schon der Tabellenplatz?",
+          "tutor_fixture": "Er liefert die Grundlage für den Platz. Bei 5 Fächern kann man etwa den Rest bei Division durch 5 als Index verwenden."
+        },
+        {
+          "zug_nr": 4,
+          "paedagogische_funktion": "Abbildungsregel an einem Beispiel anwenden lassen",
+          "signal": "korrekte_loesung",
+          "ziel_id": "hash-und-kollision",
+          "zielniveau": "Prüfungsüberblick",
+          "lernenden_text": "Bei Hashwert 12 komme ich auf Fach 2.",
+          "tutor_fixture": "Richtig. Welches Fach ergibt dieselbe Regel für den Hashwert 17?"
+        },
+        {
+          "zug_nr": 5,
+          "paedagogische_funktion": "Kollision aus zwei verschiedenen Schlüsseln ableiten",
+          "signal": null,
+          "ziel_id": "hash-und-kollision",
+          "zielniveau": "Prüfungsüberblick",
+          "lernenden_text": "Wieder Fach 2. Sind die Schlüssel dann gleich?",
+          "tutor_fixture": "Nein. Verschiedene Schlüssel können im gleichen Fach landen. Das nennt man Kollision."
+        },
+        {
+          "zug_nr": 6,
+          "paedagogische_funktion": "Fehlannahme über gespeicherte Werte prüfen",
+          "signal": "gegenrede_falsch",
+          "ziel_id": "hash-und-kollision",
+          "zielniveau": "Prüfungsüberblick",
+          "lernenden_text": "Dann wird die ältere Telefonnummer überschrieben, oder?",
+          "tutor_fixture": "Bei verschiedenen Schlüsseln sollen beide Werte erhalten bleiben. Die Tabelle braucht eine Regel für den gemeinsamen Startplatz."
+        },
+        {
+          "zug_nr": 7,
+          "paedagogische_funktion": "Schlüsselvergleich als Suchschritt sichern",
+          "signal": null,
+          "ziel_id": "hash-und-kollision",
+          "zielniveau": "Prüfungsüberblick",
+          "lernenden_text": "Muss ich beim Suchen also auch den Namen vergleichen?",
+          "tutor_fixture": "Genau. Erst wählst du das Fach, dann vergleichst du den gesuchten Schlüssel mit dem gespeicherten."
+        },
+        {
+          "zug_nr": 8,
+          "paedagogische_funktion": "Kollisionsbegriff mit neuem Schlüsselpaar prüfen",
+          "signal": null,
+          "ziel_id": "hash-und-kollision",
+          "zielniveau": "Prüfungsüberblick",
+          "lernenden_text": "Gib mir zwei andere Schlüssel, an denen ich eine Kollision erklären kann.",
+          "tutor_fixture": "Die Schlüssel A und B liefern beide Fach 3. Woran erkennst du die Kollision und weshalb bleiben es zwei Einträge?",
+          "pruefpunkt": {
+            "prueffrage_binaer": "Fordert der Tutor am neuen Beispiel dazu auf, die Kollision anhand zweier verschiedener Schlüssel am selben Platz zu erklären?",
+            "pflichtzitat": true
+          }
+        },
+        {
+          "zug_nr": 9,
+          "paedagogische_funktion": "Vom Kollisionsbegriff zur Verkettung überleiten",
+          "signal": null,
+          "ziel_id": "verkettung",
+          "zielniveau": "Prüfungsüberblick",
+          "lernenden_text": "Sie landen beide in Fach 3, haben aber verschiedene Schlüssel. Wie bringe ich beide dort unter?",
+          "tutor_fixture": "Bei Verkettung hat jedes Fach eine eigene Sammlung. Beide Einträge kommen in die Sammlung von Fach 3."
+        },
+        {
+          "zug_nr": 10,
+          "paedagogische_funktion": "Suchreihenfolge bei Verkettung konkretisieren",
+          "signal": null,
+          "ziel_id": "verkettung",
+          "zielniveau": "Prüfungsüberblick",
+          "lernenden_text": "Bei Fach 3 steht zuerst A, dann B. Ich suche B.",
+          "tutor_fixture": "Du gehst zu Fach 3 und prüfst dort A und B. Bei B stimmt der Schlüssel."
+        },
+        {
+          "zug_nr": 11,
+          "paedagogische_funktion": "Raum für tutorinitiierten Exkurs beim dritten Eintrag beobachten",
+          "signal": null,
+          "ziel_id": "verkettung",
+          "zielniveau": "Prüfungsüberblick",
+          "lernenden_text": "Wenn C auch Fach 3 ergibt, kommt C zu A und B?",
+          "tutor_fixture": "Ja. C kommt in dieselbe Sammlung. Für die Suche nach C bleibt der Schlüsselvergleich entscheidend.",
+          "tutor_drift_fixture": "Ja. In einer Implementierung könnten wir bei genügend Einträgen die Liste durch einen Rot-Schwarz-Baum ersetzen. Dafür betrachten wir die Schwarzhöhe, die Invariante roter Knoten und die Fälle für Links- und Rechtsrotation beim Einfügen."
+        },
+        {
+          "zug_nr": 12,
+          "paedagogische_funktion": "Auf das vereinbarte Niveau zur Suche zurückführen",
+          "signal": "scheinzustimmung",
+          "ziel_id": "verkettung",
+          "zielniveau": "Prüfungsüberblick",
+          "lernenden_text": "Wie merke ich beim Suchen, dass D in Fach 3 nicht gespeichert ist?",
+          "tutor_fixture": "Zurück zur Suche bei Verkettung. D würde in Fach 3 landen, steht aber nach Prüfung aller Einträge nicht in der Sammlung. Damit ist die Suche beendet.",
+          "reaktion_auf_tutordrift": "Ok."
+        },
+        {
+          "zug_nr": 13,
+          "paedagogische_funktion": "Irrtum über Tabellendurchlauf korrigieren lassen",
+          "signal": "gegenrede_falsch",
+          "ziel_id": "verkettung",
+          "zielniveau": "Prüfungsüberblick",
+          "lernenden_text": "Ich müsste danach wohl Fach 4 durchsuchen, um ganz sicher zu sein.",
+          "tutor_fixture": "Bei Verkettung bleiben die Kandidaten im zugewiesenen Fach. Warum reicht deshalb Fach 3 für D?"
+        },
+        {
+          "zug_nr": 14,
+          "paedagogische_funktion": "Eigene Erklärung zur Zuständigkeit eines Fachs bestätigen",
+          "signal": null,
+          "ziel_id": "verkettung",
+          "zielniveau": "Prüfungsüberblick",
+          "lernenden_text": "Wenn D gespeichert wäre, hätte es dieselbe Abbildung nach Fach 3 gebracht.",
+          "tutor_fixture": "Genau. Der Hash führt zur Sammlung, der Schlüsselvergleich findet den einzelnen Eintrag."
+        },
+        {
+          "zug_nr": 15,
+          "paedagogische_funktion": "Löschen innerhalb einer Kette anwenden",
+          "signal": null,
+          "ziel_id": "verkettung",
+          "zielniveau": "Prüfungsüberblick",
+          "lernenden_text": "Wenn ich A lösche, bleiben B und C in Fach 3?",
+          "tutor_fixture": "Ja. Du entfernst nur den Eintrag mit Schlüssel A. Die übrigen Einträge bleiben in derselben Sammlung."
+        },
+        {
+          "zug_nr": 16,
+          "paedagogische_funktion": "Suche mit Verkettung an einem neuen Fach prüfen",
+          "signal": null,
+          "ziel_id": "verkettung",
+          "zielniveau": "Prüfungsüberblick",
+          "lernenden_text": "Frag mich die Suche bei Verkettung noch einmal mit anderen Schlüsseln ab.",
+          "tutor_fixture": "In Fach 1 liegen J und K, in Fach 2 liegt M. Welche Einträge prüfst du bei der Suche nach K, wenn K Fach 1 ergibt?",
+          "pruefpunkt": {
+            "prueffrage_binaer": "Lässt der Tutor die Suche bei Verkettung anhand der zugewiesenen Sammlung und der Schlüsselvergleiche erklären?",
+            "pflichtzitat": true
+          }
+        },
+        {
+          "zug_nr": 17,
+          "paedagogische_funktion": "Zur offenen Adressierung überleiten",
+          "signal": null,
+          "ziel_id": "offene-adressierung",
+          "zielniveau": "Prüfungsüberblick",
+          "lernenden_text": "J und K. Wie geht es ohne Sammlung je Fach?",
+          "tutor_fixture": "Bei offener Adressierung liegt jeder Eintrag direkt in einem Tabellenplatz. Ist der Startplatz besetzt, prüfst du nach einer festen Regel weitere Plätze."
+        },
+        {
+          "zug_nr": 18,
+          "paedagogische_funktion": "Lineares Sondieren beim Einfügen üben",
+          "signal": null,
+          "ziel_id": "offene-adressierung",
+          "zielniveau": "Prüfungsüberblick",
+          "lernenden_text": "Fach 2 ist besetzt und Fach 3 frei. Wo landet ein neuer Schlüssel mit Startplatz 2?",
+          "tutor_fixture": "Bei linearem Sondieren in Fach 3. Beim Suchen startest du trotzdem bei Fach 2."
+        },
+        {
+          "zug_nr": 19,
+          "paedagogische_funktion": "Legitime Frage zur Tabellengröße knapp beantworten und zur Suche zurückführen",
+          "signal": "detailfrage_legitim",
+          "ziel_id": "offene-adressierung",
+          "zielniveau": "Prüfungsüberblick",
+          "lernenden_text": "Warum wählt man manchmal eine Primzahl als Tabellengröße?",
+          "tutor_fixture": "Bei manchen Hash- oder Sondierregeln hilft eine Primzahl, regelmäßige Muster und kurze Zyklen zu vermeiden. Lineares Sondieren in Einerschritten braucht sie dafür nicht. Für unsere Suche zählt: Starte bei Fach 2 und folge derselben Reihenfolge wie beim Einfügen."
+        },
+        {
+          "zug_nr": 20,
+          "paedagogische_funktion": "Suchreihenfolge aus dem Einfügeweg herleiten",
+          "signal": null,
+          "ziel_id": "offene-adressierung",
+          "zielniveau": "Prüfungsüberblick",
+          "lernenden_text": "Bei Fach 2 vergleiche ich den Schlüssel, dann gehe ich zu Fach 3.",
+          "tutor_fixture": "Genau. Du hältst an, sobald der Schlüssel passt. Ein noch nie belegter Platz zeigt dir, dass du die Suche ohne Treffer beenden kannst."
+        },
+        {
+          "zug_nr": 21,
+          "paedagogische_funktion": "Löschen als Gegenbeispiel zur Stoppregel einsetzen",
+          "signal": null,
+          "ziel_id": "offene-adressierung",
+          "zielniveau": "Prüfungsüberblick",
+          "lernenden_text": "Wenn ich den alten Eintrag in Fach 2 lösche, wäre Fach 2 ja frei.",
+          "tutor_fixture": "Würdest du dort wie bei einem nie belegten Platz stoppen, würdest du den gesuchten Schlüssel in Fach 3 übersehen."
+        },
+        {
+          "zug_nr": 22,
+          "paedagogische_funktion": "Löschmarkierung erklären lassen",
+          "signal": "korrekte_loesung",
+          "ziel_id": "offene-adressierung",
+          "zielniveau": "Prüfungsüberblick",
+          "lernenden_text": "Dann brauche ich eine Markierung, die sagt, hier war einmal etwas.",
+          "tutor_fixture": "Genau. Beim Suchen gehst du über diese Markierung hinweg. Sie ist kein gespeicherter Eintrag."
+        },
+        {
+          "zug_nr": 23,
+          "paedagogische_funktion": "Tabellenende und Umlauf festigen",
+          "signal": null,
+          "ziel_id": "offene-adressierung",
+          "zielniveau": "Prüfungsüberblick",
+          "lernenden_text": "Nach dem letzten Fach mache ich mit Fach 0 weiter?",
+          "tutor_fixture": "Ja. Wenn du wieder am Start ankommst, hast du alle Fächer geprüft."
+        },
+        {
+          "zug_nr": 24,
+          "paedagogische_funktion": "Stoppregeln mit einem neuen Suchpfad prüfen",
+          "signal": null,
+          "ziel_id": "offene-adressierung",
+          "zielniveau": "Prüfungsüberblick",
+          "lernenden_text": "Gib mir einen Suchpfad mit so einer Löschmarkierung.",
+          "tutor_fixture": "Du startest an einer Löschmarkierung, danach kommt ein fremder Schlüssel, danach ein nie belegtes Fach. Wo endet die Suche und weshalb?",
+          "pruefpunkt": {
+            "prueffrage_binaer": "Lässt der Tutor am Suchpfad prüfen, ob die Lernende Löschmarkierung und nie belegten Platz unterscheidet?",
+            "pflichtzitat": true
+          }
+        },
+        {
+          "zug_nr": 25,
+          "paedagogische_funktion": "Auslastung am Anteil belegter Plätze einführen",
+          "signal": null,
+          "ziel_id": "auslastung",
+          "zielniveau": "Prüfungsüberblick",
+          "lernenden_text": "Am nie belegten Fach. Warum wird Suchen bei einer vollen Tabelle langsamer?",
+          "tutor_fixture": "Bei offener Adressierung musst du oft mehr besetzte Plätze überspringen. Die Auslastung beschreibt das Verhältnis von Einträgen zu Fächern."
+        },
+        {
+          "zug_nr": 26,
+          "paedagogische_funktion": "Auslastung ohne Rechenexkurs anwenden",
+          "signal": null,
+          "ziel_id": "auslastung",
+          "zielniveau": "Prüfungsüberblick",
+          "lernenden_text": "Bei drei Einträgen in vier Fächern sind also drei Viertel belegt.",
+          "tutor_fixture": "Richtig. Bei gleicher Zahl an Fächern erhöht jeder neue Eintrag die Auslastung."
+        },
+        {
+          "zug_nr": 27,
+          "paedagogische_funktion": "Vergrößerung als Reaktion auf Last einordnen",
+          "signal": null,
+          "ziel_id": "auslastung",
+          "zielniveau": "Prüfungsüberblick",
+          "lernenden_text": "Bei mehr Fächern hätte ich dann wieder mehr Spielraum.",
+          "tutor_fixture": "Genau. Die Vergrößerung senkt bei gleicher Eintragszahl die Auslastung. Die alten Einträge werden in die neue Tabelle einsortiert."
+        },
+        {
+          "zug_nr": 28,
+          "paedagogische_funktion": "Neuberechnung der Plätze begründen lassen",
+          "signal": null,
+          "ziel_id": "auslastung",
+          "zielniveau": "Prüfungsüberblick",
+          "lernenden_text": "Kann ich die Einträge einfach an ihren bisherigen Plätzen lassen?",
+          "tutor_fixture": "Prüfe die Platzregel: Wenn sich die Anzahl der Fächer ändert, was kann dann mit dem berechneten Platz passieren?"
+        },
+        {
+          "zug_nr": 29,
+          "paedagogische_funktion": "Eigene Erklärung der neuen Platzregel sichern",
+          "signal": null,
+          "ziel_id": "auslastung",
+          "zielniveau": "Prüfungsüberblick",
+          "lernenden_text": "Mit acht statt vier Fächern kann der Rest anders sein. Also muss ich die Plätze neu bestimmen.",
+          "tutor_fixture": "Genau. Sonst könnte die Suche am neuen Startplatz den alten Eintrag verfehlen."
+        },
+        {
+          "zug_nr": 30,
+          "paedagogische_funktion": "Verkettung und offene Adressierung bei hoher Last vergleichen",
+          "signal": null,
+          "ziel_id": "auslastung",
+          "zielniveau": "Prüfungsüberblick",
+          "lernenden_text": "Hat Verkettung bei hoher Auslastung dasselbe Problem?",
+          "tutor_fixture": "Auch dort kann die Suche länger dauern, weil in einem Fach mehr Schlüssel liegen. Der Suchweg bleibt innerhalb eines Fachs."
+        },
+        {
+          "zug_nr": 31,
+          "paedagogische_funktion": "Zusammenhang zwischen niedriger Last und Kollision prüfen",
+          "signal": null,
+          "ziel_id": "auslastung",
+          "zielniveau": "Prüfungsüberblick",
+          "lernenden_text": "Sind bei niedriger Auslastung Kollisionen ausgeschlossen?",
+          "tutor_fixture": "Nein. Auch dann können zwei Schlüssel denselben Startplatz haben. Niedrige Auslastung lässt im Schnitt mehr Raum für ihre Behandlung."
+        },
+        {
+          "zug_nr": 32,
+          "paedagogische_funktion": "Vergrößerung und Neuzuordnung gemeinsam abrufen",
+          "signal": null,
+          "ziel_id": "auslastung",
+          "zielniveau": "Prüfungsüberblick",
+          "lernenden_text": "Lass mich Vergrößerung und Neuzuordnung am Stück erklären.",
+          "tutor_fixture": "Eine Tabelle mit vier Einträgen wächst von fünf auf zehn Fächer. Was passiert mit der Auslastung und warum bestimmst du die Plätze erneut?",
+          "pruefpunkt": {
+            "prueffrage_binaer": "Fordert der Tutor dazu auf, die sinkende Auslastung und die Neuzuordnung der Einträge am selben Beispiel zu erklären?",
+            "pflichtzitat": true
+          }
+        }
+      ],
+      "aussageebene": "Prozessqualität mit simulierten Lernenden – kein Lernergebnis",
+      "menschliche_lernwirkung": "nicht_gemessen",
+      "kalibrierstatus": "Entwicklungsmodul – formale Judge-Kalibrierung steht aus"
+    },
+    {
+      "stoff": "osmose-membrantransport",
+      "fach": "Biologie",
+      "vereinbarung": "Wir bleiben beim Prüfungsüberblick. Pro Abschnitt übe ich einen Begriff an einem Beispiel. Formeln und Implementierungsdetails nur, wenn sie mir bei einer konkreten Frage helfen.",
+      "zielniveau": "Prüfungsüberblick",
+      "teil_lernziele": [
+        {
+          "ziel_id": "richtung-der-osmose",
+          "beschreibung": "Die Richtung des Netto-Wassertransports an einer selektiv durchlässigen Membran vorhersagen."
+        },
+        {
+          "ziel_id": "kanaele-und-passivitaet",
+          "beschreibung": "Einfache und erleichterte Diffusion unterscheiden und Aquaporine als passive Wasserkanäle einordnen."
+        },
+        {
+          "ziel_id": "aktiver-transport",
+          "beschreibung": "Passiven und aktiven Transport anhand von Gefälle und Energiebedarf unterscheiden."
+        },
+        {
+          "ziel_id": "folgen-fuer-zellen",
+          "beschreibung": "Schrumpfen, Anschwellen und Turgor unter benannten Außenbedingungen erklären."
+        }
+      ],
+      "zuege": [
+        {
+          "zug_nr": 1,
+          "paedagogische_funktion": "Niveau und Lernziele vereinbaren",
+          "signal": null,
+          "ziel_id": "richtung-der-osmose",
+          "zielniveau": "Prüfungsüberblick",
+          "lernenden_text": "Ich möchte für die Prüfung Osmose, Kanäle, aktiven Transport und die Folgen für Zellen im Überblick verstehen.",
+          "tutor_fixture": "Einverstanden. Wir bleiben bei einfachen Vorhersagen und kurzen Begründungen. Zuerst betrachten wir Wasser auf zwei Seiten einer Membran."
+        },
+        {
+          "zug_nr": 2,
+          "paedagogische_funktion": "Selektive Durchlässigkeit am Modell klären",
+          "signal": null,
+          "ziel_id": "richtung-der-osmose",
+          "zielniveau": "Prüfungsüberblick",
+          "lernenden_text": "Stellen wir uns zwei Kammern vor. Was darf durch die Trennwand?",
+          "tutor_fixture": "In unserem Modell kann Wasser passieren. Der gelöste Zucker bleibt auf seiner Seite."
+        },
+        {
+          "zug_nr": 3,
+          "paedagogische_funktion": "Richtung des Nettotransports erschließen lassen",
+          "signal": null,
+          "ziel_id": "richtung-der-osmose",
+          "zielniveau": "Prüfungsüberblick",
+          "lernenden_text": "Links ist wenig gelöster Zucker, rechts mehr. Wohin geht Wasser?",
+          "tutor_fixture": "Bei gleichem Druck geht netto Wasser nach rechts zur stärker konzentrierten Lösung. Was passiert dort mit der Zuckerkonzentration?"
+        },
+        {
+          "zug_nr": 4,
+          "paedagogische_funktion": "Verdünnung mit dem Wasserzufluss verbinden",
+          "signal": "korrekte_loesung",
+          "ziel_id": "richtung-der-osmose",
+          "zielniveau": "Prüfungsüberblick",
+          "lernenden_text": "Rechts kommt Wasser hinzu, also nimmt die Konzentration ab.",
+          "tutor_fixture": "Genau. Die Menge an Zucker bleibt gleich, aber sie verteilt sich auf mehr Wasser."
+        },
+        {
+          "zug_nr": 5,
+          "paedagogische_funktion": "Nettofluss und Bewegung in beide Richtungen unterscheiden",
+          "signal": null,
+          "ziel_id": "richtung-der-osmose",
+          "zielniveau": "Prüfungsüberblick",
+          "lernenden_text": "Heißt netto, dass gar kein Wasser nach links geht?",
+          "tutor_fixture": "Nein. Wasser kann sich in beide Richtungen bewegen. Nach rechts geht anfangs mehr als nach links."
+        },
+        {
+          "zug_nr": 6,
+          "paedagogische_funktion": "Fehlannahme über ausgleichenden Zuckertransport aufgreifen",
+          "signal": "gegenrede_falsch",
+          "ziel_id": "richtung-der-osmose",
+          "zielniveau": "Prüfungsüberblick",
+          "lernenden_text": "Vielleicht wandert der Zucker zugleich nach links und gleicht alles aus.",
+          "tutor_fixture": "Unsere Membran hält Zucker zurück. Die Änderung entsteht hier durch den Wassertransport."
+        },
+        {
+          "zug_nr": 7,
+          "paedagogische_funktion": "Druckbedingung für die Vorhersage sichern",
+          "signal": null,
+          "ziel_id": "richtung-der-osmose",
+          "zielniveau": "Prüfungsüberblick",
+          "lernenden_text": "Warum hast du vorhin gesagt, dass der Druck am Anfang gleich ist?",
+          "tutor_fixture": "Ein Druckunterschied kann den Wassertransport beeinflussen. Unter gleicher Druckbedingung lässt unser Modell die Richtung aus der Konzentration ableiten."
+        },
+        {
+          "zug_nr": 8,
+          "paedagogische_funktion": "Nettofluss am vertauschten Kammerpaar prüfen",
+          "signal": null,
+          "ziel_id": "richtung-der-osmose",
+          "zielniveau": "Prüfungsüberblick",
+          "lernenden_text": "Dreh die Kammern im nächsten Beispiel bitte um.",
+          "tutor_fixture": "Jetzt ist links mehr Zucker gelöst als rechts. Wasser kann passieren, Zucker bleibt zurück und der Druck ist anfangs gleich. Wohin geht Wasser netto?",
+          "pruefpunkt": {
+            "prueffrage_binaer": "Lässt der Tutor die Richtung des Netto-Wasserflusses bei vertauschten Konzentrationen und anfänglich gleichem Druck vorhersagen?",
+            "pflichtzitat": true
+          }
+        },
+        {
+          "zug_nr": 9,
+          "paedagogische_funktion": "Zur Rolle eines Wasserkanals überleiten",
+          "signal": null,
+          "ziel_id": "kanaele-und-passivitaet",
+          "zielniveau": "Prüfungsüberblick",
+          "lernenden_text": "Nach links. Wie kommt Wasser durch eine echte Zellmembran?",
+          "tutor_fixture": "Ein Teil gelangt direkt hindurch. Aquaporine sind Kanäle, die den Durchtritt von Wasser erleichtern."
+        },
+        {
+          "zug_nr": 10,
+          "paedagogische_funktion": "Einfache und erleichterte Diffusion vergleichen",
+          "signal": null,
+          "ziel_id": "kanaele-und-passivitaet",
+          "zielniveau": "Prüfungsüberblick",
+          "lernenden_text": "Was unterscheidet die beiden Wege?",
+          "tutor_fixture": "Bei einfacher Diffusion geht der Stoff direkt durch die Membran, bei erleichterter Diffusion über ein Membranprotein. Beide Wege sind passiv."
+        },
+        {
+          "zug_nr": 11,
+          "paedagogische_funktion": "Geschwindigkeit von Transportrichtung unterscheiden",
+          "signal": null,
+          "ziel_id": "kanaele-und-passivitaet",
+          "zielniveau": "Prüfungsüberblick",
+          "lernenden_text": "Ändern mehr Aquaporine auch die Richtung?",
+          "tutor_fixture": "Unter denselben Bedingungen lassen mehr Kanäle Wasser schneller passieren. Welche Richtung netto bevorzugt ist, ergibt sich weiterhin aus den Bedingungen auf beiden Seiten."
+        },
+        {
+          "zug_nr": 12,
+          "paedagogische_funktion": "Kanal mit einer Fehlannahme über Pumpen konfrontieren",
+          "signal": "gegenrede_falsch",
+          "ziel_id": "kanaele-und-passivitaet",
+          "zielniveau": "Prüfungsüberblick",
+          "lernenden_text": "Wenn Aquaporine den Durchtritt beschleunigen, pumpen sie Wasser vielleicht nach innen.",
+          "tutor_fixture": "Sie öffnen einen Weg für Wasser. Eine Pumpe würde Energie nutzen, um Transport anzutreiben."
+        },
+        {
+          "zug_nr": 13,
+          "paedagogische_funktion": "Legitime ATP-Frage knapp beantworten und zum Kanalvergleich zurückführen",
+          "signal": "detailfrage_legitim",
+          "ziel_id": "kanaele-und-passivitaet",
+          "zielniveau": "Prüfungsüberblick",
+          "lernenden_text": "Warum brauchen Aquaporine keine ATP-Energie?",
+          "tutor_fixture": "Sie erleichtern passiven Wassertransport. Die Triebkraft entsteht durch den Unterschied zwischen beiden Seiten, ohne ATP-Verbrauch am Kanal. Welche Rolle bleibt damit für den Kanal selbst?"
+        },
+        {
+          "zug_nr": 14,
+          "paedagogische_funktion": "Eigene Erklärung zum passiven Weg sichern",
+          "signal": null,
+          "ziel_id": "kanaele-und-passivitaet",
+          "zielniveau": "Prüfungsüberblick",
+          "lernenden_text": "Er erleichtert nur den Durchtritt. Wasser kann auch wieder raus.",
+          "tutor_fixture": "Genau. Aquaporine lassen Wasser in beide Richtungen durch. Die Bedingungen bestimmen den Nettofluss."
+        },
+        {
+          "zug_nr": 15,
+          "paedagogische_funktion": "Kanalwirkung bei gleichen Bedingungen prüfen",
+          "signal": null,
+          "ziel_id": "kanaele-und-passivitaet",
+          "zielniveau": "Prüfungsüberblick",
+          "lernenden_text": "Rechts und links herrschen gleiche Bedingungen. Erzwingen die Kanäle trotzdem einen Nettofluss?",
+          "tutor_fixture": "Nein. Wasser kann beide Richtungen passieren, aber es gibt keinen bevorzugten Nettofluss."
+        },
+        {
+          "zug_nr": 16,
+          "paedagogische_funktion": "Einfluss der Kanalzahl auf Richtung und Tempo prüfen",
+          "signal": null,
+          "ziel_id": "kanaele-und-passivitaet",
+          "zielniveau": "Prüfungsüberblick",
+          "lernenden_text": "Gib mir ein Beispiel mit zwei Membranen und verschieden vielen Kanälen.",
+          "tutor_fixture": "Zwei Membranen trennen jeweils dieselben Lösungen bei gleichem Druck. Eine besitzt mehr Aquaporine. Was ändert sich beim Wassertransport, die Richtung oder das Tempo?",
+          "pruefpunkt": {
+            "prueffrage_binaer": "Lässt der Tutor bei gleichen Lösungsbedingungen prüfen, ob mehr Wasserkanäle die Richtung oder die Geschwindigkeit verändern?",
+            "pflichtzitat": true
+          }
+        },
+        {
+          "zug_nr": 17,
+          "paedagogische_funktion": "Aktiven Transport über eine neue Aufgabe einführen",
+          "signal": null,
+          "ziel_id": "aktiver-transport",
+          "zielniveau": "Prüfungsüberblick",
+          "lernenden_text": "Nur das Tempo. Was, wenn eine Zelle einen Stoff auf der schon stärker konzentrierten Seite sammeln soll?",
+          "tutor_fixture": "Dafür braucht sie einen Antrieb. Wir betrachten zunächst einen neutralen Stoff, der gegen sein Konzentrationsgefälle bewegt werden soll."
+        },
+        {
+          "zug_nr": 18,
+          "paedagogische_funktion": "Gefälle ohne Membranprotein vorhersagen lassen",
+          "signal": null,
+          "ziel_id": "aktiver-transport",
+          "zielniveau": "Prüfungsüberblick",
+          "lernenden_text": "Ohne Antrieb würde der Stoff also eher von viel nach wenig wandern.",
+          "tutor_fixture": "Ja. Wenn die Membran ihn durchlässt, verteilt er sich aus dem Bereich hoher Konzentration in den Bereich niedriger Konzentration."
+        },
+        {
+          "zug_nr": 19,
+          "paedagogische_funktion": "Primär aktiven Transport mit ATP einordnen",
+          "signal": null,
+          "ziel_id": "aktiver-transport",
+          "zielniveau": "Prüfungsüberblick",
+          "lernenden_text": "Woher kann der Antrieb für den Transport in die Gegenrichtung kommen?",
+          "tutor_fixture": "Manche Transportproteine koppeln den Transport direkt an die Spaltung von ATP. Die Energie treibt den Transport gegen das Gefälle an."
+        },
+        {
+          "zug_nr": 20,
+          "paedagogische_funktion": "Proteinbeteiligung vom Energieverbrauch entkoppeln",
+          "signal": "gegenrede_falsch",
+          "ziel_id": "aktiver-transport",
+          "zielniveau": "Prüfungsüberblick",
+          "lernenden_text": "Sobald ein Protein mitmacht, ist der Transport also aktiv?",
+          "tutor_fixture": "Ein Protein kann auch nur einen passiven Weg öffnen. Frage zuerst, ob der Transport dem eigenen Gefälle folgt oder einen Antrieb gegen das Gefälle braucht."
+        },
+        {
+          "zug_nr": 21,
+          "paedagogische_funktion": "Gekoppelten Transport auf Überblicksniveau einordnen",
+          "signal": null,
+          "ziel_id": "aktiver-transport",
+          "zielniveau": "Prüfungsüberblick",
+          "lernenden_text": "Muss der Antrieb immer direkt ATP sein?",
+          "tutor_fixture": "Auch der Fluss eines anderen Stoffs entlang seines Gefälles kann einen Transport antreiben. Die Energie steckt dann im aufgebauten Gefälle."
+        },
+        {
+          "zug_nr": 22,
+          "paedagogische_funktion": "Selbstständige Einordnung am gekoppelten Beispiel anfordern",
+          "signal": null,
+          "ziel_id": "aktiver-transport",
+          "zielniveau": "Prüfungsüberblick",
+          "lernenden_text": "Stoff X läuft nur gegen sein Gefälle, wenn Y gleichzeitig mit seinem Gefälle fließt.",
+          "tutor_fixture": "Dann wird der Transport von X durch den Fluss von Y angetrieben. Wie würdest du den Transport von X einordnen?"
+        },
+        {
+          "zug_nr": 23,
+          "paedagogische_funktion": "Eigenbegründung zur Energiequelle festigen",
+          "signal": "korrekte_loesung",
+          "ziel_id": "aktiver-transport",
+          "zielniveau": "Prüfungsüberblick",
+          "lernenden_text": "Aktiv für X, weil Y den Antrieb liefert.",
+          "tutor_fixture": "Genau. Der Transport gegen das Gefälle braucht Energie. In diesem Beispiel liefert sie das Gefälle von Y."
+        },
+        {
+          "zug_nr": 24,
+          "paedagogische_funktion": "ATP-Pumpe gegen passiven Kanal abgrenzen lassen",
+          "signal": null,
+          "ziel_id": "aktiver-transport",
+          "zielniveau": "Prüfungsüberblick",
+          "lernenden_text": "Frag mich noch einmal kurz nach dem Unterschied.",
+          "tutor_fixture": "Ein Kanal lässt einen neutralen Stoff von hoher zu niedriger Konzentration passieren. Eine ATP-Pumpe bewegt ihn in die Gegenrichtung. Welcher Vorgang braucht einen Energieantrieb am Transportprotein?",
+          "pruefpunkt": {
+            "prueffrage_binaer": "Fordert der Tutor zur Unterscheidung zwischen ATP-Pumpe und passivem Kanal anhand von Gefälle und Energieantrieb auf?",
+            "pflichtzitat": true
+          }
+        },
+        {
+          "zug_nr": 25,
+          "paedagogische_funktion": "Vom Membranmodell zur Tierzelle übertragen",
+          "signal": null,
+          "ziel_id": "folgen-fuer-zellen",
+          "zielniveau": "Prüfungsüberblick",
+          "lernenden_text": "Die Pumpe. Wie kann ich mit Osmose vorhersagen, was mit einer Tierzelle passiert?",
+          "tutor_fixture": "Vergleiche innen und außen die Konzentration der gelösten Stoffe, die nicht über die Membran ausweichen können. Daraus ergibt sich bei zunächst gleichem Druck die Richtung des Netto-Wasserflusses."
+        },
+        {
+          "zug_nr": 26,
+          "paedagogische_funktion": "Raum für tutorinitiierten Exkurs bei einer Zellvorhersage beobachten",
+          "signal": null,
+          "ziel_id": "folgen-fuer-zellen",
+          "zielniveau": "Prüfungsüberblick",
+          "lernenden_text": "Außen sind mehr von diesen Stoffen gelöst als innen.",
+          "tutor_fixture": "Wasser verlässt die Zelle netto. Eine Tierzelle verliert Volumen und schrumpft.",
+          "tutor_drift_fixture": "Wasser verlässt die Zelle netto. Für die quantitative Beschreibung könnten wir die gekoppelte Kedem-Katchalsky-Gleichung für Volumen- und Stoffstrom herleiten und die Abhängigkeit von Reflexionskoeffizient und hydraulischer Permeabilität durchgehen."
+        },
+        {
+          "zug_nr": 27,
+          "paedagogische_funktion": "Nach knapper Zustimmung zur Zellvorhersage zurückführen",
+          "signal": "scheinzustimmung",
+          "ziel_id": "folgen-fuer-zellen",
+          "zielniveau": "Prüfungsüberblick",
+          "lernenden_text": "Was passiert mit derselben Tierzelle, wenn außen weniger dieser Stoffe gelöst sind?",
+          "tutor_fixture": "Zurück zur Prüfungsfrage: Bei geringer wirksamer Konzentration außen gelangt netto Wasser in die Tierzelle. Sie schwillt an.",
+          "reaktion_auf_tutordrift": "Klingt spannend."
+        },
+        {
+          "zug_nr": 28,
+          "paedagogische_funktion": "Zellwand und Turgor mit Wasseraufnahme verbinden",
+          "signal": null,
+          "ziel_id": "folgen-fuer-zellen",
+          "zielniveau": "Prüfungsüberblick",
+          "lernenden_text": "Und eine Pflanzenzelle im gleichen Außenmedium?",
+          "tutor_fixture": "Auch sie nimmt Wasser auf. Die Zellwand begrenzt die Ausdehnung, sodass Innendruck entsteht. Das nennt man Turgor."
+        },
+        {
+          "zug_nr": 29,
+          "paedagogische_funktion": "Zellwand von Zellmembran unterscheiden",
+          "signal": null,
+          "ziel_id": "folgen-fuer-zellen",
+          "zielniveau": "Prüfungsüberblick",
+          "lernenden_text": "Lässt die Zellwand deshalb gar kein Wasser hinein?",
+          "tutor_fixture": "Wasser kommt durch die Zellwand zur Membran. Die feste Wand begrenzt die Ausdehnung der Zelle nach der Aufnahme."
+        },
+        {
+          "zug_nr": 30,
+          "paedagogische_funktion": "Unterscheidung am Salzbeispiel anwenden",
+          "signal": null,
+          "ziel_id": "folgen-fuer-zellen",
+          "zielniveau": "Prüfungsüberblick",
+          "lernenden_text": "Wenn ich die Pflanzenzelle in eine konzentrierte Salzlösung lege, nimmt der Turgor ab?",
+          "tutor_fixture": "Ja, wenn die gelösten Stoffe außen wirksam bleiben. Dann verliert die Zelle netto Wasser, und der Innendruck sinkt."
+        },
+        {
+          "zug_nr": 31,
+          "paedagogische_funktion": "Grenzfall ohne bevorzugten Nettofluss prüfen",
+          "signal": null,
+          "ziel_id": "folgen-fuer-zellen",
+          "zielniveau": "Prüfungsüberblick",
+          "lernenden_text": "Und wenn außen und innen gleich viel wirksam gelöst ist und kein Druckunterschied besteht?",
+          "tutor_fixture": "Dann gibt es keinen bevorzugten Netto-Wasserfluss. Einzelne Wassermoleküle können weiterhin in beide Richtungen wandern."
+        },
+        {
+          "zug_nr": 32,
+          "paedagogische_funktion": "Zellfolgen mit vertauschten Außenbedingungen prüfen",
+          "signal": null,
+          "ziel_id": "folgen-fuer-zellen",
+          "zielniveau": "Prüfungsüberblick",
+          "lernenden_text": "Gib mir zum Abschluss zwei Fälle, die ich vergleichen kann.",
+          "tutor_fixture": "Eine Tierzelle liegt in einer stärker konzentrierten Lösung, eine Pflanzenzelle in einer schwächer konzentrierten. Die gelösten Stoffe können ihre Membranen nicht passieren. Was passiert mit dem Volumen der Tierzelle und dem Turgor der Pflanzenzelle?",
+          "pruefpunkt": {
+            "prueffrage_binaer": "Lässt der Tutor einen Volumenverlust der Tierzelle und einen Turgoranstieg der Pflanzenzelle unter den gegebenen Bedingungen herleiten?",
+            "pflichtzitat": true
+          }
+        }
+      ],
+      "aussageebene": "Prozessqualität mit simulierten Lernenden – kein Lernergebnis",
+      "menschliche_lernwirkung": "nicht_gemessen",
+      "kalibrierstatus": "Entwicklungsmodul – formale Judge-Kalibrierung steht aus"
+    }
+  ]
+}

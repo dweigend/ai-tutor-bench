@@ -1,0 +1,45 @@
+{
+  "version": 1,
+  "preprocessing": {
+    "code_block": "(?m)^[ \\t]{0,3}(?P<fence>(?P<marker>\\x60|~)(?P=marker){2,})(?!(?P=marker))[^\\n]*(?:\\n|$)[\\s\\S]*?(?:^[ \\t]{0,3}(?P=fence)(?P=marker)*[ \\t]*$|\\Z)",
+    "inline_code": "(?<!\\x60)(?P<ticks>\\x60+)(?!\\x60)[^\\x60\\n][^\\n]*?(?P=ticks)(?!\\x60)",
+    "quoted_example": "(?m)^[ \\t]*>[^\\n]*|„(?:[^“\\n]|\\n(?![ \\t]*\\n))*\\?(?:[^“\\n]|\\n(?![ \\t]*\\n))*“|“(?:[^”\\n]|\\n(?![ \\t]*\\n))*\\?(?:[^”\\n]|\\n(?![ \\t]*\\n))*”|«(?:[^»\\n]|\\n(?![ \\t]*\\n))*\\?(?:[^»\\n]|\\n(?![ \\t]*\\n))*»|»(?:[^«\\n]|\\n(?![ \\t]*\\n))*\\?(?:[^«\\n]|\\n(?![ \\t]*\\n))*«|\"(?:[^\"\\n]|\\n(?![ \\t]*\\n))*\\?(?:[^\"\\n]|\\n(?![ \\t]*\\n))*\"|(?<!\\w)'(?:[^'\\n]|\\n(?![ \\t]*\\n))*\\?(?:[^'\\n]|\\n(?![ \\t]*\\n))*'(?!\\w)",
+    "url": "(?i)(?:(?:https?|ftp)://|www\\.)[^\\s<>\\[\\]()]+(?<![.,;!])",
+    "markdown_emphasis": "\\*{2,3}|_{2,3}"
+  },
+  "DOPPELFRAGE": {
+    "definition": "Mindestens zwei erkannte Fragen oder Arbeitsaufforderungen in einem sichtbaren Tutorzug.",
+    "minimum_impulses": 2,
+    "clauses": "(?m)([^.!?;\\n]+)([.!?;]+|$)",
+    "confirmation": "(?i)^(?:oder(?: nicht)?|nicht wahr|stimmt(?:['’]s| es| das| so)?|richtig|okay|ok|ja|nein|gell|passt|right|okay|correct|isn't it|doesn't it)[, ]*$",
+    "trailing_confirmation": "(?i),\\s*(?:oder(?: nicht)?|nicht wahr|stimmt(?:['’]s| es| das| so)?|richtig|right|correct|isn't it|doesn't it)\\s*$",
+    "imperative": "(?i)^(?:bitte\\s+)?(?:berechne|rechne|nenne|begründe|erkläre|beschreibe|notiere|skizziere|zeichne|vergleiche|prüfe|überprüfe|bestimme|schätze|zeige|wähle|markiere|probiere|überlege|setze|schreib(?:e)?|sag(?:e)?|lies|gib|finde|verwende|calculate|compute|name|justify|explain|describe|write|sketch|draw|compare|check|find|estimate|show|choose|mark|try|think|give|list|solve|identify|determine)\\b",
+    "impulse_separator": "(?i)(?:,\\s*|\\s+)(?:(?:und|and)(?:\\s+(?:dann|then))?|dann|then)\\s+",
+    "list_marker": "(?m)^[ \\t]*(?:[-+*]|\\d+[.)])[ \\t]+",
+    "question_start": "(?i)^(?:wer|was|wie|wann|wo|woher|wohin|warum|wieso|weshalb|woran|womit|wodurch|wofür|wovon|welch\\w*|who|what|which|when|where|why|how)\\b",
+    "decision_question_start": "(?i)^(?:ist|sind|war|waren|hat|hast|haben|kann|kannst|können|könntest|muss|musst|müssen|soll|sollst|sollen|will|willst|wollen|wird|wirst|werden|passt|stimmt|is|are|was|were|has|have|can|could|must|should|will|would|do|does|did)\\b"
+  },
+  "SERVICE_MENUE": {
+    "definition": "Erkanntes Serviceangebot oder nummerierte Auswahl mit ausdrücklicher Wahlaufforderung.",
+    "offer": "(?im)(?:^|[.!?;]\\s*|,\\s*(?:oder|or)\\s+)[ \\t]*(?:[-+*]\\s+)?(?:möchtest du|willst du(?:[^.!?\\n]{0,90}\\b(?:stoppen|aufhören|beenden|pausieren))|soll ich(?: dir| für dich)|was möchtest du|kann ich noch|wie kann ich (?:dir )?helfen|wenn du möchtest|if you (?:want|like)(?:[ \\t,]+i can)?|would you like|shall i|do you want to (?:stop|pause|quit|end)|what would you like|can i (?:also|help)|how can i help)\\b",
+    "numbered_option": "(?m)^[ \\t]*\\d+[.)][ \\t]+\\S",
+    "minimum_options": 2,
+    "choice_hint": "(?i)\\b(?:wähl(?:e)? (?:bitte )?(?:eine|dein|aus)|such dir|entscheide dich|welche(?:s|n)? (?:thema|option|nummer)|welche der (?:optionen|möglichkeiten)|welch(?:es|en)? davon|sag mir (?:die|eine) nummer|antworte mit (?:einer|der) (?:zahl|nummer)|choose (?:an?|one|your)|pick (?:an?|one|your)|select (?:an?|one|your)|which (?:topic|option|one)|reply with (?:a|the) number)\\b"
+  },
+  "PAUSCHALLOB_PREFIX": {
+    "definition": "Kurze Lobformel am Satzanfang ohne unmittelbar anschließende Begründung gemäß Regelmuster.",
+    "opener": "(?im)(?:^|[.!?]\\s+)[ \\t]*(?:[-+*]\\s+)?(?:genau|perfekt|super|richtig so|sehr gut|toll)[ \\t]*[.!,:](?![.!?,])",
+    "direct_reason": "(?i)^\\s*(?:weil|denn|da|dass|because|since|du hast\\b[^.!?\\n]{0,90}\\b(?:richtig|korrekt|erkannt|begründet|beachtet|gezeigt|getrennt|benannt|berechnet|angewendet)|das (?:stimmt|passt|ist richtig)\\s*,?\\s*(?:weil|denn|da))\\b"
+  },
+  "WIEDERHOLUNG": {
+    "definition": "Jaccard-Ähnlichkeit der Worttrigramme zum unmittelbar vorherigen eigenen Tutorzug ab dem festgelegten Schwellenwert.",
+    "word": "[^\\W_]+",
+    "ngram_size": 3,
+    "minimum_ngrams": 6,
+    "jaccard_threshold": 0.5
+  },
+  "structure": {
+    "table": "(?m)^[ \\t]*[^|\\n]*\\|[^\\n]+\\n[ \\t]*\\|?[ \\t]*:?-{3,}:?[ \\t]*(?:\\|[ \\t]*:?-{3,}:?[ \\t]*)+\\|?[ \\t]*$",
+    "numeric_example_or_formula": "(?i)(?:\\b(?:zum beispiel|z\\.\\s*b\\.|beispiel|for example|e\\.g\\.)[^.!?\\n]{0,45}\\d|\\d\\s*[%‰]|\\d\\s*/\\s*\\d|\\d\\s*[+×÷−*<>≤≥≈=]\\s*[-−]?\\d|\\d\\s+-\\s+\\d|\\b[\\w]+\\s*[=≤≥≈]\\s*[-−]?[\\w]+|\\$[^$\\n]+\\$|\\\\\\([^\\n]+?\\\\\\)|\\\\\\[[\\s\\S]+?\\\\\\])"
+  }
+}

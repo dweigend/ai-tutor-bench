@@ -1,0 +1,272 @@
+{
+  "revision": "public-v5-signal-mode-1",
+  "aussageebene": "Prozessqualität mit simulierten Lernenden",
+  "menschliche_lernwirkung": "nicht_gemessen",
+  "modusdefinitionen": {
+    "ZIEL_STEUERN": "Hält das Lernziel sichtbar, parkt Seitenäste oder legt den nächsten fachlichen Schritt fest. Ein Wahlangebot enthält dabei eine begründete Empfehlung.",
+    "ERKLAEREN": "Macht eine fachliche Beziehung nachvollziehbar und erhält offene Eigenarbeit.",
+    "VISUALISIEREN": "Zeigt eine relevante Beziehung als Grafik, Skizze oder strukturierten räumlichen bzw. tabellarischen Vergleich. Eine Ankündigung oder eine rein verbale Analogie reicht nicht.",
+    "PRUEFEN": "Erhebt oder bewertet beobachtbare Evidenz zu Verständnis, Vorwissen oder Transfer.",
+    "RUECKFRAGE_SCAFFOLD": "Unterstützt den laufenden Lösungsversuch durch eine gezielte Rückfrage, einen Hinweis oder eine kleinere Teilaufgabe.",
+    "MOTIVIEREN": "Greift sichtbaren Affekt auf, stärkt begründet die Zuversicht oder stellt den Sinn des Lernschritts her.",
+    "SERVICE": "Gibt die Lehrführung an die lernende Person ab, etwa mit einem offenen Menü ohne Empfehlung, oder erledigt eine Dienstleistung ohne didaktische Führung.",
+    "TELLING": "Gibt eine noch offene Zielantwort oder den zu erarbeitenden Lösungsweg vor und nimmt damit die aktuelle Eigenleistung ab."
+  },
+  "signale": {
+    "nichtverstehen_1": {
+      "beschreibung": "Erstes sichtbares Stocken an einer lokalisierbaren fachlichen Hürde oder am aktuellen Arbeitsauftrag.",
+      "erlaubte_modi": [
+        "RUECKFRAGE_SCAFFOLD",
+        "ERKLAEREN",
+        "VISUALISIEREN"
+      ],
+      "verbotene_modi": [
+        "SERVICE",
+        "TELLING"
+      ],
+      "verbotene_handlungen": [
+        "Setzt den Stoff fort, ohne die konkrete Hürde zu behandeln.",
+        "Wiederholt die bisherige Erklärung ohne neuen Zugang."
+      ],
+      "messziele": [
+        "G4",
+        "G5"
+      ],
+      "paedagogische_funktion": "Hürde eingrenzen und einen machbaren eigenen Versuch öffnen."
+    },
+    "nichtverstehen_2_plus": {
+      "beschreibung": "Zweites oder weiteres sichtbares Stocken an derselben Hürde. Die Wiederholungszahl zählt das erneute Stocken einschließlich des ersten.",
+      "erlaubte_modi": [
+        "ERKLAEREN",
+        "VISUALISIEREN",
+        "RUECKFRAGE_SCAFFOLD"
+      ],
+      "verbotene_modi": [
+        "SERVICE",
+        "TELLING"
+      ],
+      "verbotene_handlungen": [
+        "Verwendet erneut denselben erfolglosen Zugang.",
+        "Erhöht die fachliche Komplexität, während die Voraussetzung offen ist."
+      ],
+      "messziele": [
+        "G4",
+        "G5"
+      ],
+      "paedagogische_funktion": "Den Zugang zur selben Hürde wechseln oder die Aufgabe stärker in Teilschritte zerlegen."
+    },
+    "scheinzustimmung": {
+      "beschreibung": "Behauptet oder signalisiert Verständnis, ohne es am aktuellen Gegenstand zu zeigen. Eine bloße Zustimmung zu einer organisatorischen Absprache zählt nicht.",
+      "erlaubte_modi": [
+        "PRUEFEN",
+        "RUECKFRAGE_SCAFFOLD"
+      ],
+      "verbotene_modi": [
+        "SERVICE",
+        "TELLING"
+      ],
+      "verbotene_handlungen": [
+        "Schreibt fachlichen Erfolg ohne sichtbaren Beleg zu.",
+        "Geht ohne Prüfung zur nächsten fachlichen Stufe über."
+      ],
+      "messziele": [
+        "G3",
+        "G5"
+      ],
+      "paedagogische_funktion": "Verständnis durch eigenen Versuch oder begründete Vorhersage sichtbar machen."
+    },
+    "korrekte_loesung": {
+      "beschreibung": "Löst den gefragten Schritt fachlich tragfähig und begründet ihn durch Erklärung, Rechenweg oder das konkrete Ergebnis am Beispiel.",
+      "erlaubte_modi": [
+        "PRUEFEN",
+        "ZIEL_STEUERN",
+        "MOTIVIEREN"
+      ],
+      "verbotene_modi": [
+        "SERVICE",
+        "TELLING"
+      ],
+      "verbotene_handlungen": [
+        "Lobt pauschal ohne Bezug zur gezeigten Leistung.",
+        "Gibt den anschließenden offenen Schritt vor."
+      ],
+      "messziele": [
+        "G1",
+        "G3",
+        "G5"
+      ],
+      "paedagogische_funktion": "Den Erfolg am Beleg festmachen und den nächsten Lernschritt anschließen."
+    },
+    "gegenrede_falsch": {
+      "beschreibung": "Widerspricht einer tragfähigen Aussage oder Aufgabenprämisse. Die eigene Behauptung ist falsch oder enthält eine nicht tragfähige Folgerung.",
+      "erlaubte_modi": [
+        "PRUEFEN",
+        "RUECKFRAGE_SCAFFOLD",
+        "ERKLAEREN",
+        "VISUALISIEREN"
+      ],
+      "verbotene_modi": [
+        "SERVICE",
+        "TELLING"
+      ],
+      "verbotene_handlungen": [
+        "Übernimmt die falsche Behauptung.",
+        "Korrigiert pauschal, ohne die fehlerhafte Prämisse aufzugreifen."
+      ],
+      "messziele": [
+        "G3",
+        "G5"
+      ],
+      "paedagogische_funktion": "Den gültigen Teil würdigen und die fehlerhafte Prämisse am Gegenfall oder durch Prüfung sichtbar machen."
+    },
+    "gegenrede_richtig": {
+      "beschreibung": "Korrigiert einen im Verlauf belegbaren fachlichen oder didaktischen Tutorfehler sachlich berechtigt.",
+      "erlaubte_modi": [
+        "PRUEFEN",
+        "ERKLAEREN",
+        "RUECKFRAGE_SCAFFOLD",
+        "ZIEL_STEUERN"
+      ],
+      "verbotene_modi": [
+        "SERVICE",
+        "TELLING"
+      ],
+      "verbotene_handlungen": [
+        "Hält am belegten Fehler fest.",
+        "Wechselt kommentarlos das Thema, ohne die berechtigte Korrektur aufzunehmen."
+      ],
+      "messziele": [
+        "G3",
+        "G5"
+      ],
+      "paedagogische_funktion": "Den Tutorfehler anerkennen, reparieren und an der korrigierten Stelle weiterlernen."
+    },
+    "exkurs": {
+      "beschreibung": "Öffnet einen fachlichen Seitenast, der für den aktuellen Zielschritt keine Voraussetzung ist.",
+      "erlaubte_modi": [
+        "ZIEL_STEUERN"
+      ],
+      "verbotene_modi": [
+        "SERVICE",
+        "TELLING"
+      ],
+      "verbotene_handlungen": [
+        "Verfolgt den Seitenast ohne Rückkehrsignal.",
+        "Gibt die Entscheidung über die Rückkehr ungeführt ab."
+      ],
+      "messziele": [
+        "G1",
+        "G2",
+        "G5"
+      ],
+      "paedagogische_funktion": "Den Seitenast kurz einordnen oder parken und zum Ziel zurückführen. Eine kurze Erklärung darf den Primärmodus ZIEL_STEUERN als Zusatzlabel ERKLAEREN ergänzen."
+    },
+    "detailfrage_legitim": {
+      "beschreibung": "Fragt nach einer nötigen Voraussetzung oder einer Vertiefung mit erkennbarem Bezug zur offenen Aufgabe.",
+      "erlaubte_modi": [
+        "ERKLAEREN",
+        "VISUALISIEREN",
+        "RUECKFRAGE_SCAFFOLD"
+      ],
+      "verbotene_modi": [
+        "SERVICE",
+        "TELLING"
+      ],
+      "verbotene_handlungen": [
+        "Parkt eine nötige Voraussetzung.",
+        "Löst die offene Zielaufgabe zusammen mit der Detailfrage."
+      ],
+      "messziele": [
+        "G1",
+        "G5"
+      ],
+      "paedagogische_funktion": "Das Detail so weit klären, dass der Lernende an der Zielaufgabe weiterarbeiten kann."
+    },
+    "frust_selbstzweifel": {
+      "beschreibung": "Äußert Frust, Lernangst oder Selbstzweifel deutlich. Die Belastung ist mehr als ein Hinweis auf eine fachliche Lücke.",
+      "erlaubte_modi": [
+        "MOTIVIEREN",
+        "RUECKFRAGE_SCAFFOLD",
+        "ZIEL_STEUERN"
+      ],
+      "verbotene_modi": [
+        "SERVICE",
+        "TELLING"
+      ],
+      "verbotene_handlungen": [
+        "Spielt die Belastung herunter oder bewertet die Person.",
+        "Ersetzt Lernarbeit durch unbelegtes Lob oder die fertige Antwort."
+      ],
+      "messziele": [
+        "G2",
+        "G3",
+        "G5"
+      ],
+      "paedagogische_funktion": "Den Affekt aufnehmen und die Arbeit mit einem erreichbaren Schritt wieder öffnen."
+    },
+    "abkuerzungsbitte": {
+      "beschreibung": "Fordert die fertige Antwort, einen vollständigen Lösungsweg oder unmittelbar auswendig lernbare Musterantworten.",
+      "erlaubte_modi": [
+        "ZIEL_STEUERN",
+        "RUECKFRAGE_SCAFFOLD",
+        "MOTIVIEREN"
+      ],
+      "verbotene_modi": [
+        "SERVICE",
+        "TELLING"
+      ],
+      "verbotene_handlungen": [
+        "Liefert die fertige Antwort auf die offene Aufgabe.",
+        "Lässt die vereinbarte Verständnisarbeit zugunsten reinen Auswendiglernens fallen."
+      ],
+      "messziele": [
+        "G1",
+        "G2",
+        "G5"
+      ],
+      "paedagogische_funktion": "Den Zeitdruck oder Wunsch aufnehmen und eine kürzere eigenständige Lernhandlung anbieten."
+    },
+    "hilflosigkeit": {
+      "beschreibung": "Kann keinen eigenen Einstieg oder nächsten Schritt benennen und braucht Orientierung. Keine konkrete erneute Hürde, ausgeprägte Belastung oder Bitte um eine fertige Lösung steht im Vordergrund.",
+      "erlaubte_modi": [
+        "ZIEL_STEUERN",
+        "RUECKFRAGE_SCAFFOLD",
+        "ERKLAEREN",
+        "MOTIVIEREN"
+      ],
+      "verbotene_modi": [
+        "SERVICE",
+        "TELLING"
+      ],
+      "verbotene_handlungen": [
+        "Verlangt ohne Stütze einen vollständigen Lösungsversuch.",
+        "Gibt eine fertige Lösung statt eines ersten machbaren Schritts."
+      ],
+      "messziele": [
+        "G2",
+        "G4",
+        "G5"
+      ],
+      "paedagogische_funktion": "Einen konkreten Einstieg und eine kleine selbst ausführbare Handlung anbieten."
+    },
+    "visualisierungsbitte": {
+      "beschreibung": "Bittet ausdrücklich um eine sichtbare Darstellung zum fachlichen Verständnis.",
+      "erlaubte_modi": [
+        "VISUALISIEREN"
+      ],
+      "verbotene_modi": [
+        "SERVICE",
+        "TELLING"
+      ],
+      "verbotene_handlungen": [
+        "Kündigt nur eine Grafik an oder wiederholt dieselbe Textdarstellung.",
+        "Zeigt eine Grafik ohne Bezug zur konkreten Hürde."
+      ],
+      "messziele": [
+        "G4",
+        "G5"
+      ],
+      "paedagogische_funktion": "Die relevante Beziehung sichtbar machen und ihre Lesart am Lernziel verankern."
+    }
+  }
+}

@@ -1,0 +1,1299 @@
+{
+  "module": [
+    {
+      "modul_id": "gt1-public-regenmesser",
+      "trigger": "GT1",
+      "rolle": "kalibrierung",
+      "source_origin": "synthetic-public",
+      "stoff": "regenmesser",
+      "lernziel": "Niederschlag als Höhe messen.",
+      "signal": "exkurs",
+      "erlaubte_modi": [
+        "ZIEL_STEUERN"
+      ],
+      "verbotene_modi": [
+        "SERVICE",
+        "TELLING"
+      ],
+      "paedagogische_funktion": "Stellt den Bezug zum Ablesen der Skala wieder her.",
+      "prueffrage_binaer": "Greift die Antwort das konkrete Lernsignal auf?",
+      "pflichtzitat": true,
+      "messziele": [
+        "G1",
+        "G2",
+        "G5"
+      ],
+      "vorlauf": [
+        {
+          "rolle": "lernender",
+          "text": "Ich möchte den Regen von gestern im Messbecher bestimmen."
+        },
+        {
+          "rolle": "tutor",
+          "text": "Vergleiche den Flüssigkeitsstand mit der markierten Nullhöhe."
+        }
+      ],
+      "ausloeser_zug": "Apropos Regen, wieso schlafen manche Tiere bei Gewitter einfach weiter?",
+      "gold_erwartung": "Stellt den Bezug zum Ablesen der Skala wieder her.",
+      "verbotenes_muster": "Wechselt zu Tierverhalten.",
+      "aussageebene": "Prozessqualität mit simulierten Lernenden – kein Lernergebnis",
+      "menschliche_lernwirkung": "nicht_gemessen"
+    },
+    {
+      "modul_id": "gt2-public-roemische-zahlen",
+      "trigger": "GT2",
+      "rolle": "kalibrierung",
+      "source_origin": "synthetic-public",
+      "stoff": "roemische-zahlen",
+      "lernziel": "Subtraktion bei römischen Zahlzeichen begründen.",
+      "signal": "scheinzustimmung",
+      "erlaubte_modi": [
+        "PRUEFEN",
+        "RUECKFRAGE_SCAFFOLD"
+      ],
+      "verbotene_modi": [
+        "SERVICE",
+        "TELLING"
+      ],
+      "paedagogische_funktion": "Lässt IV und VI mit einer Begründung vergleichen.",
+      "prueffrage_binaer": "Greift die Antwort das konkrete Lernsignal auf?",
+      "pflichtzitat": true,
+      "messziele": [
+        "G3",
+        "G5"
+      ],
+      "vorlauf": [
+        {
+          "rolle": "lernender",
+          "text": "Ich übe die Schreibweise römischer Jahreszahlen."
+        },
+        {
+          "rolle": "tutor",
+          "text": "Ein kleineres Zeichen unmittelbar vor einem größeren kann abgezogen werden."
+        }
+      ],
+      "ausloeser_zug": "Passt schon, damit beherrsche ich es bestimmt. Zeig mir jetzt Runenschrift.",
+      "gold_erwartung": "Lässt IV und VI mit einer Begründung vergleichen.",
+      "verbotenes_muster": "Unterstellt Sicherheit und beginnt mit Runen.",
+      "aussageebene": "Prozessqualität mit simulierten Lernenden – kein Lernergebnis",
+      "menschliche_lernwirkung": "nicht_gemessen"
+    },
+    {
+      "modul_id": "gt3-public-zeitzonen",
+      "trigger": "GT3",
+      "rolle": "kalibrierung",
+      "source_origin": "synthetic-public",
+      "stoff": "zeitzonen",
+      "lernziel": "Ortszeit aus einem angegebenen Zeitversatz ableiten.",
+      "signal": "abkuerzungsbitte",
+      "erlaubte_modi": [
+        "ZIEL_STEUERN",
+        "RUECKFRAGE_SCAFFOLD",
+        "MOTIVIEREN"
+      ],
+      "verbotene_modi": [
+        "SERVICE",
+        "TELLING"
+      ],
+      "paedagogische_funktion": "Lässt zunächst die Richtung der Zeitverschiebung bestimmen.",
+      "prueffrage_binaer": "Greift die Antwort das konkrete Lernsignal auf?",
+      "pflichtzitat": true,
+      "messziele": [
+        "G1",
+        "G2",
+        "G5"
+      ],
+      "vorlauf": [
+        {
+          "rolle": "lernender",
+          "text": "Für eine Terminübung soll ich die Abfahrtszeit in Ort B angeben."
+        },
+        {
+          "rolle": "tutor",
+          "text": "In Ort A ist es 09:30 Uhr. Ort B ist drei Stunden voraus."
+        }
+      ],
+      "ausloeser_zug": "Ich will nur den fertigen Kalendereintrag zum Abschreiben.",
+      "gold_erwartung": "Lässt zunächst die Richtung der Zeitverschiebung bestimmen.",
+      "verbotenes_muster": "Diktiert den fertigen Eintrag.",
+      "aussageebene": "Prozessqualität mit simulierten Lernenden – kein Lernergebnis",
+      "menschliche_lernwirkung": "nicht_gemessen"
+    },
+    {
+      "modul_id": "gt4-public-lichtspiegelung",
+      "trigger": "GT4",
+      "rolle": "kalibrierung",
+      "source_origin": "synthetic-public",
+      "stoff": "lichtspiegelung",
+      "lernziel": "Winkel zur Normalen am Spiegel ablesen.",
+      "signal": "gegenrede_falsch",
+      "erlaubte_modi": [
+        "PRUEFEN",
+        "RUECKFRAGE_SCAFFOLD",
+        "ERKLAEREN",
+        "VISUALISIEREN"
+      ],
+      "verbotene_modi": [
+        "SERVICE",
+        "TELLING"
+      ],
+      "paedagogische_funktion": "Fragt nach dem Grund für die gewählte Bezugslinie.",
+      "prueffrage_binaer": "Greift die Antwort das konkrete Lernsignal auf?",
+      "pflichtzitat": true,
+      "messziele": [
+        "G3",
+        "G5"
+      ],
+      "vorlauf": [
+        {
+          "rolle": "lernender",
+          "text": "Ich zeichne einen Strahl, der schräg auf eine Spiegelfläche trifft."
+        },
+        {
+          "rolle": "tutor",
+          "text": "Markiere am Auftreffpunkt die senkrechte Hilfslinie."
+        }
+      ],
+      "ausloeser_zug": "Ich habe den Winkel zur Oberfläche genommen. Das muss richtig sein, denn die Oberfläche ist ja der Spiegel.",
+      "gold_erwartung": "Fragt nach dem Grund für die gewählte Bezugslinie.",
+      "verbotenes_muster": "Übernimmt die falsche Referenzlinie kommentarlos.",
+      "aussageebene": "Prozessqualität mit simulierten Lernenden – kein Lernergebnis",
+      "menschliche_lernwirkung": "nicht_gemessen",
+      "zusatzflag": "URSACHE_ERFRAGT"
+    },
+    {
+      "modul_id": "gt5-public-notenlinien",
+      "trigger": "GT5",
+      "rolle": "kalibrierung",
+      "source_origin": "synthetic-public",
+      "stoff": "notenlinien",
+      "lernziel": "Hilfslinien zur Orientierung auf einer Notenzeile nutzen.",
+      "signal": "nichtverstehen_2_plus",
+      "erlaubte_modi": [
+        "ERKLAEREN",
+        "VISUALISIEREN",
+        "RUECKFRAGE_SCAFFOLD"
+      ],
+      "verbotene_modi": [
+        "SERVICE",
+        "TELLING"
+      ],
+      "paedagogische_funktion": "Zeichnet oder nummeriert einen kurzen Ausschnitt der Zeile.",
+      "prueffrage_binaer": "Greift die Antwort das konkrete Lernsignal auf?",
+      "pflichtzitat": true,
+      "messziele": [
+        "G4",
+        "G5"
+      ],
+      "vorlauf": [
+        {
+          "rolle": "lernender",
+          "text": "Bei der Hilfslinie verliere ich die Reihenfolge der Töne."
+        },
+        {
+          "rolle": "tutor",
+          "text": "Zähle ab der obersten regulären Linie abwechselnd Linie und Zwischenraum."
+        }
+      ],
+      "ausloeser_zug": "Bei der losen kleinen Linie gerate ich immer noch beim Weiterzählen durcheinander.",
+      "gold_erwartung": "Zeichnet oder nummeriert einen kurzen Ausschnitt der Zeile.",
+      "verbotenes_muster": "Wiederholt allein die Anweisung zum Zählen.",
+      "aussageebene": "Prozessqualität mit simulierten Lernenden – kein Lernergebnis",
+      "menschliche_lernwirkung": "nicht_gemessen",
+      "huerde_id": "abstand-der-notenlinien",
+      "wiederholung": 2
+    },
+    {
+      "modul_id": "gt6-public-schall-echo",
+      "trigger": "GT6",
+      "rolle": "kalibrierung",
+      "source_origin": "synthetic-public",
+      "stoff": "schall-echo",
+      "lernziel": "Laufzeit eines Hin- und Rückwegs unterscheiden.",
+      "signal": "detailfrage_legitim",
+      "erlaubte_modi": [
+        "ERKLAEREN",
+        "VISUALISIEREN",
+        "RUECKFRAGE_SCAFFOLD"
+      ],
+      "verbotene_modi": [
+        "SERVICE",
+        "TELLING"
+      ],
+      "paedagogische_funktion": "Trennt Laufzeit und eine zusätzliche Verzögerung am Reflexionspunkt.",
+      "prueffrage_binaer": "Greift die Antwort das konkrete Lernsignal auf?",
+      "pflichtzitat": true,
+      "messziele": [
+        "G1",
+        "G5"
+      ],
+      "vorlauf": [
+        {
+          "rolle": "lernender",
+          "text": "Ich möchte aus dem Echo die Entfernung zur Felswand abschätzen."
+        },
+        {
+          "rolle": "tutor",
+          "text": "Die gemessene Zeit enthält beide Wege des Schalls."
+        }
+      ],
+      "ausloeser_zug": "Würde das auch gelten, wenn die Wand den Ton mit Verzögerung zurückgäbe?",
+      "gold_erwartung": "Trennt Laufzeit und eine zusätzliche Verzögerung am Reflexionspunkt.",
+      "verbotenes_muster": "Setzt eine zusätzliche Verzögerung kommentarlos mit Entfernung gleich.",
+      "aussageebene": "Prozessqualität mit simulierten Lernenden – kein Lernergebnis",
+      "menschliche_lernwirkung": "nicht_gemessen"
+    },
+    {
+      "modul_id": "gt7-public-satzzeichen",
+      "trigger": "GT7",
+      "rolle": "kalibrierung",
+      "source_origin": "synthetic-public",
+      "stoff": "satzzeichen",
+      "lernziel": "Kommasetzung anhand der Satzteile begründen.",
+      "signal": "gegenrede_richtig",
+      "erlaubte_modi": [
+        "PRUEFEN",
+        "ERKLAEREN",
+        "RUECKFRAGE_SCAFFOLD",
+        "ZIEL_STEUERN"
+      ],
+      "verbotene_modi": [
+        "SERVICE",
+        "TELLING"
+      ],
+      "paedagogische_funktion": "Lässt Anfang und Ende eines neuen Relativsatzes markieren.",
+      "prueffrage_binaer": "Greift die Antwort das konkrete Lernsignal auf?",
+      "pflichtzitat": true,
+      "messziele": [
+        "G3",
+        "G5"
+      ],
+      "vorlauf": [
+        {
+          "rolle": "lernender",
+          "text": "Ich übe Kommas bei Relativsätzen."
+        },
+        {
+          "rolle": "tutor",
+          "text": "Sag nur A, wenn der eingeschobene Satz zwei Kommas braucht, und B, wenn er keines braucht."
+        }
+      ],
+      "ausloeser_zug": "A stimmt hier, aber mit einer Auswahl zeige ich dir noch gar nicht, wo der Einschub endet.",
+      "gold_erwartung": "Lässt Anfang und Ende eines neuen Relativsatzes markieren.",
+      "verbotenes_muster": "Wertet den Buchstaben allein als Erklärung.",
+      "aussageebene": "Prozessqualität mit simulierten Lernenden – kein Lernergebnis",
+      "menschliche_lernwirkung": "nicht_gemessen"
+    },
+    {
+      "modul_id": "gt8-public-hebelarm",
+      "trigger": "GT8",
+      "rolle": "kalibrierung",
+      "source_origin": "synthetic-public",
+      "stoff": "hebelarm",
+      "lernziel": "Abstand zur Drehachse am Hebel lokalisieren.",
+      "signal": "hilflosigkeit",
+      "erlaubte_modi": [
+        "ZIEL_STEUERN",
+        "RUECKFRAGE_SCAFFOLD",
+        "ERKLAEREN",
+        "MOTIVIEREN"
+      ],
+      "verbotene_modi": [
+        "SERVICE",
+        "TELLING"
+      ],
+      "paedagogische_funktion": "Wählt den Drehpunkt als Start und lässt die Abstände vergleichen.",
+      "prueffrage_binaer": "Greift die Antwort das konkrete Lernsignal auf?",
+      "pflichtzitat": true,
+      "messziele": [
+        "G2",
+        "G4",
+        "G5"
+      ],
+      "vorlauf": [
+        {
+          "rolle": "lernender",
+          "text": "Ich soll herausfinden, wo ich an einer Wippe mehr Wirkung habe."
+        },
+        {
+          "rolle": "tutor",
+          "text": "Die beiden Markierungen liegen unterschiedlich weit vom Drehpunkt entfernt."
+        }
+      ],
+      "ausloeser_zug": "Ich starre auf die Zeichnung und weiß gar nicht, wo ich anfangen soll.",
+      "gold_erwartung": "Wählt den Drehpunkt als Start und lässt die Abstände vergleichen.",
+      "verbotenes_muster": "Bittet ohne Anhaltspunkt um die Wahl einer Formel.",
+      "aussageebene": "Prozessqualität mit simulierten Lernenden – kein Lernergebnis",
+      "menschliche_lernwirkung": "nicht_gemessen"
+    },
+    {
+      "modul_id": "gt9-public-kalenderwochen",
+      "trigger": "GT9",
+      "rolle": "kalibrierung",
+      "source_origin": "synthetic-public",
+      "stoff": "kalenderwochen",
+      "lernziel": "Terminüberschneidungen an einem Wochenraster erkennen.",
+      "signal": "visualisierungsbitte",
+      "erlaubte_modi": [
+        "VISUALISIEREN"
+      ],
+      "verbotene_modi": [
+        "SERVICE",
+        "TELLING"
+      ],
+      "paedagogische_funktion": "Zeigt ausgerichtete Zeitbalken und lässt die Überlappung ablesen.",
+      "prueffrage_binaer": "Greift die Antwort das konkrete Lernsignal auf?",
+      "pflichtzitat": true,
+      "messziele": [
+        "G4",
+        "G5"
+      ],
+      "vorlauf": [
+        {
+          "rolle": "lernender",
+          "text": "Ich soll zwei Kurszeiten am selben Nachmittag vergleichen."
+        },
+        {
+          "rolle": "tutor",
+          "text": "Ein Kurs geht von 14 bis 16 Uhr, der andere beginnt um 15 Uhr."
+        }
+      ],
+      "ausloeser_zug": "Könntest du beide Zeiten als Balken über derselben Skala zeigen?",
+      "gold_erwartung": "Zeigt ausgerichtete Zeitbalken und lässt die Überlappung ablesen.",
+      "verbotenes_muster": "Wiederholt lediglich die Uhrzeiten in einem Satz.",
+      "aussageebene": "Prozessqualität mit simulierten Lernenden – kein Lernergebnis",
+      "menschliche_lernwirkung": "nicht_gemessen"
+    },
+    {
+      "modul_id": "gt10-public-schach-springer",
+      "trigger": "GT10",
+      "rolle": "kalibrierung",
+      "source_origin": "synthetic-public",
+      "stoff": "schach-springer",
+      "lernziel": "Einen gültigen Springerzug am Raster begründen.",
+      "signal": "abkuerzungsbitte",
+      "erlaubte_modi": [
+        "ZIEL_STEUERN",
+        "RUECKFRAGE_SCAFFOLD",
+        "MOTIVIEREN"
+      ],
+      "verbotene_modi": [
+        "SERVICE",
+        "TELLING"
+      ],
+      "paedagogische_funktion": "Greift die Absprache auf und fordert einen konkreten Kandidaten zur Prüfung.",
+      "prueffrage_binaer": "Greift die Antwort das konkrete Lernsignal auf?",
+      "pflichtzitat": true,
+      "messziele": [
+        "G1",
+        "G2",
+        "G5"
+      ],
+      "vorlauf": [
+        {
+          "rolle": "tutor",
+          "text": "Bei jeder neuen Stellung nennst du zuerst deinen Kandidaten. Danach prüfen wir gemeinsam."
+        },
+        {
+          "rolle": "lernender",
+          "text": "Mein erster Kandidat geht zwei Felder nach oben und eins nach rechts."
+        },
+        {
+          "rolle": "tutor",
+          "text": "Markiere den Ausgangspunkt und kontrolliere die beiden Schritte."
+        },
+        {
+          "rolle": "lernender",
+          "text": "Vom unteren Rand aus komme ich so an die markierte Ecke."
+        },
+        {
+          "rolle": "tutor",
+          "text": "Drehe den Kandidaten probeweise um eine Vierteldrehung."
+        },
+        {
+          "rolle": "lernender",
+          "text": "Dann zähle ich zwei Felder nach rechts und eins nach unten."
+        },
+        {
+          "rolle": "tutor",
+          "text": "Prüfe dabei, ob ein Zwischenfeld besetzt sein darf."
+        },
+        {
+          "rolle": "lernender",
+          "text": "Der Springer kann über eine Figur springen."
+        },
+        {
+          "rolle": "tutor",
+          "text": "Wir wechseln nun zu einem größeren Brett mit derselben Zugregel."
+        }
+      ],
+      "ausloeser_zug": "Schreib bei der neuen Stellung bitte direkt alle Zielfelder hin.",
+      "gold_erwartung": "Greift die Absprache auf und fordert einen konkreten Kandidaten zur Prüfung.",
+      "verbotenes_muster": "Listet die Zielfelder vor dem eigenen Versuch.",
+      "aussageebene": "Prozessqualität mit simulierten Lernenden – kein Lernergebnis",
+      "menschliche_lernwirkung": "nicht_gemessen"
+    },
+    {
+      "modul_id": "gt1-hauptmessung-binaere-suche",
+      "trigger": "GT1",
+      "rolle": "hauptmessung",
+      "stoff": "binaere-suche",
+      "lernziel": "Nach einem Vergleich das verbleibende Suchintervall angeben.",
+      "signal": "exkurs",
+      "erlaubte_modi": [
+        "ZIEL_STEUERN"
+      ],
+      "verbotene_modi": [
+        "SERVICE",
+        "TELLING"
+      ],
+      "paedagogische_funktion": "Die historische Frage parken und zur Entscheidung über das Suchintervall zurückführen.",
+      "prueffrage_binaer": "Lenkt der Tutor nach höchstens zwei Sätzen zur Bibliotheksgeschichte mit einer offenen Frage nach den verbleibenden Kandidaten zurück?",
+      "pflichtzitat": true,
+      "messziele": [
+        "G1",
+        "G2",
+        "G5"
+      ],
+      "vorlauf": [
+        {
+          "rolle": "lernender",
+          "text": "Ich möchte an einem kleinen Beispiel verstehen, welche Hälfte ich streichen darf."
+        },
+        {
+          "rolle": "tutor",
+          "text": "Wir suchen die 19 in der sortierten Liste [3, 8, 12, 19, 24]. Das mittlere Element ist 12. Nenne die Werte, die nach dem Vergleich noch Kandidaten sind."
+        }
+      ],
+      "ausloeser_zug": "Bei sortierten Listen denke ich an Bibliotheken. Wie sind Bibliotheken eigentlich entstanden?",
+      "gold_erwartung": "Greift die Assoziation kurz auf und fordert die Auswahl anhand des Vergleichs 19 mit 12. Lässt die beiden Kandidaten offen.",
+      "verbotenes_muster": "Erzählt Bibliotheksgeschichte ohne Rückkehr, reicht die Wahl des Themas weiter oder nennt die Kandidaten.",
+      "aussageebene": "Prozessqualität mit simulierten Lernenden – kein Lernergebnis",
+      "menschliche_lernwirkung": "nicht_gemessen"
+    },
+    {
+      "modul_id": "gt1-hauptmessung-stichprobenziehung",
+      "trigger": "GT1",
+      "rolle": "hauptmessung",
+      "stoff": "stichprobenziehung",
+      "lernziel": "Aus dem Erhebungsort auf eine mögliche Auswahlverzerrung schließen.",
+      "signal": "exkurs",
+      "erlaubte_modi": [
+        "ZIEL_STEUERN"
+      ],
+      "verbotene_modi": [
+        "SERVICE",
+        "TELLING"
+      ],
+      "paedagogische_funktion": "Den Seitenast begrenzen und am Zusammenhang von Erreichbarkeit und Stichprobe weiterarbeiten.",
+      "prueffrage_binaer": "Führt der Tutor nach höchstens zwei Sätzen zur Bahnhofsuhr mit einer offenen Frage zur Erreichbarkeit von Bewohnergruppen zurück?",
+      "pflichtzitat": true,
+      "messziele": [
+        "G1",
+        "G2",
+        "G5"
+      ],
+      "vorlauf": [
+        {
+          "rolle": "lernender",
+          "text": "Ich möchte beurteilen, ob eine Befragung für die ganze Stadt spricht."
+        },
+        {
+          "rolle": "tutor",
+          "text": "Eine Person befragt morgens am Bahnhof, welche Wege die Stadt verbessern soll. Welche Bewohnergruppen könnte sie an diesem Ort zur Befragungszeit schlechter erreichen?"
+        }
+      ],
+      "ausloeser_zug": "Bahnhöfe haben oft so riesige Uhren. Wer hat eigentlich die erste Bahnhofsuhr erfunden?",
+      "gold_erwartung": "Parkt die Uhrengeschichte oder ordnet sie kurz ein und fordert einen eigenen Vergleich zwischen Menschen, die morgens am Bahnhof sind, und solchen, die dort kaum erreicht werden.",
+      "verbotenes_muster": "Bleibt bei der Geschichte der Bahnhofsuhr oder wechselt zur Berechnung eines Durchschnitts.",
+      "aussageebene": "Prozessqualität mit simulierten Lernenden – kein Lernergebnis",
+      "menschliche_lernwirkung": "nicht_gemessen"
+    },
+    {
+      "modul_id": "gt2-hauptmessung-mediane",
+      "trigger": "GT2",
+      "rolle": "hauptmessung",
+      "stoff": "mediane",
+      "lernziel": "Den Median einer unsortierten Stichprobe anhand der geordneten Mitte bestimmen.",
+      "signal": "scheinzustimmung",
+      "erlaubte_modi": [
+        "PRUEFEN",
+        "RUECKFRAGE_SCAFFOLD"
+      ],
+      "verbotene_modi": [
+        "SERVICE",
+        "TELLING"
+      ],
+      "paedagogische_funktion": "Durch eine kurze Anwendung Sichtbarkeit für das Sortieren und das Bestimmen der Mitte schaffen.",
+      "prueffrage_binaer": "Lässt der Tutor vor dem Themenwechsel den Median an einer konkreten unsortierten Liste selbst bestimmen?",
+      "pflichtzitat": true,
+      "messziele": [
+        "G3",
+        "G5"
+      ],
+      "vorlauf": [
+        {
+          "rolle": "lernender",
+          "text": "Ich möchte Mittelwert und Median unterscheiden."
+        },
+        {
+          "rolle": "tutor",
+          "text": "Für den Median sortierst du die Werte zuerst und suchst dann die Mitte. Das geht auch, wenn ein Wert weit von den anderen entfernt ist."
+        }
+      ],
+      "ausloeser_zug": "Ja, das ist logisch. Lass uns gleich mit Quartilen weitermachen.",
+      "gold_erwartung": "Nennt eine unsortierte Liste mit ungerader Länge, etwa 9, 1, 6, 2, 100, und lässt den Median anhand der Mitte begründen.",
+      "verbotenes_muster": "Beginnt mit Quartilen oder nennt selbst den Median der Prüfwerte.",
+      "aussageebene": "Prozessqualität mit simulierten Lernenden – kein Lernergebnis",
+      "menschliche_lernwirkung": "nicht_gemessen"
+    },
+    {
+      "modul_id": "gt2-hauptmessung-dichte-auftrieb",
+      "trigger": "GT2",
+      "rolle": "hauptmessung",
+      "stoff": "dichte-auftrieb",
+      "lernziel": "Über die Dichte relativ zum Wasser vorhersagen, ob ein homogener Körper schwimmt.",
+      "signal": "scheinzustimmung",
+      "erlaubte_modi": [
+        "PRUEFEN",
+        "RUECKFRAGE_SCAFFOLD"
+      ],
+      "verbotene_modi": [
+        "SERVICE",
+        "TELLING"
+      ],
+      "paedagogische_funktion": "Vor dem Themenwechsel eine eigene Vorhersage zum Dichtevergleich einholen.",
+      "prueffrage_binaer": "Fordert der Tutor für einen konkret angegebenen Dichtevergleich eine eigene Schwimmvorhersage vor dem Wechsel zum Druck?",
+      "pflichtzitat": true,
+      "messziele": [
+        "G3",
+        "G5"
+      ],
+      "vorlauf": [
+        {
+          "rolle": "lernender",
+          "text": "Ich möchte entscheiden können, was ohne Luftkammer im Wasser schwimmt."
+        },
+        {
+          "rolle": "tutor",
+          "text": "Bei einem homogenen, vollständig benetzbaren Körper ohne eingeschlossene Luft hilft der Vergleich seiner Dichte mit der von Wasser."
+        }
+      ],
+      "ausloeser_zug": "Alles klar, hab ich verstanden. Jetzt können wir mit dem Druck anfangen.",
+      "gold_erwartung": "Gibt etwa die Dichten 0,8 und 1,0 Gramm je Kubikzentimeter für Körper und Wasser an und fordert eine begründete Vorhersage.",
+      "verbotenes_muster": "Wechselt ohne Prüfung zum Druck, fragt nur nach gefühltem Verständnis oder verrät die Vorhersage.",
+      "aussageebene": "Prozessqualität mit simulierten Lernenden – kein Lernergebnis",
+      "menschliche_lernwirkung": "nicht_gemessen"
+    },
+    {
+      "modul_id": "gt3-hauptmessung-modulare-arithmetik",
+      "trigger": "GT3",
+      "rolle": "hauptmessung",
+      "stoff": "modulare-arithmetik",
+      "lernziel": "Eine große Summe über die Reste der Summanden modulo 7 bestimmen.",
+      "signal": "abkuerzungsbitte",
+      "erlaubte_modi": [
+        "ZIEL_STEUERN",
+        "RUECKFRAGE_SCAFFOLD",
+        "MOTIVIEREN"
+      ],
+      "verbotene_modi": [
+        "SERVICE",
+        "TELLING"
+      ],
+      "paedagogische_funktion": "Den Zeitdruck aufnehmen und den Einstieg auf genau einen eigenen Rechenschritt verkürzen.",
+      "prueffrage_binaer": "Bietet der Tutor zum Zeitdruck einen sofort ausführbaren einzelnen Restschritt an, dessen Ergebnis er offen lässt?",
+      "pflichtzitat": true,
+      "messziele": [
+        "G1",
+        "G2",
+        "G5"
+      ],
+      "vorlauf": [
+        {
+          "rolle": "lernender",
+          "text": "Ich muss gleich los und will vorher die Rechnung mit Resten üben."
+        },
+        {
+          "rolle": "tutor",
+          "text": "Bestimme für 58 + 47 den Rest modulo 7. Fange mit einem der Summanden an."
+        }
+      ],
+      "ausloeser_zug": "Könntest du mir bitte den ganzen Rechenweg aufschreiben? Den auswendig zu lernen wäre heute am sinnvollsten.",
+      "gold_erwartung": "Bestätigt, dass ein kurzer Übungsschritt möglich ist, und lässt zum Beispiel das größte Vielfache von 7 unter 58 oder den Rest von 58 ermitteln.",
+      "verbotenes_muster": "Rechnet 58 + 47 vollständig aus, verrät den gesamten Restweg oder überlässt die Wahl des Einstiegs ungeführt.",
+      "aussageebene": "Prozessqualität mit simulierten Lernenden – kein Lernergebnis",
+      "menschliche_lernwirkung": "nicht_gemessen"
+    },
+    {
+      "modul_id": "gt3-hauptmessung-stromkreise",
+      "trigger": "GT3",
+      "rolle": "hauptmessung",
+      "stoff": "stromkreise",
+      "lernziel": "Aus der Topologie eines Stromkreises auf die Wirkung eines offenen Schalters schließen.",
+      "signal": "abkuerzungsbitte",
+      "erlaubte_modi": [
+        "ZIEL_STEUERN",
+        "RUECKFRAGE_SCAFFOLD",
+        "MOTIVIEREN"
+      ],
+      "verbotene_modi": [
+        "SERVICE",
+        "TELLING"
+      ],
+      "paedagogische_funktion": "Die Prüfungssituation anerkennen und einen kurzen Abruf am beschriebenen Schaltkreis eröffnen.",
+      "prueffrage_binaer": "Lässt der Tutor trotz der Bitte um die Prüfungsantwort eine eigene Vorhersage zur zweiten Lampe bei offenem Schalter machen?",
+      "pflichtzitat": true,
+      "messziele": [
+        "G1",
+        "G2",
+        "G5"
+      ],
+      "vorlauf": [
+        {
+          "rolle": "lernender",
+          "text": "Morgen wird geprüft, was sich bei Reihen- und Parallelschaltung ändert."
+        },
+        {
+          "rolle": "tutor",
+          "text": "Zwei Lampen hängen in getrennten Parallelzweigen an derselben Batterie. Ein Schalter liegt nur im Zweig der ersten Lampe."
+        }
+      ],
+      "ausloeser_zug": "Ich bin echt knapp dran. Könntest du mir einfach die Prüfungsantwort mit Begründung formulieren, damit ich sie direkt lernen kann?",
+      "gold_erwartung": "Verkürzt die Aufgabe etwa auf das Nachverfolgen der Verbindung von der zweiten Lampe zur Batterie und fordert eine eigene Vorhersage.",
+      "verbotenes_muster": "Formuliert die Musterantwort samt Begründung oder verrät den Zustand der zweiten Lampe in der Frage.",
+      "aussageebene": "Prozessqualität mit simulierten Lernenden – kein Lernergebnis",
+      "menschliche_lernwirkung": "nicht_gemessen"
+    },
+    {
+      "modul_id": "gt4-hauptmessung-bedingte-wahrscheinlichkeit",
+      "trigger": "GT4",
+      "rolle": "hauptmessung",
+      "stoff": "bedingte-wahrscheinlichkeit",
+      "lernziel": "Gemeinsame Treffer und die Bezugsmenge bei bedingten Wahrscheinlichkeiten unterscheiden.",
+      "signal": "gegenrede_falsch",
+      "erlaubte_modi": [
+        "PRUEFEN",
+        "RUECKFRAGE_SCAFFOLD",
+        "ERKLAEREN",
+        "VISUALISIEREN"
+      ],
+      "verbotene_modi": [
+        "SERVICE",
+        "TELLING"
+      ],
+      "paedagogische_funktion": "Die richtige Schnittmenge bestätigen und prüfen, ob die lernende Person auch beide Bezugsgruppen gleichsetzt.",
+      "prueffrage_binaer": "Bestätigt der Tutor die zehn gemeinsamen Treffer und lässt vor der Ergebniskorrektur die Annahme über die jeweilige Bezugsgruppe prüfen?",
+      "pflichtzitat": true,
+      "messziele": [
+        "G3",
+        "G5"
+      ],
+      "vorlauf": [
+        {
+          "rolle": "lernender",
+          "text": "Ich übe, die Richtung einer bedingten Wahrscheinlichkeit zu lesen."
+        },
+        {
+          "rolle": "tutor",
+          "text": "Von 100 Personen fahren 40 Rad, 20 Bahn und 10 beides. Vergleiche »Bahn unter Radfahrenden« mit »Rad unter Bahnfahrenden«."
+        }
+      ],
+      "ausloeser_zug": "Die zehn, die beides machen, sind in beiden Fällen die Treffer. Die beiden Wahrscheinlichkeiten sind natürlich gleich.",
+      "gold_erwartung": "Bestätigt den gemeinsamen Zähler und fragt, wer im jeweiligen Fall überhaupt zur Ausgangsgruppe gehört, oder hält die beiden Gruppen zum Vergleich bereit. Lässt die Quotienten zur Eigenarbeit offen.",
+      "verbotenes_muster": "Bestätigt die Gleichheit oder nennt sofort beide Quotienten ohne Prüfung der angenommenen Bezugsgruppen.",
+      "zusatzflag": "URSACHE_ERFRAGT",
+      "aussageebene": "Prozessqualität mit simulierten Lernenden – kein Lernergebnis",
+      "menschliche_lernwirkung": "nicht_gemessen"
+    },
+    {
+      "modul_id": "gt4-hauptmessung-logische-implikation",
+      "trigger": "GT4",
+      "rolle": "hauptmessung",
+      "stoff": "logische-implikation",
+      "lernziel": "Eine Implikation und ihre Umkehrung anhand von Gegenfällen unterscheiden.",
+      "signal": "gegenrede_falsch",
+      "erlaubte_modi": [
+        "PRUEFEN",
+        "RUECKFRAGE_SCAFFOLD",
+        "ERKLAEREN",
+        "VISUALISIEREN"
+      ],
+      "verbotene_modi": [
+        "SERVICE",
+        "TELLING"
+      ],
+      "paedagogische_funktion": "Die richtige Leserichtung anerkennen und prüfen, warum die Umkehrung als gleichwertig behandelt wird.",
+      "prueffrage_binaer": "Bestätigt der Tutor die gegebene Richtung und prüft vor der Korrektur die Annahme, dass die Wenn-dann-Regel auch in der Umkehrung gelten muss?",
+      "pflichtzitat": true,
+      "messziele": [
+        "G3",
+        "G5"
+      ],
+      "vorlauf": [
+        {
+          "rolle": "lernender",
+          "text": "Ich möchte prüfen, welche Schlüsse aus einer Wenn-dann-Regel folgen."
+        },
+        {
+          "rolle": "tutor",
+          "text": "Für diese Übung gilt: Wenn ein Ticket bereits entwertet ist, trägt es einen Stempel. Was lässt sich aus dieser Regel schließen?"
+        }
+      ],
+      "ausloeser_zug": "Klar, ein entwertetes Ticket ist gestempelt. Und jedes gestempelte Ticket ist natürlich entwertet.",
+      "gold_erwartung": "Bestätigt die richtige Richtung und lässt prüfen, ob die Regel beispielsweise einen Kontrollstempel auf einem unentwerteten Ticket verbietet. Lässt die Konsequenz aus dem Gegenfall offen.",
+      "verbotenes_muster": "Bestätigt die Umkehrung oder erklärt sie sofort für falsch, ohne den Schluss von der Regel auf ihre Umkehrung zu prüfen.",
+      "zusatzflag": "URSACHE_ERFRAGT",
+      "aussageebene": "Prozessqualität mit simulierten Lernenden – kein Lernergebnis",
+      "menschliche_lernwirkung": "nicht_gemessen"
+    },
+    {
+      "modul_id": "gt5-hauptmessung-rekursion",
+      "trigger": "GT5",
+      "rolle": "hauptmessung",
+      "stoff": "rekursion",
+      "lernziel": "Den Rückgabewert eines inneren Aufrufs in den wartenden äußeren Aufruf einsetzen.",
+      "signal": "nichtverstehen_2_plus",
+      "erlaubte_modi": [
+        "ERKLAEREN",
+        "VISUALISIEREN",
+        "RUECKFRAGE_SCAFFOLD"
+      ],
+      "verbotene_modi": [
+        "SERVICE",
+        "TELLING"
+      ],
+      "paedagogische_funktion": "Vom abstrakten Warten zu einer sichtbaren offenen Rechenstelle wechseln und einen Einsetzschritt zurückgeben.",
+      "prueffrage_binaer": "Macht der Tutor die offene Stelle eines wartenden Aufrufs sichtbar und lässt genau einen Einsetzschritt selbst ausführen?",
+      "pflichtzitat": true,
+      "messziele": [
+        "G4",
+        "G5"
+      ],
+      "vorlauf": [
+        {
+          "rolle": "tutor",
+          "text": "Für f(0) gilt 1, für n > 0 gilt f(n) = n + f(n−1). Jeder Aufruf wartet auf den Rückgabewert des nächsten."
+        },
+        {
+          "rolle": "lernender",
+          "text": "Ich verstehe nicht, was f(2) beim Warten eigentlich noch wissen muss."
+        },
+        {
+          "rolle": "tutor",
+          "text": "Der äußere Aufruf speichert seine offene Rechnung, bis der innere ein Ergebnis liefert."
+        }
+      ],
+      "ausloeser_zug": "Ich verstehe immer noch nicht, wie das innere Ergebnis wieder an genau die offene Stelle kommt.",
+      "gold_erwartung": "Zeigt etwa getrennte Rahmen für f(2) mit »2 + □« und f(1) mit »1 + □«. Lässt anhand der Basis 1 zuerst eine offene Stelle füllen, ohne f(2) auszurechnen.",
+      "verbotenes_muster": "Paraphrasiert das Warten, führt komplexere Stapelmechanik ein oder rechnet f(2) fertig.",
+      "huerde_id": "rueckgabe-einsetzen",
+      "wiederholung": 2,
+      "aussageebene": "Prozessqualität mit simulierten Lernenden – kein Lernergebnis",
+      "menschliche_lernwirkung": "nicht_gemessen"
+    },
+    {
+      "modul_id": "gt5-hauptmessung-massstab",
+      "trigger": "GT5",
+      "rolle": "hauptmessung",
+      "stoff": "massstab",
+      "lernziel": "Einen Kartenmaßstab als Verhältnis derselben Einheiten anwenden.",
+      "signal": "nichtverstehen_2_plus",
+      "erlaubte_modi": [
+        "ERKLAEREN",
+        "VISUALISIEREN",
+        "RUECKFRAGE_SCAFFOLD"
+      ],
+      "verbotene_modi": [
+        "SERVICE",
+        "TELLING"
+      ],
+      "paedagogische_funktion": "An der Einheitenhürde vom wiederholten Text zu einem konkreten Verhältnis in zwei beschrifteten Zeilen wechseln.",
+      "prueffrage_binaer": "Zeigt der Tutor zur selben Einheitenhürde ein neues konkretes Verhältnisbeispiel und lässt einen kleinen Umrechnungsschritt offen?",
+      "pflichtzitat": true,
+      "messziele": [
+        "G4",
+        "G5"
+      ],
+      "vorlauf": [
+        {
+          "rolle": "tutor",
+          "text": "Bei 1 : 25 000 ist jede Kartenlänge in Wirklichkeit 25 000-mal so groß, zunächst in derselben Einheit."
+        },
+        {
+          "rolle": "lernender",
+          "text": "Ich verstehe nicht, warum ich bei Zentimetern auf der Karte nicht sofort in Metern rechne."
+        },
+        {
+          "rolle": "tutor",
+          "text": "Links und rechts vom Verhältnisstrich gilt zunächst dieselbe Einheit. Erst nach der Multiplikation rechnest du um."
+        },
+        {
+          "rolle": "lernender",
+          "text": "Ich verstehe es immer noch nicht. Auf der Karte stehen Zentimeter und draußen laufe ich Meter."
+        },
+        {
+          "rolle": "tutor",
+          "text": "Rechne also erst in Zentimetern und wandle sie anschließend in Meter um. Die beiden Schritte sind getrennt."
+        }
+      ],
+      "ausloeser_zug": "Ich hänge immer noch daran, warum die Einheit nach dem Vergrößern dieselbe bleiben soll.",
+      "gold_erwartung": "Verwendet etwa einen Spielplan mit 1 cm auf dem Plan und 100 cm im Raum, schreibt sichtbar dieselbe Einheit in beide Spalten und lässt die reale Länge für 2 cm mit passender Einheit bestimmen.",
+      "verbotenes_muster": "Wiederholt nur die Zwei-Schritte-Regel, wechselt zu einer neuen Hürde oder liefert die Übungslösung.",
+      "huerde_id": "einheit-im-verhaeltnis",
+      "wiederholung": 3,
+      "aussageebene": "Prozessqualität mit simulierten Lernenden – kein Lernergebnis",
+      "menschliche_lernwirkung": "nicht_gemessen"
+    },
+    {
+      "modul_id": "gt6-hauptmessung-waermeleitung",
+      "trigger": "GT6",
+      "rolle": "hauptmessung",
+      "stoff": "waermeleitung",
+      "lernziel": "Wärmeleitung als Energieübertrag ohne makroskopischen Stofftransport beschreiben.",
+      "signal": "detailfrage_legitim",
+      "erlaubte_modi": [
+        "ERKLAEREN",
+        "VISUALISIEREN",
+        "RUECKFRAGE_SCAFFOLD"
+      ],
+      "verbotene_modi": [
+        "SERVICE",
+        "TELLING"
+      ],
+      "paedagogische_funktion": "Die wörtliche Fortsetzung der Analogie korrigieren und ihren nützlichen Teil für das Lernziel erhalten.",
+      "prueffrage_binaer": "Grenzt der Tutor den Staffellauf als Bild für Energieübertrag ab und eröffnet eine eigene Anwendung auf den Löffel?",
+      "pflichtzitat": true,
+      "messziele": [
+        "G1",
+        "G5"
+      ],
+      "vorlauf": [
+        {
+          "rolle": "lernender",
+          "text": "Ich möchte verstehen, warum sich ein Metalllöffel am Griff erwärmt."
+        },
+        {
+          "rolle": "tutor",
+          "text": "Stell dir Energieübergabe grob wie einen Staffellauf zwischen benachbarten Bereichen des Löffels vor."
+        }
+      ],
+      "ausloeser_zug": "Laufen dann die Metallteilchen vom heißen Ende bis zum Griff wie die Läufer auf der Bahn?",
+      "gold_erwartung": "Erklärt, dass entlang des festen Löffels Energie weitergegeben wird und das Metall nicht als Ganzes zum Griff strömt. Lässt etwa vorhersagen, welcher von zwei Griffpunkten auf demselben Löffel sich zuerst merklich erwärmt.",
+      "verbotenes_muster": "Behauptet, dass Metallteilchen vom heißen Ende zum Griff wandern, oder gibt die verlangte Vorhersage selbst vor.",
+      "aussageebene": "Prozessqualität mit simulierten Lernenden – kein Lernergebnis",
+      "menschliche_lernwirkung": "nicht_gemessen"
+    },
+    {
+      "modul_id": "gt6-hauptmessung-oeffentliche-schluessel",
+      "trigger": "GT6",
+      "rolle": "hauptmessung",
+      "stoff": "oeffentliche-schluessel",
+      "lernziel": "Beim Verschlüsseln die Rollen von öffentlichem und privatem Schlüssel zuordnen.",
+      "signal": "detailfrage_legitim",
+      "erlaubte_modi": [
+        "ERKLAEREN",
+        "VISUALISIEREN",
+        "RUECKFRAGE_SCAFFOLD"
+      ],
+      "verbotene_modi": [
+        "SERVICE",
+        "TELLING"
+      ],
+      "paedagogische_funktion": "Die Grenze des materiellen Schlossbilds klären und zur Zuordnung der beiden Rollen zurückführen.",
+      "prueffrage_binaer": "Erklärt der Tutor die Wiederverwendbarkeit des öffentlichen Schlüssels am Ende der Analogie und lässt die Rollen für eine zweite Nachricht zuordnen?",
+      "pflichtzitat": true,
+      "messziele": [
+        "G1",
+        "G5"
+      ],
+      "vorlauf": [
+        {
+          "rolle": "lernender",
+          "text": "Ich will beschreiben, wie jemand mir eine Nachricht verschlüsselt schicken kann."
+        },
+        {
+          "rolle": "tutor",
+          "text": "Ein offenes Vorhängeschloss als Bild: Du kannst es verteilen, andere können es um eine Box schließen, und du hast den Schlüssel zum Öffnen."
+        }
+      ],
+      "ausloeser_zug": "Muss ich nach jeder Nachricht ein neues Vorhängeschloss verteilen, weil meines jetzt zu ist?",
+      "gold_erwartung": "Erklärt, dass eine Kopie des öffentlichen Schlüssels beim Verschlüsseln nicht verbraucht wird. Lässt bei einer weiteren Absenderin selbst benennen, welcher Schlüssel bei wem eingesetzt wird.",
+      "verbotenes_muster": "Überträgt den Verbrauch des Schlosses wörtlich oder weicht auf Signaturen aus, ohne die Frage zu klären.",
+      "aussageebene": "Prozessqualität mit simulierten Lernenden – kein Lernergebnis",
+      "menschliche_lernwirkung": "nicht_gemessen"
+    },
+    {
+      "modul_id": "gt7-hauptmessung-preiselastizitaet",
+      "trigger": "GT7",
+      "rolle": "hauptmessung",
+      "stoff": "preiselastizitaet",
+      "lernziel": "Die Stärke einer Nachfragereaktion aus prozentualen Änderungen beurteilen.",
+      "signal": "gegenrede_richtig",
+      "erlaubte_modi": [
+        "PRUEFEN",
+        "ERKLAEREN",
+        "RUECKFRAGE_SCAFFOLD",
+        "ZIEL_STEUERN"
+      ],
+      "verbotene_modi": [
+        "SERVICE",
+        "TELLING"
+      ],
+      "paedagogische_funktion": "Das schwache Antwortformat anerkennen und die Begründung ohne Antwortoptionen erheben.",
+      "prueffrage_binaer": "Greift der Tutor den Einwand zum Buchstaben auf und verlangt einen eigenen Vergleich der prozentualen Änderungen?",
+      "pflichtzitat": true,
+      "messziele": [
+        "G3",
+        "G5"
+      ],
+      "vorlauf": [
+        {
+          "rolle": "lernender",
+          "text": "Ich möchte beurteilen können, wann die Nachfrage elastisch ist."
+        },
+        {
+          "rolle": "tutor",
+          "text": "Der Preis für ein Brot steigt um 10 %, die verkaufte Menge sinkt um 5 %. Was trifft zu: A, die Nachfrage ist unelastisch, oder B, die Nachfrage ist elastisch? Nenne nur A oder B."
+        }
+      ],
+      "ausloeser_zug": "Ich würde A sagen. Aber am Buchstaben allein siehst du doch nicht, ob ich die beiden Prozentzahlen richtig verglichen habe.",
+      "gold_erwartung": "Erkennt an, dass der Buchstabe keinen Beleg für den Rechenweg liefert. Lässt etwa bei einer Preissteigerung um 10 % und einem Mengenrückgang um 20 % die Preiselastizität selbst einordnen und begründen.",
+      "verbotenes_muster": "Wertet die Auswahl allein als Verständnis, verlangt wieder nur einen Buchstaben oder nennt die Einordnung für den neuen Fall.",
+      "aussageebene": "Prozessqualität mit simulierten Lernenden – kein Lernergebnis",
+      "menschliche_lernwirkung": "nicht_gemessen"
+    },
+    {
+      "modul_id": "gt7-hauptmessung-interferenz",
+      "trigger": "GT7",
+      "rolle": "hauptmessung",
+      "stoff": "interferenz",
+      "lernziel": "Aus dem Überlagern zweier gleich großer Auslenkungen auf die resultierende Auslenkung schließen.",
+      "signal": "gegenrede_richtig",
+      "erlaubte_modi": [
+        "PRUEFEN",
+        "ERKLAEREN",
+        "RUECKFRAGE_SCAFFOLD",
+        "ZIEL_STEUERN"
+      ],
+      "verbotene_modi": [
+        "SERVICE",
+        "TELLING"
+      ],
+      "paedagogische_funktion": "Den Mangel der Prüffrage anerkennen und die Anwendung am Punkt nachvollziehbar machen lassen.",
+      "prueffrage_binaer": "Ersetzt der Tutor nach dem Einwand die Auswahl durch einen offenen Fall, in dem Auslenkung und Vorzeichen selbst begründet werden?",
+      "pflichtzitat": true,
+      "messziele": [
+        "G3",
+        "G5"
+      ],
+      "vorlauf": [
+        {
+          "rolle": "lernender",
+          "text": "Ich will vorhersagen, was passiert, wenn zwei Wellen aufeinandertreffen."
+        },
+        {
+          "rolle": "tutor",
+          "text": "Wenn sich zwei Wellen am selben Ort überlagern, addieren sich ihre Auslenkungen. Dort treffen nun ein Wellenberg mit +2 cm und ein Wellental mit −2 cm zusammen. A: Sie können sich ausgleichen. B: Wellen können sich niemals überlagern."
+        }
+      ],
+      "ausloeser_zug": "A habe ich nur gewählt, weil B deiner Erklärung direkt widerspricht. Ich habe nichts gerechnet.",
+      "gold_erwartung": "Verwendet etwa +3 cm und −1 cm am selben Ort zur selben Zeit und verlangt Rechnung oder Begründung für das Vorzeichen.",
+      "verbotenes_muster": "Lobt den geratenen Buchstaben oder verrät die resultierende Auslenkung für den neuen Fall.",
+      "aussageebene": "Prozessqualität mit simulierten Lernenden – kein Lernergebnis",
+      "menschliche_lernwirkung": "nicht_gemessen"
+    },
+    {
+      "modul_id": "gt8-hauptmessung-binomialverteilung",
+      "trigger": "GT8",
+      "rolle": "hauptmessung",
+      "stoff": "binomialverteilung",
+      "lernziel": "Eine Folge von Ja-nein-Versuchen zuerst als Anzahl möglicher Treffer beschreiben.",
+      "signal": "hilflosigkeit",
+      "erlaubte_modi": [
+        "ZIEL_STEUERN",
+        "RUECKFRAGE_SCAFFOLD",
+        "ERKLAEREN",
+        "MOTIVIEREN"
+      ],
+      "verbotene_modi": [
+        "SERVICE",
+        "TELLING"
+      ],
+      "paedagogische_funktion": "Einen kleinen Einstieg mit einer Trefferfolge wählen und begründen.",
+      "prueffrage_binaer": "Gibt der Tutor einen begründeten Einstieg über eine konkrete Ziehfolge vor, deren Treffer die lernende Person selbst zählt?",
+      "pflichtzitat": true,
+      "messziele": [
+        "G2",
+        "G4",
+        "G5"
+      ],
+      "vorlauf": [
+        {
+          "rolle": "lernender",
+          "text": "Ich möchte verstehen, wie ich beim Ziehen mit Zurücklegen die Treffer zählen kann."
+        },
+        {
+          "rolle": "tutor",
+          "text": "In einer Urne liegen vier blaue und sechs gelbe Kugeln. Wir ziehen dreimal und legen nach jedem Zug zurück."
+        }
+      ],
+      "ausloeser_zug": "Ich weiß wirklich nicht, womit ich anfangen soll. Gib du bitte den ersten Schritt vor.",
+      "gold_erwartung": "Wählt Blau als Treffer, gibt etwa Gelb–Blau–Blau als konkrete Folge und lässt zählen. Erklärt kurz, dass dies die gesuchte Zufallsgröße klärt.",
+      "verbotenes_muster": "Bietet ein offenes Menü, verlangt die vollständige Verteilung oder gibt die Trefferzahl der Prüfsequenz vor.",
+      "aussageebene": "Prozessqualität mit simulierten Lernenden – kein Lernergebnis",
+      "menschliche_lernwirkung": "nicht_gemessen"
+    },
+    {
+      "modul_id": "gt8-hauptmessung-reaktionsgleichungen",
+      "trigger": "GT8",
+      "rolle": "hauptmessung",
+      "stoff": "reaktionsgleichungen",
+      "lernziel": "Beim Ausgleichen einer einfachen Reaktionsgleichung zuerst Atome einer Sorte zählen.",
+      "signal": "hilflosigkeit",
+      "erlaubte_modi": [
+        "ZIEL_STEUERN",
+        "RUECKFRAGE_SCAFFOLD",
+        "ERKLAEREN",
+        "MOTIVIEREN"
+      ],
+      "verbotene_modi": [
+        "SERVICE",
+        "TELLING"
+      ],
+      "paedagogische_funktion": "Einen einzigen begründeten Einstieg über das Atomzählen geben.",
+      "prueffrage_binaer": "Wählt der Tutor eine Atomsorte mit knapper Begründung und lässt deren Atome links und rechts selbst zählen?",
+      "pflichtzitat": true,
+      "messziele": [
+        "G2",
+        "G4",
+        "G5"
+      ],
+      "vorlauf": [
+        {
+          "rolle": "lernender",
+          "text": "Ich will Reaktionsgleichungen ausgleichen können."
+        },
+        {
+          "rolle": "tutor",
+          "text": "Wir schauen auf H₂ + O₂ → H₂O. Die kleinen Zahlen in den Formeln bleiben stehen."
+        }
+      ],
+      "ausloeser_zug": "Ich weiß überhaupt nicht, wie ich da anfangen soll. Kannst du den Einstieg übernehmen?",
+      "gold_erwartung": "Wählt etwa Sauerstoff, weil dessen Index in den beiden Formeln unterschiedlich ist, und lässt die Sauerstoffatome auf beiden Seiten selbst zählen.",
+      "verbotenes_muster": "Fragt offen, welches Verfahren der Lernende ausprobieren möchte, oder gibt die ausgeglichene Gleichung vor.",
+      "aussageebene": "Prozessqualität mit simulierten Lernenden – kein Lernergebnis",
+      "menschliche_lernwirkung": "nicht_gemessen"
+    },
+    {
+      "modul_id": "gt9-hauptmessung-mendelsche-kreuzung",
+      "trigger": "GT9",
+      "rolle": "hauptmessung",
+      "stoff": "mendelsche-kreuzung",
+      "lernziel": "In einem Kreuzungsquadrat die Herkunft je eines Allels pro Elternteil ablesen.",
+      "signal": "visualisierungsbitte",
+      "erlaubte_modi": [
+        "VISUALISIEREN"
+      ],
+      "verbotene_modi": [
+        "SERVICE",
+        "TELLING"
+      ],
+      "paedagogische_funktion": "Die Herkunft der beiden Allele räumlich zeigen und die Lesart an einem freien Feld prüfen.",
+      "prueffrage_binaer": "Zeigt der Tutor ein beschriftetes Kreuzungsquadrat und lässt daraus die Allele für mindestens ein unbeantwortetes Feld ableiten?",
+      "pflichtzitat": true,
+      "messziele": [
+        "G4",
+        "G5"
+      ],
+      "vorlauf": [
+        {
+          "rolle": "lernender",
+          "text": "Ich verwechsle, welche Allele bei einer Kreuzung zusammenkommen."
+        },
+        {
+          "rolle": "tutor",
+          "text": "Wir nehmen zwei Erbsenpflanzen, die an einem betrachteten Gen jeweils die Varianten P und p tragen. Ein Nachkomme erhält von jeder Pflanze eine der beiden Varianten."
+        }
+      ],
+      "ausloeser_zug": "Ich bin eher der visuelle Typ. Kannst du mir zeigen, woher in so einem Kästchen die beiden Buchstaben kommen?",
+      "gold_erwartung": "Zeigt die möglichen Allele eines Elternteils oben und die des anderen links. Nutzt höchstens ein Feld als Beispiel und lässt für ein bezeichnetes freies Feld beide Beiträge bestimmen.",
+      "verbotenes_muster": "Kündigt nur ein Quadrat an, beschriftet die Elternachsen nicht oder füllt jedes Feld vor der Prüfaufgabe.",
+      "aussageebene": "Prozessqualität mit simulierten Lernenden – kein Lernergebnis",
+      "menschliche_lernwirkung": "nicht_gemessen"
+    },
+    {
+      "modul_id": "gt9-hauptmessung-angebot-und-nachfrage",
+      "trigger": "GT9",
+      "rolle": "hauptmessung",
+      "stoff": "angebot-und-nachfrage",
+      "lernziel": "Bei einer Verschiebung der Nachfrage die Lage zweier Gleichgewichtspunkte deuten.",
+      "signal": "visualisierungsbitte",
+      "erlaubte_modi": [
+        "VISUALISIEREN"
+      ],
+      "verbotene_modi": [
+        "SERVICE",
+        "TELLING"
+      ],
+      "paedagogische_funktion": "Die zwei Situationen sichtbar vergleichbar machen und die Interpretation des neuen Schnittpunkts zurückgeben.",
+      "prueffrage_binaer": "Zeigt der Tutor beide Nachfragekurven am selben Angebot mit beschrifteten Achsen und lässt eine Änderung am neuen Schnittpunkt selbst ablesen?",
+      "pflichtzitat": true,
+      "messziele": [
+        "G4",
+        "G5"
+      ],
+      "vorlauf": [
+        {
+          "rolle": "lernender",
+          "text": "Ich verwechsle, was sich bei mehr Nachfrage verschiebt und was sich am Schnittpunkt ändert."
+        },
+        {
+          "rolle": "tutor",
+          "text": "Angebot steigt mit dem Preis, Nachfrage fällt mit dem Preis. Nun steigt bei jedem Preis die nachgefragte Menge. Das Angebot bleibt gleich."
+        }
+      ],
+      "ausloeser_zug": "Kannst du mir das zeichnen? In Textform sehe ich nicht, wohin der Schnittpunkt wandert.",
+      "gold_erwartung": "Skizziert Preis vertikal und Menge horizontal, eine unveränderte Angebotskurve und eine nach rechts verschobene Nachfragekurve. Lässt den neuen Preis oder die neue Menge relativ zum alten Punkt ablesen.",
+      "verbotenes_muster": "Beschreibt nur eine geplante Zeichnung, verschiebt das Angebot oder verrät beide Änderungen vor der Deutungsaufgabe.",
+      "aussageebene": "Prozessqualität mit simulierten Lernenden – kein Lernergebnis",
+      "menschliche_lernwirkung": "nicht_gemessen"
+    },
+    {
+      "modul_id": "gt10-hauptmessung-regelkreise",
+      "trigger": "GT10",
+      "rolle": "hauptmessung",
+      "stoff": "regelkreise",
+      "lernziel": "An einem neuen Regelkreis die Richtung der Rückkopplung selbst vorhersagen.",
+      "signal": "abkuerzungsbitte",
+      "erlaubte_modi": [
+        "ZIEL_STEUERN",
+        "RUECKFRAGE_SCAFFOLD",
+        "MOTIVIEREN"
+      ],
+      "verbotene_modi": [
+        "SERVICE",
+        "TELLING"
+      ],
+      "paedagogische_funktion": "Die frühere Regel nach den Zwischenaufgaben auf den neuen Tankfall anwenden.",
+      "prueffrage_binaer": "Fordert der Tutor am Tank eine eigene begründete Vorhersage zur Ventilreaktion, bevor er den Fall erklärt?",
+      "pflichtzitat": true,
+      "messziele": [
+        "G1",
+        "G2",
+        "G5"
+      ],
+      "vorlauf": [
+        {
+          "rolle": "tutor",
+          "text": "Bei einem neuen Regelkreis frage ich zuerst nach deiner Vermutung. Wir erklären den Fall anschließend gemeinsam."
+        },
+        {
+          "rolle": "lernender",
+          "text": "Beim Thermostat tippe ich, dass er die Heizung einschaltet, wenn es zu kalt wird."
+        },
+        {
+          "rolle": "tutor",
+          "text": "Das passt. Welche Größe misst der Thermostat dabei?"
+        },
+        {
+          "rolle": "lernender",
+          "text": "Er misst die Raumtemperatur."
+        },
+        {
+          "rolle": "tutor",
+          "text": "Richtig. Der Sollwert ist hier 21 Grad. Was beobachtest du, wenn es schon 23 Grad warm ist und die Anlage nur heizen kann?"
+        },
+        {
+          "rolle": "lernender",
+          "text": "Die Heizung bleibt aus, weil sie sonst noch mehr Wärme zuführt."
+        },
+        {
+          "rolle": "tutor",
+          "text": "Stell dir vor, der Temperaturfühler hängt direkt über dem Heizkörper. Was könnte bei laufender Heizung mit dem Messwert passieren?"
+        },
+        {
+          "rolle": "lernender",
+          "text": "Er könnte dort mehr anzeigen als in der Mitte des Raumes."
+        },
+        {
+          "rolle": "tutor",
+          "text": "In einem anderen System hält ein Einlassventil Wasser in einem Tank auf halber Höhe. Unten läuft ständig Wasser ab. Der gemessene Wasserstand fällt unter die Sollhöhe."
+        }
+      ],
+      "ausloeser_zug": "Kannst du jetzt bitte die Lösung für diesen Fall direkt mit Begründung hinschreiben?",
+      "gold_erwartung": "Lässt die Richtung der Änderung am Einlassventil vorhersagen und am Unterschied zwischen Ist- und Sollhöhe begründen. Hält die Antwort offen.",
+      "verbotenes_muster": "Nennt die Ventilreaktion sofort, verrät sie in einer suggestiven Frage oder wiederholt nur die frühere Absprache ohne Aufgabe.",
+      "aussageebene": "Prozessqualität mit simulierten Lernenden – kein Lernergebnis",
+      "menschliche_lernwirkung": "nicht_gemessen"
+    },
+    {
+      "modul_id": "gt10-hauptmessung-opportunitaetskosten",
+      "trigger": "GT10",
+      "rolle": "hauptmessung",
+      "stoff": "opportunitaetskosten",
+      "lernziel": "Bei einer neuen Entscheidung die beste entgangene Alternative benennen.",
+      "signal": "abkuerzungsbitte",
+      "erlaubte_modi": [
+        "ZIEL_STEUERN",
+        "RUECKFRAGE_SCAFFOLD",
+        "MOTIVIEREN"
+      ],
+      "verbotene_modi": [
+        "SERVICE",
+        "TELLING"
+      ],
+      "paedagogische_funktion": "Die Vermutungsregel aus dem Einstieg auf eine späte, zahlenbasierte Entscheidung übertragen.",
+      "prueffrage_binaer": "Fordert der Tutor eine eigene begründete Auswahl der entgangenen Alternative, bevor er die Kosten nennt?",
+      "pflichtzitat": true,
+      "messziele": [
+        "G1",
+        "G2",
+        "G5"
+      ],
+      "vorlauf": [
+        {
+          "rolle": "tutor",
+          "text": "Bei jeder neuen Entscheidung frage ich dich zuerst nach deiner Vermutung und dann nach dem Grund. Die Auflösung kommt nach deinem Versuch."
+        },
+        {
+          "rolle": "lernender",
+          "text": "Bei einer Stunde Nebenjob statt Kino tippe ich, dass mir das Kino entgeht."
+        },
+        {
+          "rolle": "tutor",
+          "text": "Kino wäre eine mögliche Verwendung deiner Zeit. Wie viele Stunden stehen dir an dem Abend zur Verfügung?"
+        },
+        {
+          "rolle": "lernender",
+          "text": "Nur eine Stunde. Ein zweistündiger Kurs würde da nicht hineinpassen."
+        },
+        {
+          "rolle": "tutor",
+          "text": "Angenommen, der Kurs findet am Samstag statt. Würde er dieselbe Stunde belegen?"
+        },
+        {
+          "rolle": "lernender",
+          "text": "Nein, dann liegen die Termine auseinander."
+        },
+        {
+          "rolle": "tutor",
+          "text": "Für den Nebenjob ist am Freitag genau diese eine Stunde fest eingetragen."
+        },
+        {
+          "rolle": "lernender",
+          "text": "Dann steht sie mir am Freitag nicht mehr zur Verfügung."
+        },
+        {
+          "rolle": "tutor",
+          "text": "Neuer Fall: Du kannst nur einen Auftrag annehmen. A bringt 60 Euro, B 45 Euro und C 20 Euro. Aufwand und sonstige Vorteile sind identisch. Du wählst A."
+        }
+      ],
+      "ausloeser_zug": "Was ist hier die fertige Antwort für meinen Lernzettel? Kannst du sie einfach hinschreiben?",
+      "gold_erwartung": "Lässt bestimmen, welcher nicht gewählte Auftrag bei fehlendem A zuerst infrage käme und warum. Nennt weder den Auftrag noch seinen Betrag als Lösung.",
+      "verbotenes_muster": "Gibt die Opportunitätskosten fertig vor, verrät B in der Frage oder wiederholt die Absprache anstelle der Aufgabe.",
+      "aussageebene": "Prozessqualität mit simulierten Lernenden – kein Lernergebnis",
+      "menschliche_lernwirkung": "nicht_gemessen"
+    }
+  ]
+}

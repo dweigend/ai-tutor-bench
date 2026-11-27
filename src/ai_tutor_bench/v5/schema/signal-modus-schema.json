@@ -1,0 +1,767 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$defs": {
+    "Anteil": {
+      "additionalProperties": false,
+      "properties": {
+        "zaehler": {
+          "minimum": 0,
+          "title": "Zaehler",
+          "type": "integer"
+        },
+        "nenner": {
+          "minimum": 0,
+          "title": "Nenner",
+          "type": "integer"
+        },
+        "wert": {
+          "anyOf": [
+            {
+              "maximum": 1,
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Wert"
+        }
+      },
+      "required": [
+        "zaehler",
+        "nenner",
+        "wert"
+      ],
+      "title": "Anteil",
+      "type": "object"
+    },
+    "Dialogverlauf": {
+      "additionalProperties": false,
+      "properties": {
+        "tutorzuege": {
+          "items": {
+            "$ref": "#/$defs/Tutorzug"
+          },
+          "title": "Tutorzuege",
+          "type": "array"
+        },
+        "wendepunkte": {
+          "items": {
+            "$ref": "#/$defs/Wendepunkt"
+          },
+          "title": "Wendepunkte",
+          "type": "array"
+        }
+      },
+      "required": [
+        "tutorzuege",
+        "wendepunkte"
+      ],
+      "title": "Dialogverlauf",
+      "type": "object"
+    },
+    "FesthaengenKennzahl": {
+      "additionalProperties": false,
+      "properties": {
+        "laengste_folge": {
+          "minimum": 0,
+          "title": "Laengste Folge",
+          "type": "integer"
+        },
+        "faelle": {
+          "minimum": 0,
+          "title": "Faelle",
+          "type": "integer"
+        },
+        "hinweis": {
+          "default": "Gleiche Modusmenge und gleicher Primärmodus sind eine grobe Näherung.",
+          "minLength": 1,
+          "pattern": "\\S",
+          "title": "Hinweis",
+          "type": "string"
+        }
+      },
+      "required": [
+        "laengste_folge",
+        "faelle"
+      ],
+      "title": "FesthaengenKennzahl",
+      "type": "object"
+    },
+    "Kennzahlen": {
+      "additionalProperties": false,
+      "properties": {
+        "aussageebene": {
+          "const": "Prozessqualität mit simulierten Lernenden",
+          "default": "Prozessqualität mit simulierten Lernenden",
+          "title": "Aussageebene",
+          "type": "string"
+        },
+        "kalibrierstatus": {
+          "const": "Prozessqualität – Entwicklungsschema, formale Kalibrierung steht aus",
+          "default": "Prozessqualität – Entwicklungsschema, formale Kalibrierung steht aus",
+          "title": "Kalibrierstatus",
+          "type": "string"
+        },
+        "menschliche_lernwirkung": {
+          "const": "nicht_gemessen",
+          "default": "nicht_gemessen",
+          "title": "Menschliche Lernwirkung",
+          "type": "string"
+        },
+        "nicht_beobachtbar": {
+          "minimum": 0,
+          "title": "Nicht Beobachtbar",
+          "type": "integer"
+        },
+        "passung": {
+          "$ref": "#/$defs/Anteil"
+        },
+        "latenz": {
+          "$ref": "#/$defs/Latenz"
+        },
+        "festhaengen": {
+          "$ref": "#/$defs/FesthaengenKennzahl"
+        },
+        "rueckfall": {
+          "$ref": "#/$defs/Rueckfall"
+        }
+      },
+      "required": [
+        "nicht_beobachtbar",
+        "passung",
+        "latenz",
+        "festhaengen",
+        "rueckfall"
+      ],
+      "title": "Kennzahlen",
+      "type": "object"
+    },
+    "Latenz": {
+      "additionalProperties": false,
+      "properties": {
+        "zaehler": {
+          "minimum": 0,
+          "title": "Zaehler",
+          "type": "integer"
+        },
+        "nenner": {
+          "minimum": 0,
+          "title": "Nenner",
+          "type": "integer"
+        },
+        "faelle": {
+          "items": {
+            "$ref": "#/$defs/LatenzFall"
+          },
+          "title": "Faelle",
+          "type": "array"
+        }
+      },
+      "required": [
+        "zaehler",
+        "nenner",
+        "faelle"
+      ],
+      "title": "Latenz",
+      "type": "object"
+    },
+    "LatenzFall": {
+      "additionalProperties": false,
+      "properties": {
+        "zug_nr": {
+          "minimum": 1,
+          "title": "Zug Nr",
+          "type": "integer"
+        },
+        "beobachtete_zuege": {
+          "minimum": 0,
+          "title": "Beobachtete Zuege",
+          "type": "integer"
+        },
+        "latenz": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Latenz"
+        },
+        "zensurgrund": {
+          "anyOf": [
+            {
+              "enum": [
+                "folgesignal",
+                "verlaufsende",
+                "keine_gelegenheit"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Zensurgrund"
+        }
+      },
+      "required": [
+        "zug_nr",
+        "beobachtete_zuege",
+        "latenz",
+        "zensurgrund"
+      ],
+      "title": "LatenzFall",
+      "type": "object"
+    },
+    "LernendenSignal": {
+      "enum": [
+        "nichtverstehen_1",
+        "nichtverstehen_2_plus",
+        "scheinzustimmung",
+        "korrekte_loesung",
+        "gegenrede_falsch",
+        "gegenrede_richtig",
+        "exkurs",
+        "detailfrage_legitim",
+        "frust_selbstzweifel",
+        "abkuerzungsbitte",
+        "hilflosigkeit",
+        "visualisierungsbitte"
+      ],
+      "title": "LernendenSignal",
+      "type": "string"
+    },
+    "Rueckfall": {
+      "additionalProperties": false,
+      "properties": {
+        "zaehler": {
+          "minimum": 0,
+          "title": "Zaehler",
+          "type": "integer"
+        },
+        "nenner": {
+          "minimum": 0,
+          "title": "Nenner",
+          "type": "integer"
+        },
+        "wert": {
+          "anyOf": [
+            {
+              "maximum": 1,
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Wert"
+        },
+        "erster_zug": {
+          "anyOf": [
+            {
+              "minimum": 1,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Erster Zug"
+        }
+      },
+      "required": [
+        "zaehler",
+        "nenner",
+        "wert",
+        "erster_zug"
+      ],
+      "title": "Rueckfall",
+      "type": "object"
+    },
+    "SignalBeobachtung": {
+      "additionalProperties": false,
+      "properties": {
+        "signal": {
+          "$ref": "#/$defs/LernendenSignal"
+        },
+        "huerde_id": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "pattern": "\\S",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Huerde Id"
+        },
+        "wiederholung": {
+          "anyOf": [
+            {
+              "minimum": 2,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Wiederholung"
+        }
+      },
+      "required": [
+        "signal"
+      ],
+      "title": "SignalBeobachtung",
+      "type": "object"
+    },
+    "SignalModusMatrix": {
+      "additionalProperties": false,
+      "properties": {
+        "revision": {
+          "const": "public-v5-signal-mode-1",
+          "title": "Revision",
+          "type": "string"
+        },
+        "aussageebene": {
+          "const": "Prozessqualität mit simulierten Lernenden",
+          "title": "Aussageebene",
+          "type": "string"
+        },
+        "menschliche_lernwirkung": {
+          "const": "nicht_gemessen",
+          "title": "Menschliche Lernwirkung",
+          "type": "string"
+        },
+        "modusdefinitionen": {
+          "additionalProperties": {
+            "minLength": 1,
+            "pattern": "\\S",
+            "type": "string"
+          },
+          "maxProperties": 8,
+          "minProperties": 8,
+          "propertyNames": {
+            "$ref": "#/$defs/TutorModus"
+          },
+          "title": "Modusdefinitionen",
+          "type": "object"
+        },
+        "signale": {
+          "additionalProperties": {
+            "$ref": "#/$defs/SignalModusRegel"
+          },
+          "maxProperties": 12,
+          "minProperties": 12,
+          "propertyNames": {
+            "$ref": "#/$defs/LernendenSignal"
+          },
+          "title": "Signale",
+          "type": "object"
+        }
+      },
+      "required": [
+        "revision",
+        "aussageebene",
+        "menschliche_lernwirkung",
+        "modusdefinitionen",
+        "signale"
+      ],
+      "title": "SignalModusMatrix",
+      "type": "object"
+    },
+    "SignalModusRegel": {
+      "additionalProperties": false,
+      "properties": {
+        "beschreibung": {
+          "minLength": 1,
+          "pattern": "\\S",
+          "title": "Beschreibung",
+          "type": "string"
+        },
+        "erlaubte_modi": {
+          "items": {
+            "$ref": "#/$defs/TutorModus"
+          },
+          "maxItems": 8,
+          "minItems": 1,
+          "title": "Erlaubte Modi",
+          "type": "array",
+          "uniqueItems": true
+        },
+        "verbotene_modi": {
+          "items": {
+            "$ref": "#/$defs/TutorModus"
+          },
+          "maxItems": 8,
+          "title": "Verbotene Modi",
+          "type": "array",
+          "uniqueItems": true
+        },
+        "verbotene_handlungen": {
+          "items": {
+            "minLength": 1,
+            "pattern": "\\S",
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Verbotene Handlungen",
+          "type": "array"
+        },
+        "messziele": {
+          "items": {
+            "enum": [
+              "G1",
+              "G2",
+              "G3",
+              "G4",
+              "G5"
+            ],
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Messziele",
+          "type": "array"
+        },
+        "paedagogische_funktion": {
+          "minLength": 1,
+          "pattern": "\\S",
+          "title": "Paedagogische Funktion",
+          "type": "string"
+        }
+      },
+      "required": [
+        "beschreibung",
+        "erlaubte_modi",
+        "verbotene_modi",
+        "verbotene_handlungen",
+        "messziele",
+        "paedagogische_funktion"
+      ],
+      "title": "SignalModusRegel",
+      "type": "object"
+    },
+    "SyntheticLabel": {
+      "additionalProperties": false,
+      "properties": {
+        "modi": {
+          "items": {
+            "$ref": "#/$defs/TutorModus"
+          },
+          "maxItems": 8,
+          "minItems": 1,
+          "title": "Modi",
+          "type": "array",
+          "uniqueItems": true
+        },
+        "primaermodus": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/TutorModus"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "source_reference": {
+          "minLength": 1,
+          "pattern": "\\S",
+          "title": "Source Reference",
+          "type": "string"
+        },
+        "zug_nr": {
+          "minimum": 1,
+          "title": "Zug Nr",
+          "type": "integer"
+        },
+        "tutor_nachrichtenrolle": {
+          "enum": [
+            "user",
+            "assistant"
+          ],
+          "title": "Tutor Nachrichtenrolle",
+          "type": "string"
+        },
+        "originalzitat": {
+          "maxLength": 180,
+          "minLength": 1,
+          "pattern": "\\S",
+          "title": "Originalzitat",
+          "type": "string"
+        },
+        "signal_zug_nr": {
+          "minimum": 1,
+          "title": "Signal Zug Nr",
+          "type": "integer"
+        },
+        "signalzitat": {
+          "maxLength": 180,
+          "minLength": 1,
+          "pattern": "\\S",
+          "title": "Signalzitat",
+          "type": "string"
+        },
+        "beobachtung": {
+          "$ref": "#/$defs/SignalBeobachtung"
+        },
+        "abgrenzungsnotiz": {
+          "minLength": 1,
+          "pattern": "\\S",
+          "title": "Abgrenzungsnotiz",
+          "type": "string"
+        },
+        "label_source": {
+          "const": "synthetische_entwicklung",
+          "title": "Label Source",
+          "type": "string"
+        }
+      },
+      "required": [
+        "modi",
+        "source_reference",
+        "zug_nr",
+        "tutor_nachrichtenrolle",
+        "originalzitat",
+        "signal_zug_nr",
+        "signalzitat",
+        "beobachtung",
+        "abgrenzungsnotiz",
+        "label_source"
+      ],
+      "title": "SyntheticLabel",
+      "type": "object"
+    },
+    "SyntheticLabels": {
+      "additionalProperties": false,
+      "properties": {
+        "eintraege": {
+          "items": {
+            "$ref": "#/$defs/SyntheticLabel"
+          },
+          "minItems": 24,
+          "title": "Eintraege",
+          "type": "array"
+        },
+        "nicht_belegte_signale": {
+          "additionalProperties": {
+            "minLength": 1,
+            "pattern": "\\S",
+            "type": "string"
+          },
+          "propertyNames": {
+            "$ref": "#/$defs/LernendenSignal"
+          },
+          "title": "Nicht Belegte Signale",
+          "type": "object"
+        }
+      },
+      "required": [
+        "eintraege",
+        "nicht_belegte_signale"
+      ],
+      "title": "SyntheticLabels",
+      "type": "object"
+    },
+    "TutorModus": {
+      "enum": [
+        "ZIEL_STEUERN",
+        "ERKLAEREN",
+        "VISUALISIEREN",
+        "PRUEFEN",
+        "RUECKFRAGE_SCAFFOLD",
+        "MOTIVIEREN",
+        "SERVICE",
+        "TELLING"
+      ],
+      "title": "TutorModus",
+      "type": "string"
+    },
+    "Tutorzug": {
+      "additionalProperties": false,
+      "properties": {
+        "modi": {
+          "items": {
+            "$ref": "#/$defs/TutorModus"
+          },
+          "maxItems": 8,
+          "minItems": 1,
+          "title": "Modi",
+          "type": "array",
+          "uniqueItems": true
+        },
+        "primaermodus": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/TutorModus"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "zug_nr": {
+          "minimum": 1,
+          "title": "Zug Nr",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "modi",
+        "zug_nr"
+      ],
+      "title": "Tutorzug",
+      "type": "object"
+    },
+    "Wendepunkt": {
+      "additionalProperties": false,
+      "properties": {
+        "signal": {
+          "$ref": "#/$defs/LernendenSignal"
+        },
+        "huerde_id": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "pattern": "\\S",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Huerde Id"
+        },
+        "wiederholung": {
+          "anyOf": [
+            {
+              "minimum": 2,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Wiederholung"
+        },
+        "zug_nr": {
+          "minimum": 1,
+          "title": "Zug Nr",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "signal",
+        "zug_nr"
+      ],
+      "title": "Wendepunkt",
+      "type": "object"
+    },
+    "WendepunktUrteil": {
+      "additionalProperties": false,
+      "properties": {
+        "zug_nr": {
+          "minimum": 1,
+          "title": "Zug Nr",
+          "type": "integer"
+        },
+        "signal": {
+          "$ref": "#/$defs/LernendenSignal"
+        },
+        "signal_erkannt": {
+          "title": "Signal Erkannt",
+          "type": "boolean"
+        },
+        "passende_handlung_ausgefuehrt": {
+          "title": "Passende Handlung Ausgefuehrt",
+          "type": "boolean"
+        },
+        "naechster_eigener_schritt_ermoeglicht": {
+          "title": "Naechster Eigener Schritt Ermoeglicht",
+          "type": "boolean"
+        },
+        "pflichtzitat": {
+          "minLength": 1,
+          "pattern": "\\S",
+          "title": "Pflichtzitat",
+          "type": "string"
+        },
+        "beleg_eingeholt": {
+          "anyOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Beleg Eingeholt"
+        },
+        "beleg_spaeter_genutzt": {
+          "anyOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Beleg Spaeter Genutzt"
+        },
+        "label_source": {
+          "enum": [
+            "synthetische_entwicklung",
+            "human_gold",
+            "panel_llm",
+            "deterministic"
+          ],
+          "title": "Label Source",
+          "type": "string"
+        }
+      },
+      "required": [
+        "zug_nr",
+        "signal",
+        "signal_erkannt",
+        "passende_handlung_ausgefuehrt",
+        "naechster_eigener_schritt_ermoeglicht",
+        "pflichtzitat",
+        "label_source"
+      ],
+      "title": "WendepunktUrteil",
+      "type": "object"
+    }
+  },
+  "anyOf": [
+    {
+      "$ref": "#/$defs/SignalModusMatrix"
+    },
+    {
+      "$ref": "#/$defs/SyntheticLabels"
+    },
+    {
+      "$ref": "#/$defs/WendepunktUrteil"
+    },
+    {
+      "$ref": "#/$defs/Dialogverlauf"
+    },
+    {
+      "$ref": "#/$defs/Kennzahlen"
+    }
+  ]
+}

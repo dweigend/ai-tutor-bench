@@ -1,0 +1,9 @@
+{
+  "prompt": "Wie würdest du zwei Brüche vergleichen?",
+  "cases": [
+    "gleicher-nenner",
+    "gleicher-zaehler",
+    "verschiedene-nenner"
+  ],
+  "answer": "Welchen gemeinsamen Nenner kannst du verwenden?"
+}
