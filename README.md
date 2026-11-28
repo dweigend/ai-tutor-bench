@@ -38,19 +38,4 @@ Run `uv run --locked pytest` to execute the test suite. Every one of the `161` p
 ## Evaluate your own model
 
 Implement `AdapterProtocol` and pass your adapter into `run_benchmark(...)` — see the complete runnable example, revision digests, pause/resume workflow, and failure states in the [Reproducibility & Adapter Guide](docs/reproducibility.md).
-
-## Citation, license, and AI disclosure
-
-Bundled adapters verify execution and blind replay only; formal human judge calibration remains open. Cite David Weigend, *AI Tutor Bench* (`0.1.0`) together with commit SHA, `freeze_sha256`, adapter identity, seed, and `check-revisions` digests:
-
-```bibtex
-@software{weigend2026aitutorbench,
-  author  = {Weigend, David},
-  title   = {AI Tutor Bench},
-  version = {0.1.0},
-  year    = {2026},
-  url     = {https://github.com/dweigend/ai-tutor-bench}
-}
-```
-
-Code and tests are [MIT-licensed](LICENSE); bundled benchmark inputs and self-hosted documentation licenses are documented in [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md). AI coding tools assisted with implementation, fixtures, tests, and documentation under human specification and review.
+ENSE); bundled benchmark inputs and self-hosted documentation licenses are documented in [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md). AI coding tools assisted with implementation, fixtures, tests, and documentation under human specification and review.
