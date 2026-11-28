@@ -1,10 +1,10 @@
 # Reproducibility, Adapter Contract, and Failure States (`ai-tutor-bench` v5)
 
-This guide documents the operational guarantees behind `ai-tutor-bench` (`0.1.0`, Suite `v5`): connecting a custom tutor adapter, independent revision digests, pause/resume journaling, private-to-public reconciliation, cell censoring states, and blind-projection boundaries.
+Operational reference for `ai-tutor-bench` (`0.1.0`, Suite `v5`): custom adapters, revision digests, resume journaling, cell states, and blind exports.
 
 ## Connecting a custom tutor adapter
 
-Custom models plug into the frozen `v5` execution pipeline by implementing `AdapterProtocol` from [`ai_tutor_bench.runtime.v5.contracts`](../src/ai_tutor_bench/runtime/v5/contracts.py), binding it into the `load_suite(...)` adapter map, and invoking `run_benchmark(...)` from [`ai_tutor_bench.runtime.v5.workflow`](../src/ai_tutor_bench/runtime/v5/workflow.py):
+Implement `AdapterProtocol` from [`ai_tutor_bench.runtime.v5.contracts`](../src/ai_tutor_bench/runtime/v5/contracts.py) and pass it into `run_benchmark(...)`:
 
 ```python
 class AdapterProtocol(Protocol):
@@ -18,9 +18,9 @@ class AdapterProtocol(Protocol):
     ) -> SettledAttempt: ...
 ```
 
-`AdapterBinding` validates `kind` against five supported literals in `ai_tutor_bench.runtime.core.start_journal.AdapterKind`: `"fixture"`, `"openrouter"`, `"simulator-cli"`, `"vllm"`, and `"peft"`. In the `v5` offline suite (`161` total cells), replacing `(OFFLINE_ARM, TUTOR_ROLE)` routes the **97 tutor cells** to your adapter while the **64 scripted learner cells** remain handled by the built-in offline learner adapter.
+Replacing `(OFFLINE_ARM, TUTOR_ROLE)` routes the **97 tutor cells** to your adapter while the built-in learner adapter runs the **64 scripted learner cells**. `reserve()` runs before dispatch so caps can censor remaining cells cleanly; `execute()` must return a `SettledAttempt` with `BillingReport` (even on provider failure), while unhandled exceptions leave the cell unsettled for safe resume.
 
-The complete offline example below runs as-is on a clean checkout of `ai-tutor-bench 0.1.0`:
+This complete offline example runs as-is on a clean checkout of `ai-tutor-bench 0.1.0`:
 
 ```python
 from pathlib import Path
@@ -79,56 +79,50 @@ receipt = run_benchmark(
 )
 ```
 
-`reserve()` runs before dispatch so budget caps can censor remaining cells cleanly. `execute()` must return billing evidence even when a provider call fails; an unhandled exception leaves the start entry unsettled for safe resume. For live providers, swap `kind` to `"openrouter"`, `"vllm"`, `"peft"`, or `"simulator-cli"`, set a positive `AbortPolicy.budget_microusd` on `spec`, and report actual provider cost in `BillingReport`.
+Supported `AdapterKind` values are `"fixture"`, `"openrouter"`, `"simulator-cli"`, `"vllm"`, and `"peft"`.
 
 ## Three independent revision digests
 
-`uv run --locked ai-tutor-bench check-revisions` computes three separate SHA-256 digests so changes to downstream analysis code never invalidate sealed runs or blind exports:
+`uv run --locked ai-tutor-bench check-revisions` hashes three surfaces separately so downstream analysis edits do not invalidate sealed runs:
 
-- **`execution_revision`:** Suite construction, adapters, and execution assets on the dispatch path.
-- **`export_revision`:** Raw-row validation, blind projection, receipt sealing, and replay verification.
-- **`analysis_revision`:** Rubric schema, signal-mode matrix, drift scoring, and deterministic surface detectors (`detektoren-v1.json`).
+- **`execution_revision`:** Suite construction, adapters, and dispatch assets.
+- **`export_revision`:** Raw validation, blind projection, sealing, and replay.
+- **`analysis_revision`:** Rubric, signal-mode matrix, drift scoring, and surface detectors.
 
-Record all three digests alongside the Git commit SHA, `freeze_sha256`, adapter identity, and `seed` whenever you publish results.
+Cite all three digests with the Git commit SHA, `freeze_sha256`, adapter identity, and `seed`.
 
 ## Pause, resume, and private reconciliation
 
-Every cell attempt is appended to a start journal before dispatch. If a run stops early (or you test interruption with `--stop-after`), re-running with the same `--output-dir` resumes deterministically without re-dispatching settled cells:
+Each attempt is journaled before dispatch; re-running with the same `--output-dir` resumes cleanly without re-running settled cells:
 
 ```sh
 uv run --locked ai-tutor-bench dry-run --adapter alternate --output-dir runs/resume-check --stop-after 11
 uv run --locked ai-tutor-bench dry-run --adapter alternate --output-dir runs/resume-check
 ```
 
-After running `uv run --locked ai-tutor-bench dry-run --adapter alternate --output-dir runs/alternate` (from the [README Quick Start](../README.md#quick-start-offline-0)), reconcile the public blind export against its sealed local `private/` directory (`private/export/raw.jsonl` and `private/export/receipt.json`):
+Reconcile the blind export against its local `private/` directory:
 
 ```sh
 uv run --locked ai-tutor-bench replay \
   --adapter alternate \
-  --public-dir runs/alternate/public \
-  --private-dir runs/alternate/private
+  --public-dir runs/resume-check/public \
+  --private-dir runs/resume-check/private
 ```
 
-## Planned vs. observed denominators and the seven cell states
+## Planned vs. observed denominators and cell states
 
-Public replay checks the sidecar SHA-256 manifest, canonical JSON formatting, unique 32-hex `blind_id` tokens, and exact row count (`161`), reporting `planned`, `visible`, and `without_visible_text`.
+Public replay verifies the manifest, canonical JSON, unique `blind_id` tokens, and full row count (`161`). Adding `--private-dir` reports all seven states: only `ok` and `abgeschnitten` emit visible text; all five failure/censoring states emit `text: null` so drop-outs remain in the planned denominator.
 
-Adding `--private-dir` breaks down all seven cell outcomes:
-
-| State | Meaning | Emits visible text in `public/blind.jsonl`? |
+| State | Meaning | Visible text? |
 |---|---|---|
 | `ok` | Completed cleanly with verified adapter identity | Yes |
 | `abgeschnitten` | Truncated response with verified adapter identity | Yes |
-| `leer` | Empty model output | No (`text: null`) |
-| `technisch` | Technical or transport failure | No (`text: null`) |
-| `abgebrochen` | Started in journal without settled completion | No (`text: null`) |
-| `zensiert` | Remaining episode or run cells censored after an upstream failure, budget cap, or subscription limit | No (`text: null`) |
-| `nicht_gestartet` | Never started | No (`text: null`) |
-
-Because failed and censored cells remain as `text: null` rows, every reported rate stays anchored to the full planned denominator.
+| `leer` | Empty model output | No |
+| `technisch` | Technical or transport failure | No |
+| `abgebrochen` | Started in journal without settled completion | No |
+| `zensiert` | Remaining cells censored after upstream error or cap | No |
+| `nicht_gestartet` | Never started | No |
 
 ## Blind-projection boundaries
 
-`public/` contains only lexicographically sorted `{"blind_id", "text"}` rows in `blind.jsonl` plus `blind.jsonl.manifest.json`. Lexicographic sorting prevents file order from exposing arm or scenario sequence, and fresh `blind_id` tokens are generated at seal time.
-
-Raw payloads, model identities, `run_id`, `cell_id`, episode hashes, attempt logs, and receipts stay in `private/`. Export and replay reject visible text that matches local filesystem path patterns or bundled adapter identifiers; with `--private-dir`, replay also checks bound custom model IDs and run/cell/episode tokens. Any `identity_violation` blocks publication. Because open-ended text can still contain unforeseen identifying clues, keep `private/` local and inspect visible text before publishing external runs.
+`public/` stores only lexicographically sorted `{"blind_id", "text"}` rows and a SHA-256 manifest, hiding arm and scenario order. Raw payloads, model identities, `run_id`, `cell_id`, and receipts stay in `private/`, and replay blocks publication on any `identity_violation` (local paths, adapter/model IDs, or run tokens). Because free text can still leak unforeseen clues, keep `private/` local and inspect visible text before publishing external runs.
