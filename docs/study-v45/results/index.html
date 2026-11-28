@@ -1,0 +1,1495 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tutor-Bench v4.5 · Experimental Results</title>
+<meta name="description" content="Executive summary of the Tutor-Bench v4.5 study: four findings, five figures, explicit denominators, and epistemic boundaries.">
+<meta name="color-scheme" content="light dark">
+<script>try{var t=localStorage.getItem('tutor-bench-theme');if(t==='light'||t==='dark')document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
+<link rel="preload" href="../vendor/fonts/source-serif-4-wght.woff2" as="font" type="font/woff2" crossorigin><link rel="preload" href="../vendor/fonts/ibm-plex-sans-400.woff2" as="font" type="font/woff2" crossorigin>
+<style>
+@font-face{font-family:"Source Serif 4";font-style:normal;font-weight:200 900;font-display:swap;src:url("../vendor/fonts/source-serif-4-wght.woff2") format("woff2");}
+@font-face{font-family:"IBM Plex Sans";font-style:normal;font-weight:400;font-display:swap;src:url("../vendor/fonts/ibm-plex-sans-400.woff2") format("woff2");}
+@font-face{font-family:"IBM Plex Sans";font-style:normal;font-weight:500;font-display:swap;src:url("../vendor/fonts/ibm-plex-sans-500.woff2") format("woff2");}
+@font-face{font-family:"IBM Plex Sans";font-style:normal;font-weight:600;font-display:swap;src:url("../vendor/fonts/ibm-plex-sans-600.woff2") format("woff2");}
+@font-face{font-family:"IBM Plex Mono";font-style:normal;font-weight:400;font-display:swap;src:url("../vendor/fonts/ibm-plex-mono-400.woff2") format("woff2");}
+@font-face{font-family:"Source Serif 4";font-style:italic;font-weight:200 900;font-display:swap;src:url("../vendor/fonts/source-serif-4-wght-italic.woff2") format("woff2");}
+/* Shared tokens, evidence badges, tables and controls for the Tutor-Bench explorer and paper. */
+:root {
+  color-scheme: light;
+  --bg: #f6f6f3;
+  --surface: #ffffff;
+  --surface-2: #f0f0ec;
+  --surface-3: #e7e7e2;
+  --line: #e2e2dc;
+  --line-strong: #c9c9c1;
+  --ink: #15171a;
+  --ink-2: #454a52;
+  --ink-3: #646a73;
+  --accent: #1f5fbf;
+  --accent-soft: #e6eefb;
+  --grid: #ebebe6;
+  --focus: #1f5fbf;
+  --selection: #cce3fd;
+  --det-bg: #e3f1e9; --det-ink: #14573a; --det-line: #b9dcc8;
+  --gold-bg: #e5edf9; --gold-ink: #1b4686; --gold-line: #bccfee;
+  --exp-bg: #fbefd9; --exp-ink: #73460a; --exp-line: #ebcf9c;
+  --lock-bg: #fbe7e4; --lock-ink: #952a1e; --lock-line: #efbdb5;
+  /* Categorical slots: validated reference order (dataviz palette), fixed per arm, never cycled. */
+  --s1: #257de0; --s2: #f47230; --s3: #00b894; --s4: #f2a600;
+  --s5: #ee7fac; --s6: #008a17; --s7: #6a4ce2; --s8: #ec4647;
+  --seq-1: #e9f2fd; --seq-2: #cce3fd; --seq-3: #9dc8f7; --seq-4: #6aabf1;
+  --seq-5: #338ced; --seq-6: #2370cd; --seq-7: #1757ac; --seq-8: #0e3d7e;
+  --neutral-mark: #b9bcc2;
+  --shadow: 0 1px 2px rgba(20, 22, 26, .05), 0 8px 24px -12px rgba(20, 22, 26, .14);
+  --radius: 12px;
+  --radius-sm: 8px;
+  --sans: "IBM Plex Sans", "Helvetica Neue", Arial, sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+  --ease-out: cubic-bezier(.16, 1, .3, 1);
+}
+@media (prefers-color-scheme: dark) {
+  :root:where(:not([data-theme="light"])) {
+    color-scheme: dark;
+    --bg: #0e1013; --surface: #15181d; --surface-2: #1b1f25; --surface-3: #242931;
+    --line: #262b33; --line-strong: #363c46;
+    --ink: #eceef1; --ink-2: #b9bfc8; --ink-3: #959ca6;
+    --accent: #79abff; --accent-soft: #1a2638; --grid: #22262d; --focus: #79abff; --selection: #1f3c66;
+    --det-bg: #13261d; --det-ink: #8fd6b0; --det-line: #24503a;
+    --gold-bg: #141f33; --gold-ink: #9cc0ff; --gold-line: #29426d;
+    --exp-bg: #2a1f0c; --exp-ink: #f1c27a; --exp-line: #5a421a;
+    --lock-bg: #2e1513; --lock-ink: #ff9d8f; --lock-line: #5f2a24;
+    --s1: #338ced; --s2: #e76624; --s3: #00a888; --s4: #d28e05;
+    --s5: #e24d8b; --s6: #0aac23; --s7: #9887ef; --s8: #eb6263;
+    --seq-1: #18263a; --seq-2: #0e3d7e; --seq-3: #0f4a96; --seq-4: #1757ac;
+    --seq-5: #1b64be; --seq-6: #257de0; --seq-7: #519ced; --seq-8: #9dc8f7;
+    --neutral-mark: #4c525c;
+    --shadow: 0 1px 2px rgba(0, 0, 0, .4), 0 10px 30px -14px rgba(0, 0, 0, .7);
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #0e1013; --surface: #15181d; --surface-2: #1b1f25; --surface-3: #242931;
+  --line: #262b33; --line-strong: #363c46;
+  --ink: #eceef1; --ink-2: #b9bfc8; --ink-3: #959ca6;
+  --accent: #79abff; --accent-soft: #1a2638; --grid: #22262d; --focus: #79abff; --selection: #1f3c66;
+  --det-bg: #13261d; --det-ink: #8fd6b0; --det-line: #24503a;
+  --gold-bg: #141f33; --gold-ink: #9cc0ff; --gold-line: #29426d;
+  --exp-bg: #2a1f0c; --exp-ink: #f1c27a; --exp-line: #5a421a;
+  --lock-bg: #2e1513; --lock-ink: #ff9d8f; --lock-line: #5f2a24;
+  --s1: #338ced; --s2: #e76624; --s3: #00a888; --s4: #d28e05;
+  --s5: #e24d8b; --s6: #0aac23; --s7: #9887ef; --s8: #eb6263;
+  --seq-1: #18263a; --seq-2: #0e3d7e; --seq-3: #0f4a96; --seq-4: #1757ac;
+  --seq-5: #1b64be; --seq-6: #257de0; --seq-7: #519ced; --seq-8: #9dc8f7;
+  --neutral-mark: #4c525c;
+  --shadow: 0 1px 2px rgba(0, 0, 0, .4), 0 10px 30px -14px rgba(0, 0, 0, .7);
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 1rem;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+  font-feature-settings: "kern" 1;
+  caret-color: var(--accent);
+  scrollbar-color: var(--line-strong) transparent;
+}
+::selection { background: var(--selection); color: var(--ink); }
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; border-radius: 4px; }
+a { color: var(--accent); text-decoration-thickness: 1px; text-underline-offset: .18em; }
+a:hover { text-decoration-thickness: 2px; }
+h1, h2, h3 { text-wrap: balance; }
+p, li { text-wrap: pretty; }
+code {
+  font-family: var(--mono);
+  font-size: .86em;
+  padding: .05em .32em;
+  border-radius: 4px;
+  background: var(--surface-2);
+  color: var(--ink);
+  overflow-wrap: anywhere;
+}
+.num { font-variant-numeric: tabular-nums; }
+.tbl .num, .tbl code { white-space: nowrap; overflow-wrap: normal; }
+cite.ref {
+  font-style: normal;
+  font-family: var(--sans);
+  font-size: .78em;
+  color: var(--ink-3);
+  white-space: nowrap;
+}
+cite.ref::before { content: "["; }
+cite.ref::after { content: "]"; }
+.ico { flex: none; display: block; }
+
+/* Evidence badges: icon + label, never colour alone. */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 2px 8px 2px 6px;
+  border-radius: 999px;
+  border: 1px solid;
+  font-family: var(--sans);
+  font-size: .72rem;
+  font-weight: 500;
+  line-height: 1.5;
+  letter-spacing: .005em;
+  white-space: nowrap;
+}
+.badge-det { background: var(--det-bg); color: var(--det-ink); border-color: var(--det-line); }
+.badge-gold { background: var(--gold-bg); color: var(--gold-ink); border-color: var(--gold-line); }
+.badge-exp { background: var(--exp-bg); color: var(--exp-ink); border-color: var(--exp-line); }
+.badge-lock { background: var(--lock-bg); color: var(--lock-ink); border-color: var(--lock-line); }
+.badges { display: flex; flex-wrap: wrap; gap: 6px; }
+
+/* Segmented control (lens / run / metric switches). */
+.seg {
+  display: inline-flex;
+  padding: 2px;
+  gap: 2px;
+  border-radius: 9px;
+  background: var(--surface-2);
+  border: 1px solid var(--line);
+  max-width: 100%;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.seg button {
+  appearance: none;
+  border: 0;
+  background: transparent;
+  color: var(--ink-2);
+  font: 500 .78rem/1 var(--sans);
+  padding: 7px 11px;
+  border-radius: 7px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background-color .2s var(--ease-out), color .2s var(--ease-out), box-shadow .2s var(--ease-out);
+}
+.seg button:hover { color: var(--ink); }
+.seg button[aria-pressed="true"] {
+  background: var(--surface);
+  color: var(--ink);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, .08), 0 0 0 1px var(--line);
+}
+
+/* Data tables with clean horizontal scroll shadow cue when wider than viewport. */
+.tbl-wrap {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  background:
+    linear-gradient(to right, var(--surface) 30%, transparent) left center / 28px 100% no-repeat local,
+    linear-gradient(to left, var(--surface) 30%, transparent) right center / 28px 100% no-repeat local,
+    radial-gradient(farthest-side at 0 50%, rgba(0, 0, 0, .14), transparent) left center / 10px 100% no-repeat scroll,
+    radial-gradient(farthest-side at 100% 50%, rgba(0, 0, 0, .14), transparent) right center / 10px 100% no-repeat scroll;
+}
+table.tbl { border-collapse: collapse; width: 100%; font-size: .82rem; font-variant-numeric: tabular-nums; }
+.tbl th, .tbl td { padding: 8px 9px; text-align: left; vertical-align: top; border-bottom: 1px solid var(--line); }
+.tbl th { font-weight: 600; color: var(--ink-2); font-size: .72rem; letter-spacing: .01em; white-space: normal; }
+.tbl td.r, .tbl th.r { text-align: right; }
+.tbl tbody tr:last-child td { border-bottom: 0; }
+.tbl td code { white-space: nowrap; }
+
+.arm-dot {
+  display: inline-block;
+  width: 9px; height: 9px;
+  border-radius: 50%;
+  margin-right: 7px;
+  vertical-align: 0;
+  background: var(--c);
+  box-shadow: 0 0 0 2px var(--surface);
+}
+.chart { width: 100%; min-height: 240px; }
+.chart svg { display: block; }
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { transition-duration: 0s !important; animation-duration: 0s !important; }
+}
+
+/* Executive Results Report surface: crisp, 60-90s human-readable benchmark summary with 5 figures. */
+:root { --serif: "Source Serif 4", "Iowan Old Style", Georgia, serif; }
+
+.rtop {
+  position: sticky; top: 0; z-index: 20;
+  background: color-mix(in srgb, var(--bg) 90%, transparent);
+  backdrop-filter: saturate(1.4) blur(12px);
+  -webkit-backdrop-filter: saturate(1.4) blur(12px);
+  border-bottom: 1px solid var(--line);
+}
+.rtop-in, .rwrap { max-width: 1020px; margin: 0 auto; padding: 0 24px; }
+.rtop-in { display: flex; align-items: center; gap: 14px; min-height: 54px; }
+.rbrand { display: inline-flex; align-items: center; gap: 9px; color: var(--ink); text-decoration: none; font-weight: 600; letter-spacing: -.01em; white-space: nowrap; flex-shrink: 0; }
+.brand-mark { width: 20px; height: 20px; color: var(--ink); flex-shrink: 0; }
+.rbrand .ver { font: 500 .72rem/1 var(--mono); color: var(--ink-3); padding: 3px 6px; border: 1px solid var(--line); border-radius: 6px; white-space: nowrap; }
+.rtop-actions { margin-left: auto; display: flex; align-items: center; gap: 8px; }
+.btn {
+  appearance: none; display: inline-flex; align-items: center; gap: 7px;
+  height: 33px; padding: 0 12px; border: 1px solid var(--line); border-radius: 8px;
+  background: var(--surface); color: var(--ink); font: 500 .79rem/1 var(--sans);
+  text-decoration: none; cursor: pointer; white-space: nowrap;
+  transition: border-color .2s var(--ease-out), background-color .2s var(--ease-out);
+}
+.btn:hover { border-color: var(--line-strong); background: var(--surface-2); text-decoration: none; }
+.btn svg { width: 15px; height: 15px; }
+.btn.icon-only { width: 33px; padding: 0; justify-content: center; }
+
+main.rwrap { padding-top: 40px; padding-bottom: 84px; }
+
+.hero { margin-bottom: 28px; }
+.hero .kicker { font: 600 .74rem/1.3 var(--mono); text-transform: uppercase; letter-spacing: .06em; color: var(--ink-3); margin: 0 0 10px; }
+.hero h1 { font-family: var(--serif); font-weight: 600; font-size: clamp(1.9rem, 3.6vw, 2.6rem); line-height: 1.12; letter-spacing: -.022em; margin: 0 0 14px; max-width: 28ch; }
+.hero .lede { margin: 0; font-size: 1.03rem; line-height: 1.6; color: var(--ink-2); max-width: 72ch; }
+
+.epistemic {
+  background: var(--surface); border: 1px solid var(--line); border-left: 3px solid var(--lock-ink);
+  border-radius: var(--radius); padding: 16px 20px; margin: 22px 0 34px;
+}
+.epistemic .badges { margin-bottom: 10px; }
+.epistemic p { margin: 0; font-size: .88rem; line-height: 1.55; color: var(--ink-2); max-width: 88ch; }
+.epistemic strong { color: var(--ink); }
+
+.section-label { font: 600 .74rem/1.2 var(--mono); text-transform: uppercase; letter-spacing: .06em; color: var(--ink-3); margin: 0 0 14px; }
+
+.case-key {
+  display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px;
+  margin: 0 0 22px; padding: 14px 16px;
+  background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius);
+  font-size: .8rem; line-height: 1.45; color: var(--ink-2);
+}
+.case-key div strong { display: block; color: var(--ink); font-weight: 600; margin-bottom: 2px; }
+
+.findings { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; margin-bottom: 44px; }
+.fcard {
+  background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius);
+  padding: 18px 20px; display: flex; flex-direction: column; gap: 8px;
+}
+.fcard .fnum { font: 600 .72rem/1 var(--mono); color: var(--ink-3); }
+.fcard h2 { margin: 0; font-size: 1rem; line-height: 1.3; font-weight: 600; color: var(--ink); }
+.fcard p { margin: 0; font-size: .86rem; line-height: 1.52; color: var(--ink-2); }
+.fcard .flink { margin-top: auto; padding-top: 6px; font-size: .8rem; font-weight: 500; text-decoration: none; }
+.fcard .flink:hover { text-decoration: underline; }
+
+.fig-card {
+  background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius);
+  padding: 22px 24px 18px; margin-bottom: 24px; scroll-margin-top: 72px;
+}
+.fig-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-start; gap: 10px 18px; margin-bottom: 14px; }
+.fig-eyebrow { font: 600 .72rem/1.2 var(--mono); color: var(--ink-3); margin-bottom: 4px; }
+.fig-head h3 { margin: 0 0 6px; font-size: 1.12rem; line-height: 1.28; font-weight: 600; letter-spacing: -.01em; color: var(--ink); max-width: 56ch; }
+.fig-head .read-sent { margin: 0; font-size: .9rem; line-height: 1.48; color: var(--ink-2); max-width: 72ch; }
+.fig-foot {
+  margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--line);
+  display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 8px 18px;
+  font-size: .8rem; line-height: 1.5; color: var(--ink-3);
+}
+.fig-foot p { margin: 0; max-width: 76ch; }
+.fig-foot strong { color: var(--ink-2); font-weight: 600; }
+.fig-foot a { font-weight: 500; white-space: nowrap; }
+
+.chart.h-sm { height: 240px; }
+.chart.h-md { height: 300px; }
+.chart.h-lg { height: 340px; }
+
+.subtbl-wrap { margin-top: 18px; padding-top: 14px; border-top: 1px solid var(--line); }
+.subtbl-wrap h4 { margin: 0 0 8px; font-size: .86rem; font-weight: 600; color: var(--ink); }
+
+.cards-3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; margin-top: 38px; }
+.scard {
+  background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius);
+  padding: 18px 20px; font-size: .85rem; line-height: 1.55; color: var(--ink-2);
+}
+.scard h3 { margin: 0 0 10px; font-size: .96rem; font-weight: 600; color: var(--ink); }
+.scard ul { margin: 0; padding-left: 1.15em; }
+.scard li { margin: 0 0 7px; }
+.scard strong { color: var(--ink); font-weight: 600; }
+
+.tt { font-family: var(--sans); min-width: 175px; }
+.tt-h { font-weight: 600; margin-bottom: 6px; color: var(--ink); }
+.tt-r { display: flex; align-items: baseline; gap: 8px; font-size: .78rem; color: var(--ink-2); padding: 1px 0; }
+.tt-r i { width: 8px; height: 8px; border-radius: 50%; flex: none; }
+.tt-r b { margin-left: auto; color: var(--ink); font-weight: 500; font-variant-numeric: tabular-nums; text-align: right; }
+
+footer.rfoot { border-top: 1px solid var(--line); color: var(--ink-3); font-size: .78rem; }
+footer.rfoot .rwrap { padding-top: 18px; padding-bottom: 32px; display: flex; flex-wrap: wrap; gap: 8px 22px; }
+
+@media (max-width: 860px) {
+  .findings, .cards-3, .case-key { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 640px) {
+  .rtop-in, .rwrap { padding: 0 16px; }
+  main.rwrap { padding-top: 24px; }
+  .fig-card { padding: 16px 14px 14px; }
+  .rtop .btn-hide-sm { display: none; }
+  .rbrand .ver { display: none; }
+  .subtbl-wrap .tbl-wrap { overflow-x: visible; border: 0; }
+  .subtbl-wrap .tbl { min-width: 0; width: 100%; border-collapse: separate; border-spacing: 0 8px; }
+  .subtbl-wrap .tbl thead { display: none; }
+  .subtbl-wrap .tbl tbody, .subtbl-wrap .tbl tr, .subtbl-wrap .tbl td { display: block; width: 100%; }
+  .subtbl-wrap .tbl tr {
+    border: 1px solid var(--line); border-radius: 8px; padding: 10px 12px;
+    background: var(--surface-2); margin-bottom: 8px;
+  }
+  .subtbl-wrap .tbl td {
+    border: 0; padding: 3px 0; text-align: left; display: flex;
+    justify-content: space-between; align-items: baseline; gap: 12px;
+  }
+  .subtbl-wrap .tbl td:first-child { display: block; padding-bottom: 6px; margin-bottom: 4px; border-bottom: 1px solid var(--line); }
+  .subtbl-wrap .tbl td:first-child::before { display: none; }
+  .subtbl-wrap .tbl td::before {
+    content: attr(data-label); font: 500 .74rem/1.2 var(--sans); color: var(--ink-3); flex-shrink: 0;
+  }
+}
+@media print {
+  .rtop, footer.rfoot { display: none !important; }
+  body { background: #fff; }
+  .fig-card, .fcard, .scard { break-inside: avoid; border-color: #ccc; }
+}
+
+</style>
+</head>
+<body>
+<header class="rtop"><div class="rtop-in"><a class="rbrand" href="#"><svg class="brand-mark" viewBox="0 0 22 22" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><rect x="1.5" y="1.5" width="19" height="19" rx="4"/><path d="M6 15.5V12M9.3 15.5V8.5M12.6 15.5v-5M15.9 15.5V6.5"/></svg><span>Tutor-Bench</span><span class="ver">v4.5 results</span></a><div class="rtop-actions"><a class="btn" href="../explorer/index.html">Open Explorer</a><a class="btn btn-hide-sm" href="../paper/index.html">Technical Paper</a><button class="btn icon-only" type="button" data-theme-toggle aria-pressed="false" aria-label="Switch theme"><svg viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="8" cy="8" r="5.6"/><path d="M8 2.4a5.6 5.6 0 000 11.2z" fill="currentColor"/></svg></button></div></div></header><main class="rwrap" id="main"><section class="hero"><p class="kicker">Dated laboratory study · v4.5 experimental matrix · November 26, 2026 (English rev. v1.1)</p><h1>When do small LLMs hold up as multi-turn tutors — and when do situational hints actually help?</h1><p class="lede">Tutor-Bench v4.5 evaluates low-cost Flash models across 16- and 24-turn German tutoring dialogues using SHA-256-frozen dialogue forks, deterministic text checks (Level A), and an exploratory two-family AI jury (Claude Sonnet 5.5 and GPT-6.2 Sol, strictly separated from the evaluated model family). Here are the four findings the data support, five focused charts, and what remains open.</p><aside class="epistemic" aria-label="Epistemic scope"><div class="badges"><span class="badge badge-exp"><svg class="ico" viewBox="0 0 12 12" width="12" height="12" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4.6 1.8h2.8M5 1.8v3L2.4 9.4c-.3.6.1 1 .7 1h5.8c.6 0 1-.4.7-1L7 4.8v-3"/></svg><span>Simulated tutoring behavior ≠ human learning gains</span></span><span class="badge badge-exp"><svg class="ico" viewBox="0 0 12 12" width="12" height="12" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4.6 1.8h2.8M5 1.8v3L2.4 9.4c-.3.6.1 1 .7 1h5.8c.6 0 1-.4.7-1L7 4.8v-3"/></svg><span>Exploratory · Uncalibrated AI Jury (human gold open)</span></span><span class="badge badge-lock"><svg class="ico" viewBox="0 0 12 12" width="12" height="12" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><rect x="2.4" y="5.2" width="7.2" height="5" rx="1"/><path d="M4 5.2V3.8a2 2 0 014 0v1.4"/></svg><span>Pre-registered contrasts locked</span></span></div><p><strong>Read every score within these three boundaries:</strong> (1) Every dialogue score measures <strong>tutoring behavior with simulated learners — not human learning gains, retention, or transfer</strong>. (2) Five of 24 live coach calls failed the format check (20.8% &gt; 10%), so the planned arm comparisons could not be formally evaluated; all arm comparisons are descriptive, and the live coach was scored by Claude only. (3) German human blind coding (the planned calibration step) is still open, so all AI-jury scores remain exploratory.</p></aside></section><p class="section-label">Four key findings</p><section class="findings" aria-label="Key findings"><article class="fcard"><span class="fnum">Finding 1 · Hint dependence</span><h2>The fixed-hint lead does not hold consistently without Case T3 (hold lead)</h2><p>Across all four scaffolding cases, fixed one-turn hints beat the short core prompt (+4.2 pp in follow-up, +18.8 pp in repeat run L2), driven by unanimous 12/12 scores in Case T3 (holding the pedagogical lead to unlike denominators). Without T3, the two runs point in opposite directions (−11.1 pp in follow-up vs. +5.6 pp in L2; −2.8 pp combined). Case T2 (detail drift) sits at a floor (0/12 for core, full prompt, reasoning, and placebo; 0/11 observed for coach).</p><a class="flink" href="#fig-1">See Figure 1 →</a></article><article class="fcard"><span class="fnum">Finding 2 · Fragile controls</span><h2>Extra prompt text behaves case-by-case, and the neutral placebo fell below baseline</h2><p>A length-matched neutral insertion (placebo) scored below the short core prompt in both executions (−20.8 pp and −8.3 pp, 24/24 each). Meanwhile, the long static rule prompt helped in Case T3 (9.0/12 vs. 5.5/12) yet dropped sharply in Case T8 (fraction impasse: 1.5/11 vs. core 8.5/12; fixed hints also trailed at 6.0/12).</p><a class="flink" href="#fig-3">See Figures 1 &amp; 3 →</a></article><article class="fcard"><span class="fnum">Finding 3 · Route spread vs. judge gap</span><h2>Muse and Gemini average higher under both judges, while judge choice shifts scores by up to 19.4 pp</h2><p>In open 16-turn dialogues, <code>muse-ember</code> and <code>gemini-3.8-flash</code> average higher than <code>qwen3.8-flash</code> and <code>glm-5.3-flash</code> under both judges, yet episode ranges overlap substantially (Muse 19–100%, Qwen 13–38%, GLM 0–36%), Claude and Codex diverge by up to 19.4 pp on the same route, and gated inter-jury agreement is low (Krippendorff's α = 0.476; binary check 0.642, factual gate 0.336).</p><a class="flink" href="#fig-2">See Figure 2 →</a></article><article class="fcard"><span class="fnum">Finding 4 · Primary-checkpoint spikes</span><h2>Multi-question flags cluster on the four primary checkpoints of 24-turn dialogues</h2><p>From Turn 4 onward after a scripted Turn 3 one-question tutor commitment, the deterministic detector flags 209/497 (42.1%) of visible turns — rising to 66/90 (73.3%) on the four scripted checkpoints (Turns 8, 13, 18, and 23) versus 143/407 (35.1%) on routine post-commitment turns.</p><a class="flink" href="#fig-4">See Figure 4 →</a></article></section><p class="section-label">The four frozen scaffolding cases (Figures 1 &amp; 3)</p><div class="case-key" aria-label="Scaffolding case legend"><div><strong>Case T2 · Detail drift (STOP_DRIFT)</strong>Turn 12 · Transformer overview drifts 3 turns into math detail, ending in “ok”; close detail and return (floor near 0).</div><div><strong>Case T3 · Hold lead (HOLD_LEAD)</strong>Turn 10 · Learner solved common-denominator fractions; state what was shown and pose unlike denominators (carries hint lead).</div><div><strong>Case T7 · Evidence check (CHECK_EVIDENCE)</strong>Turn 8 · Learner gives unproven “ok, sounds logical” on Python list references; pose an application task (near ceiling).</div><div><strong>Case T8 · Fraction impasse (SWITCH_MODALITY)</strong>Turn 8 · Repeated impasse on 1/2 + 1/3 after verbal explanation; switch representation without solving (full prompt drops).</div></div><p class="section-label">Five core figures</p><section class="fig-card" id="fig-1"><header class="fig-head"><div><div class="fig-eyebrow">Figure 1 · Prefix-fork scaffolding (Run A Nov 24 `L2` vs. Run B Nov 25 follow-up)</div><h3>Fixed hints depend heavily on Case T3; the neutral placebo trailed the short core prompt in both runs</h3><p class="read-sent">Percentage-point difference from the short core prompt (Arm − Core), plotted separately for Run B (Nov 25 follow-up, hollow) and Run A (Nov 24 pre-fix L2, filled) across all 4 cases (n = 24) and excluding Case T3 (n = 18).</p></div><div class="badges"><span class="badge badge-exp"><svg class="ico" viewBox="0 0 12 12" width="12" height="12" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4.6 1.8h2.8M5 1.8v3L2.4 9.4c-.3.6.1 1 .7 1h5.8c.6 0 1-.4.7-1L7 4.8v-3"/></svg><span>Exploratory · Uncalibrated AI Jury (human gold open)</span></span><span class="badge badge-lock"><svg class="ico" viewBox="0 0 12 12" width="12" height="12" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><rect x="2.4" y="5.2" width="7.2" height="5" rx="1"/><path d="M4 5.2V3.8a2 2 0 014 0v1.4"/></svg><span>Pre-registered contrasts locked</span></span></div></header><div class="chart h-md" id="r-fig1" data-chart="resultsHintPlacebo" data-view="" role="img" aria-label="Dot plot of Fixed hint minus Core and Placebo minus Core across Run B follow-up and Run A L2, with and without Case T3"></div><footer class="fig-foot"><p><strong>Interpretation note:</strong> Exploratory two-family AI jury; Run A (Nov 24, pre-fix L2) and Run B (Nov 25, post-fix follow-up) run the same case/model/seed grid (not independent samples; 0 missing answers). Hover All-4-cases points for per-judge (Claude / Codex) deltas. Case T2 sits near a floor (0/12 for core, full rules, reasoning, and placebo; 0/11 observed of 12 planned for coach).</p><a href="../explorer/index.html#kp2a">Inspect all 50 cluster cells in Explorer →</a></footer></section><section class="fig-card" id="fig-2"><header class="fig-head"><div><div class="fig-eyebrow">Figure 2 · Open 16-turn tutoring dialogues</div><h3>Muse and Gemini average higher under both judges — while episode ranges overlap and Claude vs. Codex diverge by up to 19.4 pp</h3><p class="read-sent">Factually gated check pass rate (unassessable pedagogical checks are excluded first; remaining turns pass when the pedagogical check passes and the judge records no factual error) across five OpenRouter Flash routes (507 assessable answers out of 523 OK / 576 planned turns across 36 episodes), with episode min–max spans in the background.</p></div><div class="badges"><span class="badge badge-exp"><svg class="ico" viewBox="0 0 12 12" width="12" height="12" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4.6 1.8h2.8M5 1.8v3L2.4 9.4c-.3.6.1 1 .7 1h5.8c.6 0 1-.4.7-1L7 4.8v-3"/></svg><span>Exploratory · Uncalibrated AI Jury (human gold open)</span></span></div></header><div class="chart h-md" id="r-fig2" data-chart="resultsKp1aDumbbell" data-view="" role="img" aria-label="Dumbbell chart of Claude lens vs Codex lens pass rates and episode spans for five Flash routes"></div><footer class="fig-foot"><p><strong>Interpretation note:</strong> Exploratory uncalibrated jury. <code>gpt-6-luna</code> has Claude scores only (4 episodes, 1 simulator; Codex excluded by family separation), so pooled averages are not comparable across all five routes. Family-separated Krippendorff's α across the 4 dual-jury routes (n = 468): binary check α = 0.642 (n = 447), factual gate α = 0.336 (n = 457), gated primary score α = 0.476 (n = 447).</p><a href="../explorer/index.html#kp1a">Inspect route &amp; subscription tables in Explorer →</a></footer></section><section class="fig-card" id="fig-3"><header class="fig-head"><div><div class="fig-eyebrow">Figure 3 · Case T8 (fraction addition, repeated impasse at Turn 8)</div><h3>In Case T8, the full rule prompt dropped on both Flash routes — and fixed hints also trailed core</h3><p class="read-sent">Pass share (0%–100%) for all six regular arms in Case T8, separated by model (Muse, Qwen) and run (Follow-up, Repeat L2) with distinct vertical offsets so equal points stay visible. Hover any mark for exact k/n.</p></div><div class="badges"><span class="badge badge-exp"><svg class="ico" viewBox="0 0 12 12" width="12" height="12" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4.6 1.8h2.8M5 1.8v3L2.4 9.4c-.3.6.1 1 .7 1h5.8c.6 0 1-.4.7-1L7 4.8v-3"/></svg><span>Exploratory · Uncalibrated AI Jury (human gold open)</span></span><span class="badge badge-lock"><svg class="ico" viewBox="0 0 12 12" width="12" height="12" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><rect x="2.4" y="5.2" width="7.2" height="5" rx="1"/><path d="M4 5.2V3.8a2 2 0 014 0v1.4"/></svg><span>Pre-registered contrasts locked</span></span></div></header><div class="chart h-md" id="r-fig3" data-chart="resultsT8Dots" data-view="" role="img" aria-label="Dot plot of all six regular arms in Case T8 by model and run on a percentage scale"></div><footer class="fig-foot"><p><strong>Interpretation note:</strong> Exploratory jury; small denominators (3 seeds per dot except two missing observations: Qwen full prompt in L2 has 0/2 [0.0/5 combined] and Muse live coach in Follow-up has 2/2 [5.0/5 combined]). Strongly case-bound: the same full rule prompt scored 9.0/12 in Case T3. Whether prompt length or rule wording caused the T8 drop remains open.</p><a href="../explorer/index.html#kp2a">Inspect raw T8 replies &amp; cluster heatmap in Explorer →</a></footer></section><section class="fig-card" id="fig-4"><header class="fig-head"><div><div class="fig-eyebrow">Figure 4 · 24-turn instruction compliance (Case T12: Python lists)</div><h3>Multi-question flags are more frequent on the four primary checkpoints (73.3%) than on routine turns (35.1%)</h3><p class="read-sent">Share of visible tutor turns flagged by the deterministic multi-question detector (DOPPELFRAGE) across Turns 1–24, with surviving episode count (n of 36) shown beneath each turn.</p></div><div class="badges"><span class="badge badge-det"><svg class="ico" viewBox="0 0 12 12" width="12" height="12" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="8" height="8" rx="1.5"/><path d="M4.2 6.1l1.3 1.3 2.4-2.6"/></svg><span>Level A · Deterministic</span></span><span class="badge badge-exp"><svg class="ico" viewBox="0 0 12 12" width="12" height="12" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4.6 1.8h2.8M5 1.8v3L2.4 9.4c-.3.6.1 1 .7 1h5.8c.6 0 1-.4.7-1L7 4.8v-3"/></svg><span>Exploratory · Uncalibrated AI Jury (human gold open)</span></span></div></header><div class="chart h-md" id="r-fig4" data-chart="resultsKp2bTurns" data-view="" role="img" aria-label="Line chart of turn-by-turn multi-question rate across 24 turns with denominator n per turn"></div><div class="subtbl-wrap"><h4>Turn 23 (hinted checkpoint) and Turn 24 (unsupported hold) primary check scores</h4><div class="tbl-wrap"><table class="tbl"><thead><tr><th>Control arm</th><th class="r">Episodes reaching Turn 24</th><th class="r">Turn 23 primary (scored / 6 planned)</th><th class="r">Turn 24 hold (scored / 6 planned)</th></tr></thead><tbody><tr><td data-label="Control arm"><span class="arm-dot" style="--c:var(--s1)" aria-hidden="true"></span><strong>Fixed short hint</strong> <span class="muted"><code>p1_hinweis</code></span></td><td class="r" data-label="Episodes reaching T24">5/6</td><td class="r" data-label="Turn 23 primary">40.0% (2.0/5)</td><td class="r" data-label="Turn 24 hold">50.0% (2.5/5)</td></tr><tr><td data-label="Control arm"><span class="arm-dot" style="--c:var(--s2)" aria-hidden="true"></span><strong>Short core prompt</strong> <span class="muted"><code>p1_kern</code></span></td><td class="r" data-label="Episodes reaching T24">3/6</td><td class="r" data-label="Turn 23 primary">33.3% (1.0/3)</td><td class="r" data-label="Turn 24 hold">0.0% (0.0/3)</td></tr><tr><td data-label="Control arm"><span class="arm-dot" style="--c:var(--s3)" aria-hidden="true"></span><strong>Full rule prompt</strong> <span class="muted"><code>p6_voll</code></span></td><td class="r" data-label="Episodes reaching T24">3/6</td><td class="r" data-label="Turn 23 primary">0.0% (0.0/3)</td><td class="r" data-label="Turn 24 hold">0.0% (0.0/3)</td></tr><tr><td data-label="Control arm"><span class="arm-dot" style="--c:var(--s4)" aria-hidden="true"></span><strong>Extra reasoning budget</strong> <span class="muted"><code>p1_reasoning</code></span></td><td class="r" data-label="Episodes reaching T24">5/6</td><td class="r" data-label="Turn 23 primary">20.0% (1.0/5)</td><td class="r" data-label="Turn 24 hold">20.0% (1.0/5)</td></tr><tr><td data-label="Control arm"><span class="arm-dot" style="--c:var(--s5)" aria-hidden="true"></span><strong>Neutral placebo</strong> <span class="muted"><code>p1_placebo</code></span></td><td class="r" data-label="Episodes reaching T24">3/6</td><td class="r" data-label="Turn 23 primary">37.5% (1.5/4)</td><td class="r" data-label="Turn 24 hold">33.3% (1.0/3)</td></tr><tr><td data-label="Control arm"><span class="arm-dot" style="--c:var(--s6)" aria-hidden="true"></span><strong>Live frontier coach</strong> <span class="muted"><code>p1_frontier_coach</code></span></td><td class="r" data-label="Episodes reaching T24">0/6</td><td class="r" data-label="Turn 23 primary">No cell reached (0/6)</td><td class="r" data-label="Turn 24 hold">No cell reached (0/6)</td></tr></tbody></table></div><p class="fig-foot" style="border-top:0;padding-top:8px;margin-top:4px"><span><strong>Exploratory two-family jury:</strong> Answer means (0 / 0.5 / 1) across 20 Turn 23 + 19 Turn 24 answers = 39 scored turns (Krippendorff's α: primary check 0.734, commitment kept 0.678). Denominators reflect surviving episodes out of 6 planned per arm; the live coach reached 0/6 episodes (4 format failures, 2 state-judge stops) and is shown as no cell reached rather than 0%.</span></p></div><footer class="fig-foot"><p><strong>Interpretation note:</strong> Level A deterministic surface detector (also counts structured multi-part prompts inside one scaffold). Pre-commitment Turns 1–2 (54/70 (77.1%)) are context only; without a no-commitment control arm, the drop after the scripted Turn 3 tutor commitment (15/32) is not causal. Because triggers occur at fixed turns and surviving episodes shrink from 36 to 19 (17 premature stops), the design cannot isolate trigger complexity from turn position or changing survivor mix (routine Turn 20 also reaches 13/21 = 61.9%).</p><a href="../explorer/index.html#kp2b">Inspect full 24-turn arm breakdown in Explorer →</a></footer></section><section class="fig-card" id="fig-5"><header class="fig-head"><div><div class="fig-eyebrow">Figure 5 · External judge sanity check on Bridge (shared 145 English pairs)</div><h3>On the same 145 English pairs, all four AI judges preferred expert-authored turns over novice turns</h3><p class="read-sent">Three-way outcome distribution (expert-authored win, tie, novice-authored win) across the shared 145-pair Bridge overlap (0 technical errors for every judge).</p></div><div class="badges"><span class="badge badge-gold"><svg class="ico" viewBox="0 0 12 12" width="12" height="12" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="4.6" r="2.4"/><path d="M4.6 6.6L3.8 10.4 6 9.2l2.2 1.2-.8-3.8"/></svg><span>External Authorship Reference (KP4 Bridge EN)</span></span></div></header><div class="chart h-sm" id="r-fig5" data-chart="resultsBridgeOverlap" data-view="" role="img" aria-label="Stacked 100% bar chart of expert win, tie, and novice win shares on 145 shared Bridge pairs"></div><footer class="fig-foot"><p><strong>Interpretation note:</strong> Bridge labels reflect <strong>human expert vs. novice authorship</strong> on English single turns (not per-pair human quality ratings), and 23/210 (109/482) full-set pairs share dialogue context. Conditional expert win rates excluding ties are 92.3% (Sol) and 92.9% (Sonnet) on the shared 145 pairs (91.7% and 93.1% on test_210). This sanity check does not replace German multi-turn calibration.</p><a href="../explorer/index.html#kp4">Inspect full Bridge table &amp; McNemar tests in Explorer →</a></footer></section><section class="cards-3" aria-label="Open questions, integrity, and next steps"><article class="scard"><h3>What remains open</h3><ul><li><strong>German human calibration:</strong> Formal calibrated scoring stays locked until blind human coding calibrates the AI jury.</li><li><strong>General hint utility:</strong> Excluding Case T3, hints do not reliably beat a short core prompt; Case T2 sits near a floor.</li><li><strong>Cause of the Case T8 drop:</strong> Controlled ablations are needed to separate prompt length from rule wording.</li><li><strong>Hardened live coach &amp; retention:</strong> Offline replay fixed 9/9 token-cap errors; live validation and larger Turn 23–24 samples remain open.</li><li><strong>Human learning gains:</strong> Measuring retention and transfer requires a separate study with human learners.</li></ul></article><article class="scard"><h3>Cost &amp; data integrity</h3><ul><li><strong>Total OpenRouter live spend:</strong> <code>$0.982986</code> of <code>$5.85</code> combined approved caps (16.8% — <code>$0.479496</code> Nov 24–25 core runs + <code>$0.503490</code> Nov 25–26 follow-up &amp; catch-up runs).</li><li><strong>Separate compute tracks:</strong> Subscription CLI runs carried no OpenRouter billing; Runpod GPU training for the separate 9B coach adapter (~$1.49) is accounted separately.</li><li><strong>Verified artifacts:</strong> <code>v4.5</code> freeze <code>3e01a5a5…</code> (15/15 files), derived stats JSONs (3/3 SHA-256), private raw archive (<code>SHA256SUMS 281/281 OK</code>), offline quote-normalizer replay (<code>41/41</code>).</li></ul></article><article class="scard"><h3>Where to go next</h3><ul><li><a href="../explorer/index.html">Interactive Data Explorer</a> — filter all 50 cluster cells, judge lenses, raw T8 excerpts, and abort logs.</li><li><a href="../paper/index.html">Technical Paper (v1.1 English)</a> — full methodology, pre-registration rules, deviation log DEV-1–DEV-8, and references.</li><li><a href="https://github.com/dweigend/ai-tutor-bench#readme">AI Tutor Bench README (v5 Harness)</a> — runnable offline <code>v5</code> suite (161 cells, $0). <em>Note: v4.5 results are not reproducible via v5.</em></li><li><a href="https://github.com/dweigend/ai-tutor-bench/blob/main/docs/reproducibility.md">Reproducibility &amp; Adapter Guide</a> — custom <code>AdapterProtocol</code> contract, revision digests, and blind replay verification.</li></ul></article></section></main><footer class="rfoot"><div class="rwrap"><span>Tutor-Bench v4.5 · Dated Laboratory Study (Nov 26, 2026 · English rev. v1.1)</span><span>Self-contained offline report · Apache ECharts 5</span><span><a href="../paper/index.html">Technical Paper</a> · <a href="../explorer/index.html">Interactive Explorer</a></span></div></footer>
+<script src="../vendor/echarts.min.js"></script>
+<script>window.TB_DATA={"arms":["p1_hinweis","p1_kern","p6_voll","p1_reasoning","p1_placebo","p1_frontier_coach","p1_falschhinweis"],"kp4":{"jurors":[{"key":"codex-cli / gpt-6.2-sol (low)","label":"gpt-6.2-sol","channel":"codex-cli · low","jury":true,"subset":"test_210","n":210,"wins":155,"ties":41,"novice":14,"decided":169,"errors":0,"win":0.7381,"ci":[0.6731,0.7962],"nontie":0.9172,"nontie_share":0.8047619047619048,"nontie_share_s":"80.5% (169/210)","ov_n":145,"ov_wins":108,"ov_ties":28,"ov_novice":9,"ov_win":0.7448,"ov_nontie":0.9231,"win_s":"73.8%","ci_s":"[67.3–79.6%]","nontie_s":"91.7%","nontie_kn_s":"91.7% (155/169)","ov_win_s":"74.5%","ov_nontie_s":"92.3%"},{"key":"claude-cli / claude-sonnet-5-5 (low)","label":"claude-sonnet-5-5","channel":"claude-cli · low","jury":true,"subset":"test_210","n":210,"wins":148,"ties":51,"novice":11,"decided":159,"errors":0,"win":0.7048,"ci":[0.6381,0.7655],"nontie":0.9308,"nontie_share":0.7571428571428571,"nontie_share_s":"75.7% (159/210)","ov_n":145,"ov_wins":105,"ov_ties":32,"ov_novice":8,"ov_win":0.7241,"ov_nontie":0.9292,"win_s":"70.5%","ci_s":"[63.8–76.6%]","nontie_s":"93.1%","nontie_kn_s":"93.1% (148/159)","ov_win_s":"72.4%","ov_nontie_s":"92.9%"},{"key":"z-ai/glm-5.3-flash","label":"glm-5.3-flash","channel":"OpenRouter","jury":false,"subset":"482","n":482,"wins":324,"ties":93,"novice":65,"decided":389,"errors":0,"win":0.6722,"ci":[0.6283,0.714],"nontie":0.8329,"nontie_share":0.8070539419087137,"nontie_share_s":"80.7% (389/482)","ov_n":145,"ov_wins":101,"ov_ties":26,"ov_novice":18,"ov_win":0.6966,"ov_nontie":0.8487,"win_s":"67.2%","ci_s":"[62.8–71.4%]","nontie_s":"83.3%","nontie_kn_s":"83.3% (324/389)","ov_win_s":"69.7%","ov_nontie_s":"84.9%"},{"key":"qwen/qwen3.8-flash","label":"qwen3.8-flash","channel":"OpenRouter","jury":false,"subset":"482","n":482,"wins":293,"ties":149,"novice":40,"decided":333,"errors":0,"win":0.6079,"ci":[0.5627,0.6517],"nontie":0.8799,"nontie_share":0.6908713692946058,"nontie_share_s":"69.1% (333/482)","ov_n":145,"ov_wins":95,"ov_ties":35,"ov_novice":15,"ov_win":0.6552,"ov_nontie":0.8636,"win_s":"60.8%","ci_s":"[56.3–65.2%]","nontie_s":"88.0%","nontie_kn_s":"88.0% (293/333)","ov_win_s":"65.5%","ov_nontie_s":"86.4%"}],"pairwise":[{"pair":"qwen/qwen3.8-flash vs z-ai/glm-5.3-flash","agree":0.7034,"agree_s":"70.3%"},{"pair":"qwen/qwen3.8-flash vs codex-cli / gpt-6.2-sol (low)","agree":0.7103,"agree_s":"71.0%"},{"pair":"qwen/qwen3.8-flash vs claude-cli / claude-sonnet-5-5 (low)","agree":0.6966,"agree_s":"69.7%"},{"pair":"z-ai/glm-5.3-flash vs codex-cli / gpt-6.2-sol (low)","agree":0.6897,"agree_s":"69.0%"},{"pair":"z-ai/glm-5.3-flash vs claude-cli / claude-sonnet-5-5 (low)","agree":0.6759,"agree_s":"67.6%"},{"pair":"codex-cli / gpt-6.2-sol (low) vs claude-cli / claude-sonnet-5-5 (low)","agree":0.6897,"agree_s":"69.0%"}],"mcnemar":{"glm_vs_qwen_482":{"glm_only_expert":82,"qwen_only_expert":51,"exact_p":0.00903},"codex_vs_sonnet_210":{"codex_only_expert":30,"sonnet_only_expert":23,"exact_p":0.410103,"exact_agreement_210":0.681}}},"kp1a":{"models":[{"key":"meta/muse-ember","label":"muse-ember","effort":"minimal","turns":113,"episodes":8,"sims":{"codex-cli":64,"claude-cli":49},"claude":{"k":64,"n":108,"s":"59.3% (64/108)"},"codex":{"k":43,"n":108,"s":"39.8% (43/108)"},"mean":0.4908,"ep_range":[0.1875,1.0],"mean_s":"49.1%","range_s":"19–100%","d4":{"k":157,"n":222,"s":"70.7% (157/222)"},"preisgabe":{"k":80,"n":221,"s":"36.2% (80/221)"}},{"key":"openai/gpt-6-luna","label":"gpt-6-luna","effort":"off","turns":55,"episodes":4,"sims":{"claude-cli":55},"claude":{"k":29,"n":51,"s":"56.9% (29/51)"},"codex":null,"mean":0.5686,"ep_range":[0.4667,0.8333],"mean_s":"56.9%","range_s":"47–83%","d4":{"k":52,"n":55,"s":"94.5% (52/55)"},"preisgabe":{"k":19,"n":51,"s":"37.3% (19/51)"}},{"key":"google/gemini-3.8-flash","label":"gemini-3.8-flash","effort":"low","turns":114,"episodes":8,"sims":{"codex-cli":64,"claude-cli":50},"claude":{"k":58,"n":108,"s":"53.7% (58/108)"},"codex":{"k":40,"n":110,"s":"36.4% (40/110)"},"mean":0.44545454545454544,"ep_range":[0.25,0.6],"mean_s":"44.5%","range_s":"25–60%","d4":{"k":158,"n":222,"s":"71.2% (158/222)"},"preisgabe":{"k":43,"n":207,"s":"20.8% (43/207)"}},{"key":"qwen/qwen3.8-flash","label":"qwen3.8-flash","effort":"budget 256","turns":126,"episodes":8,"sims":{"codex-cli":64,"claude-cli":62},"claude":{"k":36,"n":124,"s":"29.0% (36/124)"},"codex":{"k":28,"n":123,"s":"22.8% (28/123)"},"mean":0.256,"ep_range":[0.1333,0.375],"mean_s":"25.6%","range_s":"13–38%","d4":{"k":104,"n":251,"s":"41.4% (104/251)"},"preisgabe":{"k":88,"n":240,"s":"36.7% (88/240)"}},{"key":"z-ai/glm-5.3-flash","label":"glm-5.3-flash","effort":"low","turns":115,"episodes":8,"sims":{"codex-cli":55,"claude-cli":60},"claude":{"k":28,"n":112,"s":"25.0% (28/112)"},"codex":{"k":18,"n":110,"s":"16.4% (18/110)"},"mean":0.2054,"ep_range":[0.0,0.3636],"mean_s":"20.5%","range_s":"0–36%","d4":{"k":80,"n":229,"s":"34.9% (80/229)"},"preisgabe":{"k":116,"n":221,"s":"52.5% (116/221)"}}],"abo":[{"id":"terra","label":"GPT-6.1 Terra","window":"06:04–06:20 UTC","ok":64,"planned":64,"judge":"claude-sonnet-5-5 (low)","pf":{"k":36,"n":60,"s":"60.0% (36/60)"},"d4":{"k":62,"n":62,"s":"100.0% (62/62)"},"passung":{"k":47,"n":64,"s":"73.4% (47/64)"},"preisgabe":{"k":11,"n":56,"s":"19.6% (11/56)"},"syco":{"k":0,"n":10,"s":"0.0% (0/10)"},"doppelfrage":{"k":19,"n":64,"s":"29.7% (19/64)"},"stops":{}},{"id":"terra_matched","label":"Terra matched to Sonnet v1","window":"06:04–06:20 UTC","ok":34,"planned":34,"judge":"claude-sonnet-5-5 (low)","pf":{"k":18,"n":31,"s":"58.1% (18/31)"},"d4":{"k":33,"n":33,"s":"100.0% (33/33)"},"passung":{"k":24,"n":34,"s":"70.6% (24/34)"},"preisgabe":{"k":8,"n":31,"s":"25.8% (8/31)"},"syco":{"k":0,"n":8,"s":"0.0% (0/8)"},"doppelfrage":null,"stops":{}},{"id":"sonnet_v1","label":"Claude Sonnet 5.5 v1","window":"06:25–06:36 UTC","ok":34,"planned":64,"judge":"gpt-6.2-sol (low / low / low)","pf":{"k":26,"n":31,"s":"83.9% (26/31)"},"d4":{"k":34,"n":34,"s":"100.0% (34/34)"},"passung":{"k":32,"n":34,"s":"94.1% (32/34)"},"preisgabe":{"k":15,"n":34,"s":"44.1% (15/34)"},"syco":{"k":0,"n":10,"s":"0.0% (0/10)"},"doppelfrage":{"k":26,"n":34,"s":"76.5% (26/34)"},"stops":{"python-listen":13,"bruchaddition":3,"attention-dialog":13,"alphafold-dialog":5}},{"id":"sonnet_v2","label":"Claude Sonnet 5.5 v2","window":"14:10–14:23 UTC","ok":32,"planned":64,"judge":"gpt-6.2-sol (low / medium / low)","pf":{"k":25,"n":30,"s":"83.3% (25/30)"},"d4":{"k":32,"n":32,"s":"100.0% (32/32)"},"passung":{"k":30,"n":32,"s":"93.8% (30/32)"},"preisgabe":{"k":8,"n":32,"s":"25.0% (8/32)"},"syco":{"k":0,"n":9,"s":"0.0% (0/9)"},"doppelfrage":{"k":27,"n":32,"s":"84.4% (27/32)"},"stops":{"python-listen":3,"bruchaddition":3,"attention-dialog":13,"alphafold-dialog":13}}],"reliability":{"n_dual_turns":468,"pf_binary":{"n":447,"agree":0.8277,"agree_s":"82.8%","alpha":0.642,"alpha_s":"0.642"},"pf_3class":{"n":468,"agree":0.8162,"agree_s":"81.6%","alpha":0.6453,"alpha_s":"0.645"},"d4":{"n":457,"agree":0.6696,"agree_s":"67.0%","alpha":0.3358,"alpha_s":"0.336"},"preisgabe":{"n":427,"agree":0.7283,"agree_s":"72.8%","alpha":0.4251,"alpha_s":"0.425"},"pf_d4_gated":{"n":447,"agree":0.7606,"agree_s":"76.1%","alpha":0.4761,"alpha_s":"0.476"}},"max_judge_gap_pp":"19.4"},"kp2a":{"arms":[{"arm":"p1_hinweis","doppelfrage_posthoc":{"k":19,"n":93,"s":"20.4% (19/93)"},"nachlauf":{"n":24,"planned":24,"sum":15.0,"mean":0.625,"mean_s":"62.5%","sum_s":"15.0/24","both":{"k":13,"n":24,"s":"54.2% (13/24)"},"any":{"k":17,"n":24,"s":"70.8% (17/24)"},"claude":{"k":17,"n":24,"s":"70.8% (17/24)"},"codex":{"k":13,"n":24,"s":"54.2% (13/24)"},"best":0.625,"worst":0.625,"span_s":"62.5–62.5%"},"l2":{"n":24,"planned":24,"sum":16.5,"mean":0.6875,"mean_s":"68.8%","sum_s":"16.5/24","both":{"k":14,"n":24,"s":"58.3% (14/24)"},"any":{"k":19,"n":24,"s":"79.2% (19/24)"},"claude":{"k":16,"n":24,"s":"66.7% (16/24)"},"codex":{"k":17,"n":24,"s":"70.8% (17/24)"},"best":0.6875,"worst":0.6875,"span_s":"68.8–68.8%"},"gesamt":{"n":48,"planned":48,"sum":31.5,"mean":0.65625,"mean_s":"65.6%","sum_s":"31.5/48","both":{"k":27,"n":48,"s":"56.2% (27/48)"},"any":{"k":36,"n":48,"s":"75.0% (36/48)"},"claude":{"k":33,"n":48,"s":"68.8% (33/48)"},"codex":{"k":30,"n":48,"s":"62.5% (30/48)"},"best":0.6562,"worst":0.6562,"span_s":"65.6–65.6%"}},{"arm":"p1_kern","doppelfrage_posthoc":{"k":19,"n":90,"s":"21.1% (19/90)"},"nachlauf":{"n":24,"planned":24,"sum":14.0,"mean":0.5833333333333334,"mean_s":"58.3%","sum_s":"14.0/24","both":{"k":14,"n":24,"s":"58.3% (14/24)"},"any":{"k":14,"n":24,"s":"58.3% (14/24)"},"claude":{"k":14,"n":24,"s":"58.3% (14/24)"},"codex":{"k":14,"n":24,"s":"58.3% (14/24)"},"best":0.5833,"worst":0.5833,"span_s":"58.3–58.3%"},"l2":{"n":24,"planned":24,"sum":12.0,"mean":0.5,"mean_s":"50.0%","sum_s":"12.0/24","both":{"k":10,"n":24,"s":"41.7% (10/24)"},"any":{"k":14,"n":24,"s":"58.3% (14/24)"},"claude":{"k":11,"n":24,"s":"45.8% (11/24)"},"codex":{"k":13,"n":24,"s":"54.2% (13/24)"},"best":0.5,"worst":0.5,"span_s":"50.0–50.0%"},"gesamt":{"n":48,"planned":48,"sum":26.0,"mean":0.5416666666666666,"mean_s":"54.2%","sum_s":"26.0/48","both":{"k":24,"n":48,"s":"50.0% (24/48)"},"any":{"k":28,"n":48,"s":"58.3% (28/48)"},"claude":{"k":25,"n":48,"s":"52.1% (25/48)"},"codex":{"k":27,"n":48,"s":"56.2% (27/48)"},"best":0.5417,"worst":0.5417,"span_s":"54.2–54.2%"}},{"arm":"p1_reasoning","doppelfrage_posthoc":{"k":24,"n":93,"s":"25.8% (24/93)"},"nachlauf":{"n":24,"planned":24,"sum":9.5,"mean":0.3958333333333333,"mean_s":"39.6%","sum_s":"9.5/24","both":{"k":8,"n":24,"s":"33.3% (8/24)"},"any":{"k":11,"n":24,"s":"45.8% (11/24)"},"claude":{"k":10,"n":24,"s":"41.7% (10/24)"},"codex":{"k":9,"n":24,"s":"37.5% (9/24)"},"best":0.3958,"worst":0.3958,"span_s":"39.6–39.6%"},"l2":{"n":24,"planned":24,"sum":14.0,"mean":0.5833333333333334,"mean_s":"58.3%","sum_s":"14.0/24","both":{"k":13,"n":24,"s":"54.2% (13/24)"},"any":{"k":15,"n":24,"s":"62.5% (15/24)"},"claude":{"k":15,"n":24,"s":"62.5% (15/24)"},"codex":{"k":13,"n":24,"s":"54.2% (13/24)"},"best":0.5833,"worst":0.5833,"span_s":"58.3–58.3%"},"gesamt":{"n":48,"planned":48,"sum":23.5,"mean":0.4895833333333333,"mean_s":"49.0%","sum_s":"23.5/48","both":{"k":21,"n":48,"s":"43.8% (21/48)"},"any":{"k":26,"n":48,"s":"54.2% (26/48)"},"claude":{"k":25,"n":48,"s":"52.1% (25/48)"},"codex":{"k":22,"n":48,"s":"45.8% (22/48)"},"best":0.4896,"worst":0.4896,"span_s":"49.0–49.0%"}},{"arm":"p6_voll","doppelfrage_posthoc":{"k":14,"n":96,"s":"14.6% (14/96)"},"nachlauf":{"n":24,"planned":24,"sum":10.0,"mean":0.4166666666666667,"mean_s":"41.7%","sum_s":"10.0/24","both":{"k":10,"n":24,"s":"41.7% (10/24)"},"any":{"k":10,"n":24,"s":"41.7% (10/24)"},"claude":{"k":10,"n":24,"s":"41.7% (10/24)"},"codex":{"k":10,"n":24,"s":"41.7% (10/24)"},"best":0.4167,"worst":0.4167,"span_s":"41.7–41.7%"},"l2":{"n":23,"planned":24,"sum":12.5,"mean":0.5434782608695652,"mean_s":"54.3%","sum_s":"12.5/23","both":{"k":12,"n":23,"s":"52.2% (12/23)"},"any":{"k":13,"n":23,"s":"56.5% (13/23)"},"claude":{"k":12,"n":23,"s":"52.2% (12/23)"},"codex":{"k":13,"n":23,"s":"56.5% (13/23)"},"best":0.5625,"worst":0.5208,"span_s":"52.1–56.2%"},"gesamt":{"n":47,"planned":48,"sum":22.5,"mean":0.4787234042553192,"mean_s":"47.9%","sum_s":"22.5/47","both":{"k":22,"n":47,"s":"46.8% (22/47)"},"any":{"k":23,"n":47,"s":"48.9% (23/47)"},"claude":{"k":22,"n":47,"s":"46.8% (22/47)"},"codex":{"k":23,"n":47,"s":"48.9% (23/47)"},"best":0.4896,"worst":0.4688,"span_s":"46.9–49.0%"}},{"arm":"p1_frontier_coach","doppelfrage_posthoc":{"k":22,"n":76,"s":"28.9% (22/76)"},"nachlauf":{"n":19,"planned":24,"sum":8.0,"mean":0.42105263157894735,"mean_s":"42.1%","sum_s":"8.0/19","both":{"k":8,"n":19,"s":"42.1% (8/19)"},"any":{"k":8,"n":19,"s":"42.1% (8/19)"},"claude":{"k":8,"n":19,"s":"42.1% (8/19)"},"codex":null,"best":0.5417,"worst":0.3333,"span_s":"33.3–54.2%"},"l2":{"n":21,"planned":24,"sum":11.0,"mean":0.5238095238095238,"mean_s":"52.4%","sum_s":"11.0/21","both":{"k":11,"n":21,"s":"52.4% (11/21)"},"any":{"k":11,"n":21,"s":"52.4% (11/21)"},"claude":{"k":11,"n":21,"s":"52.4% (11/21)"},"codex":null,"best":0.5833,"worst":0.4583,"span_s":"45.8–58.3%"},"gesamt":{"n":40,"planned":48,"sum":19.0,"mean":0.475,"mean_s":"47.5%","sum_s":"19.0/40","both":{"k":19,"n":40,"s":"47.5% (19/40)"},"any":{"k":19,"n":40,"s":"47.5% (19/40)"},"claude":{"k":19,"n":40,"s":"47.5% (19/40)"},"codex":null,"best":0.5625,"worst":0.3958,"span_s":"39.6–56.2%"}},{"arm":"p1_placebo","doppelfrage_posthoc":{"k":10,"n":94,"s":"10.6% (10/94)"},"nachlauf":{"n":24,"planned":24,"sum":9.0,"mean":0.375,"mean_s":"37.5%","sum_s":"9.0/24","both":{"k":7,"n":24,"s":"29.2% (7/24)"},"any":{"k":11,"n":24,"s":"45.8% (11/24)"},"claude":{"k":11,"n":24,"s":"45.8% (11/24)"},"codex":{"k":7,"n":24,"s":"29.2% (7/24)"},"best":0.375,"worst":0.375,"span_s":"37.5–37.5%"},"l2":{"n":24,"planned":24,"sum":10.0,"mean":0.4166666666666667,"mean_s":"41.7%","sum_s":"10.0/24","both":{"k":9,"n":24,"s":"37.5% (9/24)"},"any":{"k":11,"n":24,"s":"45.8% (11/24)"},"claude":{"k":10,"n":24,"s":"41.7% (10/24)"},"codex":{"k":10,"n":24,"s":"41.7% (10/24)"},"best":0.4167,"worst":0.4167,"span_s":"41.7–41.7%"},"gesamt":{"n":48,"planned":48,"sum":19.0,"mean":0.3958333333333333,"mean_s":"39.6%","sum_s":"19.0/48","both":{"k":16,"n":48,"s":"33.3% (16/48)"},"any":{"k":22,"n":48,"s":"45.8% (22/48)"},"claude":{"k":21,"n":48,"s":"43.8% (21/48)"},"codex":{"k":17,"n":48,"s":"35.4% (17/48)"},"best":0.3958,"worst":0.3958,"span_s":"39.6–39.6%"}},{"arm":"p1_falschhinweis","doppelfrage_posthoc":{"k":5,"n":24,"s":"20.8% (5/24)"},"nachlauf":{"n":6,"planned":6,"sum":0.0,"mean":0.0,"mean_s":"0.0%","sum_s":"0.0/6","both":{"k":0,"n":6,"s":"0.0% (0/6)"},"any":{"k":0,"n":6,"s":"0.0% (0/6)"},"claude":{"k":0,"n":6,"s":"0.0% (0/6)"},"codex":{"k":0,"n":6,"s":"0.0% (0/6)"},"best":0.0,"worst":0.0,"span_s":"0.0–0.0%"},"l2":{"n":6,"planned":6,"sum":1.0,"mean":0.16666666666666666,"mean_s":"16.7%","sum_s":"1.0/6","both":{"k":0,"n":6,"s":"0.0% (0/6)"},"any":{"k":2,"n":6,"s":"33.3% (2/6)"},"claude":{"k":2,"n":6,"s":"33.3% (2/6)"},"codex":{"k":0,"n":6,"s":"0.0% (0/6)"},"best":0.1667,"worst":0.1667,"span_s":"16.7–16.7%"},"gesamt":{"n":12,"planned":12,"sum":1.0,"mean":0.08333333333333333,"mean_s":"8.3%","sum_s":"1.0/12","both":{"k":0,"n":12,"s":"0.0% (0/12)"},"any":{"k":2,"n":12,"s":"16.7% (2/12)"},"claude":{"k":2,"n":12,"s":"16.7% (2/12)"},"codex":{"k":0,"n":12,"s":"0.0% (0/12)"},"best":0.0833,"worst":0.0833,"span_s":"8.3–8.3%"}}],"clusters":[{"label":"T2 · Muse-Ember","case":"T2","model":"meta/muse-ember","cells":{"p1_hinweis":{"display":"1.0/6 (0.0/3)","gesamt_s":"1.0/6","nachlauf_s":"0.0/3","l2_s":"1.0/3","gesamt":[1.0,6],"nachlauf":[0.0,3],"l2":[1.0,3]},"p1_kern":{"display":"0.0/6 (0.0/3)","gesamt_s":"0.0/6","nachlauf_s":"0.0/3","l2_s":"0.0/3","gesamt":[0.0,6],"nachlauf":[0.0,3],"l2":[0.0,3]},"p6_voll":{"display":"0.0/6 (0.0/3)","gesamt_s":"0.0/6","nachlauf_s":"0.0/3","l2_s":"0.0/3","gesamt":[0.0,6],"nachlauf":[0.0,3],"l2":[0.0,3]},"p1_reasoning":{"display":"0.0/6 (0.0/3)","gesamt_s":"0.0/6","nachlauf_s":"0.0/3","l2_s":"0.0/3","gesamt":[0.0,6],"nachlauf":[0.0,3],"l2":[0.0,3]},"p1_placebo":{"display":"0.0/6 (0.0/3)","gesamt_s":"0.0/6","nachlauf_s":"0.0/3","l2_s":"0.0/3","gesamt":[0.0,6],"nachlauf":[0.0,3],"l2":[0.0,3]},"p1_frontier_coach":{"display":"0.0/6 (0.0/3)","gesamt_s":"0.0/6","nachlauf_s":"0.0/3","l2_s":"0.0/3","gesamt":[0.0,6],"nachlauf":[0.0,3],"l2":[0.0,3]},"p1_falschhinweis":{"display":"0.5/6 (0.0/3)","gesamt_s":"0.5/6","nachlauf_s":"0.0/3","l2_s":"0.5/3","gesamt":[0.5,6],"nachlauf":[0.0,3],"l2":[0.5,3]}}},{"label":"T2 · Qwen 3.8 Flash","case":"T2","model":"qwen/qwen3.8-flash","cells":{"p1_hinweis":{"display":"1.0/6 (0.5/3)","gesamt_s":"1.0/6","nachlauf_s":"0.5/3","l2_s":"0.5/3","gesamt":[1.0,6],"nachlauf":[0.5,3],"l2":[0.5,3]},"p1_kern":{"display":"0.0/6 (0.0/3)","gesamt_s":"0.0/6","nachlauf_s":"0.0/3","l2_s":"0.0/3","gesamt":[0.0,6],"nachlauf":[0.0,3],"l2":[0.0,3]},"p6_voll":{"display":"0.0/6 (0.0/3)","gesamt_s":"0.0/6","nachlauf_s":"0.0/3","l2_s":"0.0/3","gesamt":[0.0,6],"nachlauf":[0.0,3],"l2":[0.0,3]},"p1_reasoning":{"display":"0.0/6 (0.0/3)","gesamt_s":"0.0/6","nachlauf_s":"0.0/3","l2_s":"0.0/3","gesamt":[0.0,6],"nachlauf":[0.0,3],"l2":[0.0,3]},"p1_placebo":{"display":"0.0/6 (0.0/3)","gesamt_s":"0.0/6","nachlauf_s":"0.0/3","l2_s":"0.0/3","gesamt":[0.0,6],"nachlauf":[0.0,3],"l2":[0.0,3]},"p1_frontier_coach":{"display":"0.0/5 (0.0/2)","gesamt_s":"0.0/5","nachlauf_s":"0.0/2","l2_s":"0.0/3","gesamt":[0.0,5],"nachlauf":[0.0,2],"l2":[0.0,3]},"p1_falschhinweis":{"display":"0.5/6 (0.0/3)","gesamt_s":"0.5/6","nachlauf_s":"0.0/3","l2_s":"0.5/3","gesamt":[0.5,6],"nachlauf":[0.0,3],"l2":[0.5,3]}}},{"label":"T3 · Muse-Ember","case":"T3","model":"meta/muse-ember","cells":{"p1_hinweis":{"display":"6.0/6 (3.0/3)","gesamt_s":"6.0/6","nachlauf_s":"3.0/3","l2_s":"3.0/3","gesamt":[6.0,6],"nachlauf":[3.0,3],"l2":[3.0,3]},"p1_kern":{"display":"1.5/6 (0.0/3)","gesamt_s":"1.5/6","nachlauf_s":"0.0/3","l2_s":"1.5/3","gesamt":[1.5,6],"nachlauf":[0.0,3],"l2":[1.5,3]},"p6_voll":{"display":"5.0/6 (2.0/3)","gesamt_s":"5.0/6","nachlauf_s":"2.0/3","l2_s":"3.0/3","gesamt":[5.0,6],"nachlauf":[2.0,3],"l2":[3.0,3]},"p1_reasoning":{"display":"1.5/6 (0.5/3)","gesamt_s":"1.5/6","nachlauf_s":"0.5/3","l2_s":"1.0/3","gesamt":[1.5,6],"nachlauf":[0.5,3],"l2":[1.0,3]},"p1_placebo":{"display":"1.5/6 (0.0/3)","gesamt_s":"1.5/6","nachlauf_s":"0.0/3","l2_s":"1.5/3","gesamt":[1.5,6],"nachlauf":[0.0,3],"l2":[1.5,3]},"p1_frontier_coach":{"display":"1.0/5 (1.0/3)","gesamt_s":"1.0/5","nachlauf_s":"1.0/3","l2_s":"0.0/2","gesamt":[1.0,5],"nachlauf":[1.0,3],"l2":[0.0,2]},"p1_falschhinweis":null}},{"label":"T3 · Qwen 3.8 Flash","case":"T3","model":"qwen/qwen3.8-flash","cells":{"p1_hinweis":{"display":"6.0/6 (3.0/3)","gesamt_s":"6.0/6","nachlauf_s":"3.0/3","l2_s":"3.0/3","gesamt":[6.0,6],"nachlauf":[3.0,3],"l2":[3.0,3]},"p1_kern":{"display":"4.0/6 (3.0/3)","gesamt_s":"4.0/6","nachlauf_s":"3.0/3","l2_s":"1.0/3","gesamt":[4.0,6],"nachlauf":[3.0,3],"l2":[1.0,3]},"p6_voll":{"display":"4.0/6 (2.0/3)","gesamt_s":"4.0/6","nachlauf_s":"2.0/3","l2_s":"2.0/3","gesamt":[4.0,6],"nachlauf":[2.0,3],"l2":[2.0,3]},"p1_reasoning":{"display":"3.0/6 (1.5/3)","gesamt_s":"3.0/6","nachlauf_s":"1.5/3","l2_s":"1.5/3","gesamt":[3.0,6],"nachlauf":[1.5,3],"l2":[1.5,3]},"p1_placebo":{"display":"0.0/6 (0.0/3)","gesamt_s":"0.0/6","nachlauf_s":"0.0/3","l2_s":"0.0/3","gesamt":[0.0,6],"nachlauf":[0.0,3],"l2":[0.0,3]},"p1_frontier_coach":{"display":"2.0/4 (0.0/2)","gesamt_s":"2.0/4","nachlauf_s":"0.0/2","l2_s":"2.0/2","gesamt":[2.0,4],"nachlauf":[0.0,2],"l2":[2.0,2]},"p1_falschhinweis":null}},{"label":"T7 · Muse-Ember","case":"T7","model":"meta/muse-ember","cells":{"p1_hinweis":{"display":"6.0/6 (3.0/3)","gesamt_s":"6.0/6","nachlauf_s":"3.0/3","l2_s":"3.0/3","gesamt":[6.0,6],"nachlauf":[3.0,3],"l2":[3.0,3]},"p1_kern":{"display":"6.0/6 (3.0/3)","gesamt_s":"6.0/6","nachlauf_s":"3.0/3","l2_s":"3.0/3","gesamt":[6.0,6],"nachlauf":[3.0,3],"l2":[3.0,3]},"p6_voll":{"display":"6.0/6 (3.0/3)","gesamt_s":"6.0/6","nachlauf_s":"3.0/3","l2_s":"3.0/3","gesamt":[6.0,6],"nachlauf":[3.0,3],"l2":[3.0,3]},"p1_reasoning":{"display":"6.0/6 (3.0/3)","gesamt_s":"6.0/6","nachlauf_s":"3.0/3","l2_s":"3.0/3","gesamt":[6.0,6],"nachlauf":[3.0,3],"l2":[3.0,3]},"p1_placebo":{"display":"5.5/6 (2.5/3)","gesamt_s":"5.5/6","nachlauf_s":"2.5/3","l2_s":"3.0/3","gesamt":[5.5,6],"nachlauf":[2.5,3],"l2":[3.0,3]},"p1_frontier_coach":{"display":"5.0/5 (3.0/3)","gesamt_s":"5.0/5","nachlauf_s":"3.0/3","l2_s":"2.0/2","gesamt":[5.0,5],"nachlauf":[3.0,3],"l2":[2.0,2]},"p1_falschhinweis":null}},{"label":"T7 · Qwen 3.8 Flash","case":"T7","model":"qwen/qwen3.8-flash","cells":{"p1_hinweis":{"display":"5.5/6 (2.5/3)","gesamt_s":"5.5/6","nachlauf_s":"2.5/3","l2_s":"3.0/3","gesamt":[5.5,6],"nachlauf":[2.5,3],"l2":[3.0,3]},"p1_kern":{"display":"6.0/6 (3.0/3)","gesamt_s":"6.0/6","nachlauf_s":"3.0/3","l2_s":"3.0/3","gesamt":[6.0,6],"nachlauf":[3.0,3],"l2":[3.0,3]},"p6_voll":{"display":"6.0/6 (3.0/3)","gesamt_s":"6.0/6","nachlauf_s":"3.0/3","l2_s":"3.0/3","gesamt":[6.0,6],"nachlauf":[3.0,3],"l2":[3.0,3]},"p1_reasoning":{"display":"5.0/6 (2.0/3)","gesamt_s":"5.0/6","nachlauf_s":"2.0/3","l2_s":"3.0/3","gesamt":[5.0,6],"nachlauf":[2.0,3],"l2":[3.0,3]},"p1_placebo":{"display":"3.5/6 (2.0/3)","gesamt_s":"3.5/6","nachlauf_s":"2.0/3","l2_s":"1.5/3","gesamt":[3.5,6],"nachlauf":[2.0,3],"l2":[1.5,3]},"p1_frontier_coach":{"display":"4.0/4 (1.0/1)","gesamt_s":"4.0/4","nachlauf_s":"1.0/1","l2_s":"3.0/3","gesamt":[4.0,4],"nachlauf":[1.0,1],"l2":[3.0,3]},"p1_falschhinweis":null}},{"label":"T8 · Muse-Ember","case":"T8","model":"meta/muse-ember","cells":{"p1_hinweis":{"display":"2.0/6 (1.5/3)","gesamt_s":"2.0/6","nachlauf_s":"1.5/3","l2_s":"0.5/3","gesamt":[2.0,6],"nachlauf":[1.5,3],"l2":[0.5,3]},"p1_kern":{"display":"5.5/6 (3.0/3)","gesamt_s":"5.5/6","nachlauf_s":"3.0/3","l2_s":"2.5/3","gesamt":[5.5,6],"nachlauf":[3.0,3],"l2":[2.5,3]},"p6_voll":{"display":"1.5/6 (0.0/3)","gesamt_s":"1.5/6","nachlauf_s":"0.0/3","l2_s":"1.5/3","gesamt":[1.5,6],"nachlauf":[0.0,3],"l2":[1.5,3]},"p1_reasoning":{"display":"5.5/6 (2.5/3)","gesamt_s":"5.5/6","nachlauf_s":"2.5/3","l2_s":"3.0/3","gesamt":[5.5,6],"nachlauf":[2.5,3],"l2":[3.0,3]},"p1_placebo":{"display":"4.5/6 (2.5/3)","gesamt_s":"4.5/6","nachlauf_s":"2.5/3","l2_s":"2.0/3","gesamt":[4.5,6],"nachlauf":[2.5,3],"l2":[2.0,3]},"p1_frontier_coach":{"display":"5.0/5 (2.0/2)","gesamt_s":"5.0/5","nachlauf_s":"2.0/2","l2_s":"3.0/3","gesamt":[5.0,5],"nachlauf":[2.0,2],"l2":[3.0,3]},"p1_falschhinweis":null}},{"label":"T8 · Qwen 3.8 Flash","case":"T8","model":"qwen/qwen3.8-flash","cells":{"p1_hinweis":{"display":"4.0/6 (1.5/3)","gesamt_s":"4.0/6","nachlauf_s":"1.5/3","l2_s":"2.5/3","gesamt":[4.0,6],"nachlauf":[1.5,3],"l2":[2.5,3]},"p1_kern":{"display":"3.0/6 (2.0/3)","gesamt_s":"3.0/6","nachlauf_s":"2.0/3","l2_s":"1.0/3","gesamt":[3.0,6],"nachlauf":[2.0,3],"l2":[1.0,3]},"p6_voll":{"display":"0.0/5 (0.0/3)","gesamt_s":"0.0/5","nachlauf_s":"0.0/3","l2_s":"0.0/2","gesamt":[0.0,5],"nachlauf":[0.0,3],"l2":[0.0,2]},"p1_reasoning":{"display":"2.5/6 (0.0/3)","gesamt_s":"2.5/6","nachlauf_s":"0.0/3","l2_s":"2.5/3","gesamt":[2.5,6],"nachlauf":[0.0,3],"l2":[2.5,3]},"p1_placebo":{"display":"4.0/6 (2.0/3)","gesamt_s":"4.0/6","nachlauf_s":"2.0/3","l2_s":"2.0/3","gesamt":[4.0,6],"nachlauf":[2.0,3],"l2":[2.0,3]},"p1_frontier_coach":{"display":"2.0/6 (1.0/3)","gesamt_s":"2.0/6","nachlauf_s":"1.0/3","l2_s":"1.0/3","gesamt":[2.0,6],"nachlauf":[1.0,3],"l2":[1.0,3]},"p1_falschhinweis":null}}],"loco":[{"label":"All 4 cases","cells":["31.5/48 (65.6%)","26.0/48 (54.2%)","19.0/48 (39.6%)","+11.5 pp","+26.0 pp","−14.6 pp","+5.5 ans."]},{"label":"Excluding T2","cells":["29.5/36 (81.9%)","26.0/36 (72.2%)","19.0/36 (52.8%)","+9.7 pp","+29.2 pp","−19.4 pp","+3.5 ans."]},{"label":"Excluding T3","cells":["19.5/36 (54.2%)","20.5/36 (56.9%)","17.5/36 (48.6%)","−2.8 pp","+5.6 pp","−8.3 pp","−1.0 ans."]},{"label":"Excluding T7","cells":["20.0/36 (55.6%)","14.0/36 (38.9%)","10.0/36 (27.8%)","+16.7 pp","+27.8 pp","−11.1 pp","+6.0 ans."]},{"label":"Excluding T8","cells":["25.5/36 (70.8%)","17.5/36 (48.6%)","10.5/36 (29.2%)","+22.2 pp","+41.7 pp","−19.4 pp","+8.0 ans."]}],"loco_nachlauf_t3":{"label":"Excluding T3","cells":["9.0/18 (50.0%)","11.0/18 (61.1%)","9.0/18 (50.0%)","−11.1 pp","+0.0 pp","−11.1 pp","−2.0 ans."]},"loco_l2_t3":{"label":"Excluding T3","cells":["10.5/18 (58.3%)","9.5/18 (52.8%)","8.5/18 (47.2%)","+5.6 pp","+11.1 pp","−5.6 pp","+1.0 ans."]},"results_deltas":[{"row_label":"Fixed hint · All 4 cases","arm":"p1_hinweis","scope":"All 4 cases","run":"nachlauf","run_label":"Follow-up (v5-claude-low)","n":24,"arm_s":"15.0/24 (62.5%)","core_s":"14.0/24 (58.3%)","diff_pp":4.17,"diff_s":"+4.2 pp","claude_pp":"+12.5 pp","codex_pp":"−4.2 pp"},{"row_label":"Fixed hint · All 4 cases","arm":"p1_hinweis","scope":"All 4 cases","run":"l2","run_label":"Repeat run (L2)","n":24,"arm_s":"16.5/24 (68.8%)","core_s":"12.0/24 (50.0%)","diff_pp":18.75,"diff_s":"+18.8 pp","claude_pp":"+20.8 pp","codex_pp":"+16.7 pp"},{"row_label":"Fixed hint · Excluding T3","arm":"p1_hinweis","scope":"Excluding T3","run":"nachlauf","run_label":"Follow-up (v5-claude-low)","n":18,"arm_s":"9.0/18 (50.0%)","core_s":"11.0/18 (61.1%)","diff_pp":-11.11,"diff_s":"−11.1 pp","claude_pp":null,"codex_pp":null},{"row_label":"Fixed hint · Excluding T3","arm":"p1_hinweis","scope":"Excluding T3","run":"l2","run_label":"Repeat run (L2)","n":18,"arm_s":"10.5/18 (58.3%)","core_s":"9.5/18 (52.8%)","diff_pp":5.56,"diff_s":"+5.6 pp","claude_pp":null,"codex_pp":null},{"row_label":"Placebo · All 4 cases","arm":"p1_placebo","scope":"All 4 cases","run":"nachlauf","run_label":"Follow-up (v5-claude-low)","n":24,"arm_s":"9.0/24 (37.5%)","core_s":"14.0/24 (58.3%)","diff_pp":-20.83,"diff_s":"−20.8 pp","claude_pp":"−12.5 pp","codex_pp":"−29.2 pp"},{"row_label":"Placebo · All 4 cases","arm":"p1_placebo","scope":"All 4 cases","run":"l2","run_label":"Repeat run (L2)","n":24,"arm_s":"10.0/24 (41.7%)","core_s":"12.0/24 (50.0%)","diff_pp":-8.33,"diff_s":"−8.3 pp","claude_pp":"−4.2 pp","codex_pp":"−12.5 pp"},{"row_label":"Placebo · Excluding T3","arm":"p1_placebo","scope":"Excluding T3","run":"nachlauf","run_label":"Follow-up (v5-claude-low)","n":18,"arm_s":"9.0/18 (50.0%)","core_s":"11.0/18 (61.1%)","diff_pp":-11.11,"diff_s":"−11.1 pp","claude_pp":null,"codex_pp":null},{"row_label":"Placebo · Excluding T3","arm":"p1_placebo","scope":"Excluding T3","run":"l2","run_label":"Repeat run (L2)","n":18,"arm_s":"8.5/18 (47.2%)","core_s":"9.5/18 (52.8%)","diff_pp":-5.56,"diff_s":"−5.6 pp","claude_pp":null,"codex_pp":null}],"coach":{"nachlauf":{"meta/muse-ember":{"k":6,"n":11},"qwen/qwen3.8-flash":{"k":2,"n":8}},"l2":{"meta/muse-ember":{"k":5,"n":10},"qwen/qwen3.8-flash":{"k":6,"n":11}}},"case_turn":{"T2":12,"T3":10,"T7":8,"T8":8},"t8_samples":[{"model":"qwen/qwen3.8-flash","seed":42,"snippet":"Nimm die 1/2 und stell sie dir als Pizza vor. Eine halbe Pizza kann man auch als 3 Stück von einer in 6 Teile geschnittenen Pizza sehen. Und 1/3 ist dasselbe wie 2 Stück von derselben 6er-Pizza."},{"model":"qwen/qwen3.8-flash","seed":43,"snippet":"Stell dir ein Rechteck vor. Zuerst halbierst du es. Dann halbierst du jede Hälfte nochmal. Du bekommst vier gleich große Teile. Jedes einzelne Viertel enthält ein halbes Viertel."},{"model":"qwen/qwen3.8-flash","seed":44,"snippet":"Deshalb ist die ursprüngliche Aufgabe jetzt 2/5 + 1/5, mit gleicher Teilgröße."},{"model":"meta/muse-ember","seed":42,"snippet":"Okay, wir machen es ganz konkret an einem Beispiel mit kleinen Zahlen.\n\nStell dir einen ganzen Kuchen vor:\n\nHalbieren wir ihn nur in 2 Teile, dann ist 1/2 genau 1 Stück. \nTeilen wir ihn in 3 Teile, ist 1/3 genau 1 Stück.\n\nBeides zusammen kannst du nicht einfach als 2 von 5 Stücken zählen, weil die Stücke unterschiedlich groß sind – das wäre wie 1 A"},{"model":"meta/muse-ember","seed":43,"snippet":"Alles klar, ich zeige es auf einem anderen Weg mit einem Bild in Textform.\n\nNimm ein Ganzes in 2 Teile: 1/2 ist die Hälfte.\nNimm ein Ganzes in 3 Teile: 1/3 ist ein Drittel.\n\nTeile nun *beide* Ganzen in 6 gleich große Stücke:\n\n```\n1/2  =  [ ][ ][ | ][ ][ ]     = 3 von 6 Stücken\n1/3  =  [ ][ | ][ ][ | ][ ]   = 2 von 6 Stücken\n```\n\nJetzt sind beide An"},{"model":"meta/muse-ember","seed":44,"snippet":"Okay, wir nehmen ein konkretes Bild: Ein Ganzes, in 6 gleiche Stücke geschnitten.\n\n```\n1/2 = 3 von 6 Stücken:  [###][###]\n1/3 = 2 von 6 Stücken:  [##][  ]\nzusammen:               [#####][ ]\n```\n\nAlso 1/2 + 1/3 = 3/6 + 2/6 = 5/6. Die 6 ist ein Nenner, der zu beiden passt.\n\nJetzt du: Wie viele Sechstel sind 1/2?"}],"overlap":{"shared_prefixes":150,"identical_prefixes":150,"shared_prim_starts":142,"identical_prim_starts":126}},"kp2b":{"arms":[{"arm":"p1_hinweis","cells_ok":5,"cells":6,"n_all":121,"df_all":51,"n_z3":110,"df_z3":42,"n_z4":105,"df_z4":40,"all_s":"51/121 (42.1%)","z3_s":"42/110 (38.2%)","z4_s":"40/105 (38.1%)","leck":1,"leck_folge":16,"z23":{"n":5,"sum":2.0,"s":"40.0% (2.0/5)","both":1,"any":3},"z24":{"n":5,"sum":2.5,"s":"50.0% (2.5/5)","both":2,"any":3},"turn_total":[6,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5],"turn_df":[4,5,2,4,2,1,2,2,3,2,1,1,3,2,3,2,0,2,2,2,1,0,3,2]},{"arm":"p1_kern","cells_ok":3,"cells":6,"n_all":83,"df_all":31,"n_z3":72,"df_z3":24,"n_z4":67,"df_z4":23,"all_s":"31/83 (37.3%)","z3_s":"24/72 (33.3%)","z4_s":"23/67 (34.3%)","leck":0,"leck_folge":0,"z23":{"n":3,"sum":1.0,"s":"33.3% (1.0/3)","both":1,"any":1},"z24":{"n":3,"sum":0.0,"s":"0.0% (0.0/3)","both":0,"any":0},"turn_total":[6,5,5,5,4,4,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3],"turn_df":[4,3,1,1,2,0,0,3,0,1,0,0,3,0,2,0,1,3,1,2,0,0,3,1]},{"arm":"p6_voll","cells_ok":3,"cells":6,"n_all":84,"df_all":38,"n_z3":72,"df_z3":29,"n_z4":67,"df_z4":26,"all_s":"38/84 (45.2%)","z3_s":"29/72 (40.3%)","z4_s":"26/67 (38.8%)","leck":0,"leck_folge":0,"z23":{"n":3,"sum":0.0,"s":"0.0% (0.0/3)","both":0,"any":0},"z24":{"n":3,"sum":0.0,"s":"0.0% (0.0/3)","both":0,"any":0},"turn_total":[6,6,5,5,4,4,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3],"turn_df":[4,5,3,3,1,2,0,3,1,1,0,0,3,0,1,0,2,2,2,1,0,1,3,0]},{"arm":"p1_reasoning","cells_ok":5,"cells":6,"n_all":122,"df_all":77,"n_z3":110,"df_z3":65,"n_z4":105,"df_z4":62,"all_s":"77/122 (63.1%)","z3_s":"65/110 (59.1%)","z4_s":"62/105 (59.0%)","leck":0,"leck_folge":0,"z23":{"n":5,"sum":1.0,"s":"20.0% (1.0/5)","both":1,"any":1},"z24":{"n":5,"sum":1.0,"s":"20.0% (1.0/5)","both":1,"any":1},"turn_total":[6,6,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5],"turn_df":[6,6,3,4,5,4,3,3,1,3,2,2,3,3,3,2,3,4,2,4,1,3,5,2]},{"arm":"p1_placebo","cells_ok":3,"cells":6,"n_all":123,"df_all":58,"n_z3":111,"df_z3":50,"n_z4":105,"df_z4":46,"all_s":"58/123 (47.2%)","z3_s":"50/111 (45.0%)","z4_s":"46/105 (43.8%)","leck":0,"leck_folge":0,"z23":{"n":4,"sum":1.5,"s":"37.5% (1.5/4)","both":1,"any":2},"z24":{"n":3,"sum":1.0,"s":"33.3% (1.0/3)","both":1,"any":1},"turn_total":[6,6,6,6,6,6,6,6,6,6,6,6,6,5,5,4,4,4,4,4,4,4,4,3],"turn_df":[4,4,4,3,3,1,0,4,3,0,2,3,4,2,3,2,1,3,3,3,1,0,4,1]},{"arm":"p1_frontier_coach","cells_ok":0,"cells":6,"n_all":66,"df_all":23,"n_z3":54,"df_z3":14,"n_z4":48,"df_z4":12,"all_s":"23/66 (34.8%)","z3_s":"14/54 (25.9%)","z4_s":"12/48 (25.0%)","leck":0,"leck_folge":0,"z23":{"n":0,"sum":0.0,"s":"No cell reached (0/6)","both":0,"any":0},"z24":{"n":0,"sum":0.0,"s":"No cell reached (0/6)","both":0,"any":0},"turn_total":[6,6,6,6,6,5,5,4,3,3,3,3,1,1,1,1,1,1,1,1,1,1,0,0],"turn_df":[4,5,2,1,3,1,1,2,1,1,0,0,0,0,0,0,0,1,0,1,0,0,0,0]}],"total":{"n_all":599,"df_all":278,"n_z3":529,"n_z4":497,"df_z3":224,"df_z4":209},"total_s":{"all":"278/599 (46.4%)","z3":"224/529 (42.3%)","z4":"209/497 (42.1%)"},"pre_z3":{"k":54,"n":70,"s":"54/70 (77.1%)"},"primary_turns":{"k":66,"n":90,"s":"66/90 (73.3%)"},"other_post_turns":{"k":143,"n":407,"s":"143/407 (35.1%)"},"turn_total":[36,34,32,32,30,29,27,26,25,25,25,25,23,22,22,21,21,21,21,21,21,21,20,19],"turn_df":[26,28,15,16,16,9,6,17,9,8,5,6,16,7,12,6,7,15,10,13,3,4,18,6],"cell_status":{"coach_format_fehler":4,"ok":19,"paket_gestoppt":3,"tutor_fehler":2,"state_judge_fehler":8},"reliability":{"pf":{"n":39,"agree":0.8974,"alpha":0.7344827586206897},"absprache":{"n":39,"agree":0.8718,"alpha":0.6783625730994152},"meta_leck":{"n":39,"agree":1.0,"alpha":null,"all_negative":true}},"jury_n":39,"hop4_cost":"0.175477866","absprache":{"zug":3,"wortlaut":"Ich frage immer zuerst nach deiner Vermutung und stelle genau eine Frage pro Zug."},"hints":[8,13,18,23]},"scenarios":[{"id":"python-listen","label":"Python"},{"id":"bruchaddition","label":"Fractions"},{"id":"attention-dialog","label":"Attention"},{"id":"alphafold-dialog","label":"AlphaFold"}],"planned_turns":16,"costs":{"rows":[{"short":"KP1a open profiles","live":0.249436,"live_s":"0.249436","journal_s":"0.249699","cap_s":"0.90"},{"short":"KP2a Attempt 1 + Run A","live":0.17625,"live_s":"0.176250","journal_s":"0.176250","cap_s":"0.85"},{"short":"KP2b original pre-fix run","live":0.05381,"live_s":"0.053810","journal_s":"0.053810","cap_s":"1.30"},{"short":"KP4 Bridge-482","live":0.175931,"live_s":"0.175931","journal_s":"0.176022","cap_s":"0.40"},{"short":"Interim movement KP4 → KP2a*","live":9.1e-05,"live_s":"0.000091","journal_s":"—","cap_s":"—"},{"short":"KP2a Run B follow-up","live":0.114555,"live_s":"0.114555","journal_s":"0.114555","cap_s":"0.75"},{"short":"KP2b pilot pre-run","live":0.021292,"live_s":"0.021292","journal_s":"0.021292","cap_s":"(in 0.75)"},{"short":"KP2b main follow-up","live":0.175478,"live_s":"0.175478","journal_s":"0.175478","cap_s":"(in 0.75)"},{"short":"Catch-up runs","live":0.016144,"live_s":"0.016144","journal_s":"0.016364 (0.000679 + 0.015685)","cap_s":"0.01 + 0.15"}]}};</script>
+<script>
+/* Tutor-Bench chart module (Apache ECharts 5, SVG renderer), shared across Results Report, Explorer, and Paper.
+ * Every displayed figure is precomputed in the build payload; JS only positions marks and renders tooltips. */
+(function () {
+  'use strict';
+  const TB = window.TB_DATA;
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const ARM_SLOT = {
+    p1_hinweis: 0, p1_kern: 1, p6_voll: 2, p1_reasoning: 3,
+    p1_placebo: 4, p1_frontier_coach: 5, p1_falschhinweis: 6,
+  };
+  const ARM_NAME = {
+    p1_hinweis: 'Fixed hint (p1_hinweis)',
+    p1_kern: 'Core prompt (p1_kern)',
+    p6_voll: 'Full rule prompt (p6_voll)',
+    p1_reasoning: 'Extra reasoning (p1_reasoning)',
+    p1_placebo: 'Placebo (p1_placebo)',
+    p1_frontier_coach: 'Frontier coach (Claude only)',
+    p1_falschhinweis: 'Wrong hint (T2 only)',
+  };
+  const mounted = new Map();
+  const PRINT_WIDTH = 680;
+
+  function esc(s) {
+    return String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]);
+  }
+
+  function theme() {
+    const cs = getComputedStyle(document.documentElement);
+    const v = (n) => cs.getPropertyValue(n).trim();
+    const dark = cs.getPropertyValue('color-scheme').trim() === 'dark';
+    return {
+      dark,
+      ink: v('--ink'), ink2: v('--ink-2'), ink3: v('--ink-3'),
+      surface: v('--surface'), surface2: v('--surface-2'), surface3: v('--surface-3'),
+      line: v('--line'), line2: v('--line-strong'), grid: v('--grid'),
+      neutral: v('--neutral-mark'), accent: v('--accent'),
+      s: [1, 2, 3, 4, 5, 6, 7, 8].map((i) => v('--s' + i)),
+      seq: [1, 2, 3, 4, 5, 6, 7, 8].map((i) => v('--seq-' + i)),
+      font: '"IBM Plex Sans", "Helvetica Neue", Arial, sans-serif',
+      mono: '"IBM Plex Mono", ui-monospace, Menlo, monospace',
+    };
+  }
+
+  const armColor = (t, arm) => t.s[ARM_SLOT[arm]];
+  const pctTick = (v) => Math.round(v * 100) + '%';
+  const ppTick = (v) => (v > 0 ? '+' : v < 0 ? '−' : '') + Math.abs(v) + ' pp';
+  const isNarrow = (el) => el.clientWidth < 520;
+
+  function base(t) {
+    return {
+      animation: !reduceMotion,
+      animationDuration: 650,
+      animationEasing: 'cubicOut',
+      animationDurationUpdate: 420,
+      animationEasingUpdate: 'cubicOut',
+      textStyle: { fontFamily: t.font, color: t.ink2, fontSize: 12 },
+      tooltip: {
+        confine: true,
+        backgroundColor: t.surface,
+        borderColor: t.line2,
+        borderWidth: 1,
+        padding: [8, 10],
+        textStyle: { color: t.ink, fontSize: 12, fontFamily: t.font },
+        extraCssText: 'border-radius:8px;box-shadow:0 10px 28px -10px rgba(0,0,0,.35);max-width:340px;white-space:normal;',
+      },
+    };
+  }
+
+  function legend(t, extra) {
+    return Object.assign({
+      top: 0, left: 0, itemWidth: 12, itemHeight: 10, itemGap: 16, icon: 'circle',
+      textStyle: { color: t.ink2, fontSize: 12, fontFamily: t.font },
+      inactiveColor: t.line2,
+    }, extra || {});
+  }
+
+  function valueAxis(t, extra) {
+    return Object.assign({
+      type: 'value', min: 0, max: 1,
+      axisLabel: { formatter: pctTick, color: t.ink3, fontSize: 11 },
+      splitLine: { lineStyle: { color: t.grid, width: 1 } },
+      axisLine: { show: false }, axisTick: { show: false },
+    }, extra || {});
+  }
+
+  function catAxis(t, data, extra) {
+    return Object.assign({
+      type: 'category', data,
+      axisLabel: { color: t.ink2, fontSize: 12 },
+      axisLine: { lineStyle: { color: t.line2 } },
+      axisTick: { show: false },
+    }, extra || {});
+  }
+
+  function tip(title, rows) {
+    const body = rows.map((r) => {
+      const dot = r[2] ? '<i style="background:' + r[2] + '"></i>' : '';
+      return '<div class="tt-r">' + dot + '<span>' + esc(r[0]) + '</span><b>' + esc(r[1]) + '</b></div>';
+    }).join('');
+    return '<div class="tt"><div class="tt-h">' + esc(title) + '</div>' + body + '</div>';
+  }
+
+  function hRange(color, width, caps) {
+    return function (params, api) {
+      const a = api.coord([api.value(0), api.value(2)]);
+      const b = api.coord([api.value(1), api.value(2)]);
+      const half = Math.min(5, api.size([0, 1])[1] * 0.18);
+      const stroke = typeof color === 'function' ? color(params.dataIndex) : color;
+      const children = [{ type: 'line', shape: { x1: a[0], y1: a[1], x2: b[0], y2: b[1] }, style: { stroke, lineWidth: width, lineCap: 'round' } }];
+      if (caps) {
+        children.push({ type: 'line', shape: { x1: a[0], y1: a[1] - half, x2: a[0], y2: a[1] + half }, style: { stroke, lineWidth: 1.5 } });
+        children.push({ type: 'line', shape: { x1: b[0], y1: b[1] - half, x2: b[0], y2: b[1] + half }, style: { stroke, lineWidth: 1.5 } });
+      }
+      return { type: 'group', children };
+    };
+  }
+
+  function rangeSeries(name, rows, color, width, caps) {
+    return {
+      type: 'custom', name, silent: false, z: 2,
+      renderItem: hRange(color, width, caps),
+      encode: { x: [0, 1], y: 2 }, data: rows,
+      tooltip: { show: false },
+    };
+  }
+
+  /* ---------- NEW 5 EXECUTIVE RESULTS CHARTS ---------- */
+
+  /* Figure 1: Arm - Core (pp) for Hint & Placebo, Follow-up vs. L2 separately, all 4 cases vs. excl. T3. */
+  function resultsHintPlacebo(t, el) {
+    const rows = TB.kp2a.results_deltas;
+    const narrow = isNarrow(el);
+    const cats = [
+      'Fixed hint · All 4 cases',
+      'Fixed hint · Excluding T3',
+      'Placebo · All 4 cases',
+      'Placebo · Excluding T3',
+    ];
+    const shortCats = [
+      'Fixed hint\nAll 4 (24)',
+      'Fixed hint\nNo T3 (18)',
+      'Placebo\nAll 4 (24)',
+      'Placebo\nNo T3 (18)',
+    ];
+    const find = (cat, run) => rows.find((r) => r.row_label === cat && r.run === run);
+    const nachlauf = cats.map((c, i) => ({ value: [find(c, 'nachlauf').diff_pp, i], meta: find(c, 'nachlauf') }));
+    const l2 = cats.map((c, i) => ({ value: [find(c, 'l2').diff_pp, i], meta: find(c, 'l2') }));
+    const spans = cats.map((c, i) => {
+      const a = find(c, 'nachlauf').diff_pp;
+      const b = find(c, 'l2').diff_pp;
+      return [Math.min(a, b), Math.max(a, b), i];
+    });
+    return Object.assign(base(t), {
+      legend: legend(t, { data: [
+        { name: 'Run B · Follow-up (hollow)', icon: 'circle', itemStyle: { color: t.surface, borderColor: t.s[0], borderWidth: 2 } },
+        { name: 'Run A · L2 pre-fix (filled)', icon: 'circle', itemStyle: { color: t.s[0] } },
+      ] }),
+      grid: { left: 8, right: narrow ? 20 : 68, top: narrow ? 54 : 38, bottom: 26, containLabel: true },
+      xAxis: {
+        type: 'value', min: -30, max: 30, interval: 10,
+        axisLabel: { formatter: ppTick, color: t.ink3, fontSize: 11 },
+        splitLine: { lineStyle: { color: t.grid } },
+        axisLine: { show: false }, axisTick: { show: false },
+      },
+      yAxis: catAxis(t, narrow ? shortCats : cats, {
+        inverse: true,
+        axisLabel: {
+          color: t.ink, fontSize: narrow ? 11 : 12, lineHeight: 15,
+          formatter: (v) => (narrow ? v : (v.includes('All 4') ? v + ' (n=24)' : v + ' (n=18)')),
+        },
+      }),
+      tooltip: Object.assign(base(t).tooltip, {
+        trigger: 'item',
+        formatter: (p) => {
+          const m = p.data.meta;
+          const items = [
+            ['Arm − Core', m.diff_s],
+            ['Arm score', m.arm_s],
+            ['Core prompt', m.core_s],
+            ['Execution', m.run === 'nachlauf' ? 'Run B · Follow-up (Nov 25)' : 'Run A · L2 pre-fix (Nov 24)'],
+          ];
+          if (m.claude_pp) items.push(['Claude / Codex lens', m.claude_pp + ' / ' + m.codex_pp]);
+          return tip(m.row_label, items);
+        },
+      }),
+      series: [
+        rangeSeries('Run-to-run gap', spans, (i) => (i < 2 ? t.s[0] : t.s[4]), 2.2, false),
+        {
+          type: 'scatter', name: 'Run B · Follow-up (hollow)', symbol: 'circle', symbolSize: 12, z: 4,
+          itemStyle: { color: t.surface, borderColor: t.s[0], borderWidth: 2.5 },
+          data: nachlauf.map((d, i) => ({
+            value: d.value, meta: d.meta,
+            itemStyle: { color: t.surface, borderColor: i < 2 ? t.s[0] : t.s[4], borderWidth: 2.5 },
+            label: { show: !narrow, position: d.value[0] <= l2[i].value[0] ? 'left' : 'right', distance: 8, color: t.ink, fontSize: 11, formatter: () => d.meta.diff_s },
+          })),
+          markLine: {
+            symbol: ['none', 'none'], silent: true,
+            lineStyle: { color: t.ink2, width: 1.5, type: 'dashed' },
+            label: { formatter: narrow ? 'Core 0' : 'Core baseline (0 pp)', position: 'insideEndTop', color: t.ink2, fontSize: 11 },
+            data: [{ xAxis: 0 }],
+          },
+        },
+        {
+          type: 'scatter', name: 'Run A · L2 pre-fix (filled)', symbol: 'circle', symbolSize: 12, z: 4,
+          itemStyle: { color: t.s[0], borderColor: t.surface, borderWidth: 1.5 },
+          data: l2.map((d, i) => ({
+            value: d.value, meta: d.meta,
+            itemStyle: { color: i < 2 ? t.s[0] : t.s[4], borderColor: t.surface, borderWidth: 1.5 },
+            label: { show: !narrow, position: d.value[0] >= nachlauf[i].value[0] ? 'right' : 'left', distance: 8, color: t.ink2, fontSize: 11, formatter: () => d.meta.diff_s },
+          })),
+        },
+      ],
+    });
+  }
+
+  /* Figure 2: KP1a Dumbbell (Claude lens vs. Codex lens + subtle episode min-max span). */
+  function resultsKp1aDumbbell(t, el) {
+    const m = TB.kp1a.models;
+    const narrow = isNarrow(el);
+    const shortName = (s) => s.replace('-flash', '').replace('gemini-3.8', 'gemini-3.8').replace('qwen3.8', 'qwen3.8');
+    const labels = m.map((r) => (narrow ? shortName(r.label) : r.label));
+    const axisLabel = narrow
+      ? { color: t.ink, fontSize: 10.5, fontFamily: t.mono }
+      : {
+          lineHeight: 15,
+          formatter: (v, i) => '{a|' + v + '}\n{b|' + m[i].effort + ' · ' + m[i].episodes + ' ep.}',
+          rich: { a: { color: t.ink, fontSize: 12, fontFamily: t.mono }, b: { color: t.ink3, fontSize: 10.5 } },
+        };
+    const epSpans = m.map((r, i) => [r.ep_range[0], r.ep_range[1], i]);
+    const judgeGaps = m.map((r, i) => (r.codex ? [r.codex.k / r.codex.n, r.claude.k / r.claude.n, i] : null)).filter(Boolean);
+    return Object.assign(base(t), {
+      legend: legend(t, { data: [
+        { name: 'Claude lens', icon: 'circle', itemStyle: { color: t.s[0] } },
+        { name: 'Codex lens', icon: 'rect', itemStyle: { color: t.surface, borderColor: t.s[1], borderWidth: 2 } },
+        { name: 'Episode min–max span', icon: 'roundRect', itemStyle: { color: t.neutral } },
+      ] }),
+      grid: { left: 8, right: narrow ? 20 : 42, top: narrow ? 58 : 38, bottom: 16, containLabel: true },
+      xAxis: valueAxis(t),
+      yAxis: catAxis(t, labels, { inverse: true, axisLabel }),
+      tooltip: Object.assign(base(t).tooltip, {
+        trigger: 'item',
+        formatter: (p) => {
+          const r = m[p.data.idx];
+          const gap = r.codex ? ((r.claude.k / r.claude.n - r.codex.k / r.codex.n) * 100).toFixed(1) + ' pp' : 'n/a (family-excluded)';
+          return tip(r.label + ' (' + r.effort + ')', [
+            ['Claude lens', r.claude.s, t.s[0]],
+            ['Codex lens', r.codex ? r.codex.s : 'excluded (same family)', t.s[1]],
+            ['Judge gap (Cl − Cx)', gap],
+            ['Episode span (' + r.episodes + ' ep.)', r.range_s],
+            ['D4 factual (votes)', r.d4.s],
+            ['Answer leakage ↓ (votes)', r.preisgabe.s],
+          ]);
+        },
+      }),
+      series: [
+        Object.assign(rangeSeries('Episode min–max span', epSpans, t.neutral, 6, false), { itemStyle: { color: t.neutral, opacity: 0.45 } }),
+        rangeSeries('Judge gap', judgeGaps, t.ink2, 2, false),
+        {
+          type: 'scatter', name: 'Claude lens', symbol: 'circle', symbolSize: 11, z: 4,
+          itemStyle: { color: t.s[0], borderColor: t.surface, borderWidth: 1.5 },
+          label: { show: !narrow, position: 'top', distance: 5, color: t.ink, fontSize: 11, formatter: (p) => m[p.data.idx].claude.s.split(' ')[0] },
+          data: m.map((r, i) => ({ value: [r.claude.k / r.claude.n, i], idx: i })),
+        },
+        {
+          type: 'scatter', name: 'Codex lens', symbol: 'rect', symbolSize: 10, z: 4,
+          itemStyle: { color: t.surface, borderColor: t.s[1], borderWidth: 2.2 },
+          label: { show: !narrow, position: 'bottom', distance: 5, color: t.ink2, fontSize: 11, formatter: (p) => m[p.data.idx].codex.s.split(' ')[0] },
+          data: m.map((r, i) => (r.codex ? { value: [r.codex.k / r.codex.n, i], idx: i } : null)).filter(Boolean),
+        },
+      ],
+    });
+  }
+
+  /* Figure 3: T8 Fractions honest dot plot on percentage scale with distinct vertical offsets & visible hollow marks. */
+  function resultsT8Dots(t, el) {
+    const t8 = TB.kp2a.clusters.filter((c) => c.case === 'T8');
+    const muse = t8.find((c) => c.model.includes('muse'));
+    const qwen = t8.find((c) => c.model.includes('qwen'));
+    const narrow = isNarrow(el);
+    const arms = ['p1_kern', 'p1_placebo', 'p1_reasoning', 'p1_frontier_coach', 'p1_hinweis', 'p6_voll'];
+    const shortLabels = ['Core prompt', 'Placebo', 'Extra reasoning', 'Live coach (Cl)', 'Fixed hint', 'Full rule prompt'];
+    const labels = narrow ? shortLabels : arms.map((a) => ARM_NAME[a]);
+    const mk = (cluster, run, name, color, symbol, hollow, offsetY, size) => ({
+      type: 'scatter', name, symbol, symbolSize: size || 10, z: 4, symbolOffset: [0, offsetY],
+      itemStyle: hollow
+        ? { color: t.surface, borderColor: color, borderWidth: 2.3 }
+        : { color, borderColor: t.surface, borderWidth: 1.5 },
+      data: arms.map((a, i) => {
+        const cell = cluster.cells[a];
+        const pair = cell[run];
+        return { value: [pair[0] / pair[1], i], arm: a, model: cluster.label, run, s: cell[run + '_s'], pooled: cell.gesamt_s };
+      }),
+    });
+    return Object.assign(base(t), {
+      legend: legend(t, { data: [
+        { name: 'Muse · Run B (Follow-up)', icon: 'circle', itemStyle: { color: t.surface, borderColor: t.s[0], borderWidth: 2 } },
+        { name: 'Muse · Run A (L2)', icon: 'circle', itemStyle: { color: t.s[0] } },
+        { name: 'Qwen · Run B (Follow-up)', icon: 'rect', itemStyle: { color: t.surface, borderColor: t.s[1], borderWidth: 2 } },
+        { name: 'Qwen · Run A (L2)', icon: 'diamond', itemStyle: { color: t.s[1] } },
+      ] }),
+      grid: { left: 8, right: narrow ? 18 : 30, top: narrow ? 66 : 40, bottom: 20, containLabel: true },
+      xAxis: valueAxis(t, { min: 0, max: 1, interval: 0.25 }),
+      yAxis: catAxis(t, labels, {
+        inverse: true,
+        axisLabel: { color: t.ink, fontSize: narrow ? 11 : 11.5 },
+        splitArea: { show: true, areaStyle: { color: ['transparent', t.surface2] } },
+      }),
+      tooltip: Object.assign(base(t).tooltip, {
+        trigger: 'item',
+        formatter: (p) => tip(p.data.model + ' · ' + p.data.arm, [
+          [p.data.run === 'nachlauf' ? 'Run B · Follow-up (k/n)' : 'Run A · L2 (k/n)', p.data.s + ' (' + Math.round(p.value[0] * 1000) / 10 + '%)'],
+          ['Combined (both runs)', p.data.pooled],
+        ]),
+      }),
+      series: [
+        mk(muse, 'nachlauf', 'Muse · Run B (Follow-up)', t.s[0], 'circle', true, -9, 10),
+        mk(muse, 'l2', 'Muse · Run A (L2)', t.s[0], 'circle', false, -3, 10),
+        mk(qwen, 'nachlauf', 'Qwen · Run B (Follow-up)', t.s[1], 'rect', true, 3, 10),
+        mk(qwen, 'l2', 'Qwen · Run A (L2)', t.s[1], 'diamond', false, 9, 13),
+      ],
+    });
+  }
+
+  /* Figure 4: KP2b 24-turn curve with visible denominator n per turn and highlighted primary checkpoints 8/13/18/23. */
+  function resultsKp2bTurns(t, el) {
+    const b = TB.kp2b;
+    const turns = b.turn_total.map((n, i) => (i + 1) + '\n(' + n + ')');
+    const narrow = isNarrow(el);
+    const prim = new Set([8, 13, 18, 23]);
+    return Object.assign(base(t), {
+      legend: legend(t, { data: ['All surviving arms (% flagged)', 'Primary checkpoints (Turns 8, 13, 18, 23)'] }),
+      grid: { left: 8, right: 18, top: narrow ? 74 : 54, bottom: 24, containLabel: true },
+      xAxis: catAxis(t, turns, {
+        boundaryGap: false,
+        axisLabel: {
+          color: t.ink3, fontSize: 10, lineHeight: 13,
+          interval: narrow ? (idx) => [0, 2, 7, 12, 17, 22, 23].includes(idx) : 0,
+        },
+      }),
+      yAxis: valueAxis(t),
+      tooltip: Object.assign(base(t).tooltip, {
+        trigger: 'axis',
+        axisPointer: { type: 'line', lineStyle: { color: t.line2 } },
+        formatter: (ps) => {
+          const i = ps[0].dataIndex;
+          const turn = i + 1;
+          const kind = turn <= 2 ? 'Pre-commitment context' : turn === 3 ? 'Scripted tutor commitment' : prim.has(turn) ? 'Primary / hint checkpoint' : 'Routine post-commitment turn';
+          return tip('Turn ' + turn + ' · ' + kind, [
+            ['Flagged (DOPPELFRAGE)', b.turn_df[i] + '/' + b.turn_total[i] + ' (' + Math.round((b.turn_df[i] / b.turn_total[i]) * 1000) / 10 + '%)'],
+            ['Surviving episodes', b.turn_total[i] + ' of 36 planned'],
+          ]);
+        },
+      }),
+      series: [
+        {
+          type: 'line', name: 'All surviving arms (% flagged)', z: 4, symbol: 'circle', symbolSize: 6,
+          lineStyle: { color: t.ink, width: 2 }, itemStyle: { color: t.ink, borderColor: t.surface, borderWidth: 1.5 },
+          data: b.turn_df.map((k, i) => ({
+            value: k / b.turn_total[i], k, n: b.turn_total[i],
+            symbolSize: prim.has(i + 1) ? 10 : 5,
+            itemStyle: prim.has(i + 1) ? { color: t.s[1], borderColor: t.surface, borderWidth: 2 } : { color: t.ink },
+          })),
+          markLine: {
+            symbol: ['none', 'none'], silent: true,
+            lineStyle: { color: t.ink2, width: 1.5, type: 'dashed' },
+            data: [{ xAxis: 2, label: { formatter: 'Turn 3 commitment', position: 'end', distance: 6, color: t.ink, fontSize: 11 } }],
+          },
+          markArea: {
+            silent: true, itemStyle: { color: t.surface2 }, label: { show: false },
+            data: [[{ xAxis: 0 }, { xAxis: 1 }]],
+          },
+        },
+        {
+          type: 'scatter', name: 'Primary checkpoints (Turns 8, 13, 18, 23)', symbolSize: 10, z: 5,
+          itemStyle: { color: t.s[1], borderColor: t.surface, borderWidth: 2 },
+          data: [7, 12, 17, 22].map((i) => [i, b.turn_df[i] / b.turn_total[i]]),
+        },
+      ],
+    });
+  }
+
+  /* Figure 5: Bridge overlap_145 stacked 100% bars (Expert-authored / Tie / Novice-authored). */
+  function resultsBridgeOverlap(t, el) {
+    const j = TB.kp4.jurors;
+    const narrow = isNarrow(el);
+    const parts = [
+      ['Expert-authored win', 'ov_wins', t.s[0], [4, 0, 0, 4]],
+      ['Tie', 'ov_ties', t.neutral, 0],
+      ['Novice-authored win', 'ov_novice', t.s[1], [0, 4, 4, 0]],
+    ];
+    return Object.assign(base(t), {
+      legend: legend(t, { icon: 'roundRect', itemGap: narrow ? 10 : 16 }),
+      grid: { left: 8, right: 16, top: narrow ? 60 : 36, bottom: 12, containLabel: true },
+      xAxis: valueAxis(t),
+      yAxis: catAxis(t, j.map((r) => r.label), { inverse: true, axisLabel: { color: t.ink, fontFamily: t.mono, fontSize: 12 } }),
+      tooltip: Object.assign(base(t).tooltip, {
+        trigger: 'axis', axisPointer: { type: 'shadow', shadowStyle: { color: t.surface2 } },
+        formatter: (ps) => {
+          const r = j[ps[0].dataIndex];
+          return tip(r.label + ' · shared 145 pairs', [
+            ['Expert-authored win', r.ov_wins + '/145 (' + r.ov_win_s + ')', t.s[0]],
+            ['Tie', r.ov_ties + '/145', t.neutral],
+            ['Novice-authored win', r.ov_novice + '/145', t.s[1]],
+            ['Expert win (excl. ties)', r.ov_nontie_s + ' (' + r.ov_wins + '/' + (r.ov_wins + r.ov_novice) + ')'],
+            ['Technical errors', '0'],
+          ]);
+        },
+      }),
+      series: parts.map((p) => ({
+        type: 'bar', name: p[0], stack: 'all', barWidth: 18,
+        itemStyle: { color: p[2], borderRadius: p[3], borderColor: t.surface, borderWidth: 1 },
+        label: { show: p[1] === 'ov_wins', position: 'inside', color: '#fff', fontSize: 11, fontWeight: 500, formatter: (x) => j[x.dataIndex].ov_win_s },
+        data: j.map((r) => r[p[1]] / r.ov_n),
+      })),
+    });
+  }
+
+  /* ---------- EXPLORER & PAPER CHARTS (English + all 3 bugs fixed) ---------- */
+
+  function kp4Win(t, el, view) {
+    const j = TB.kp4.jurors;
+    const labels = j.map((r) => r.label);
+    const axisLabel = {
+      color: t.ink2, fontSize: 12, lineHeight: 15,
+      formatter: (v, i) => '{a|' + v + '}\n{b|' + j[i].channel + ' · ' + j[i].subset + '}',
+      rich: { a: { color: t.ink, fontSize: 12, fontWeight: 500, fontFamily: t.mono }, b: { color: t.ink3, fontSize: 11 } },
+    };
+    const tooltip = (i) => tip(j[i].label, [
+      ['Expert win (95% CP)', j[i].win_s + ' ' + j[i].ci_s],
+      ['Expert win (excl. ties)', j[i].nontie_kn_s],
+      ['Non-tie rate', j[i].nontie_share_s],
+      ['overlap_145 Win / Excl. ties', j[i].ov_win_s + ' / ' + j[i].ov_nontie_s],
+      ['Expert / Tie / Novice', j[i].wins + ' / ' + j[i].ties + ' / ' + j[i].novice + ' of ' + j[i].n],
+      ['Errors', String(j[i].errors)],
+    ]);
+    const opt = Object.assign(base(t), {
+      grid: { left: 8, right: 74, top: view === 'overlap' ? 34 : 12, bottom: 8, containLabel: true },
+      xAxis: valueAxis(t, { min: 0.5, max: 1 }),
+      yAxis: catAxis(t, labels, { inverse: true, axisLabel }),
+      tooltip: Object.assign(base(t).tooltip, { trigger: 'item', formatter: (p) => tooltip(p.dataIndex % j.length) }),
+      series: [],
+    });
+    const point = (name, values, color, labels2, hollow) => ({
+      type: 'scatter', name, symbolSize: 12, z: 3,
+      itemStyle: hollow ? { color: t.surface, borderColor: color, borderWidth: 2 } : { color, borderColor: t.surface, borderWidth: 2 },
+      label: { show: true, position: 'right', distance: 8, color: t.ink, fontSize: 12, formatter: (p) => labels2[p.dataIndex] },
+      data: values.map((v, i) => [v, i]),
+    });
+    if (view === 'nontie') {
+      opt.series.push(point('Expert win (excl. ties)', j.map((r) => r.nontie), t.s[0], j.map((r) => r.nontie_s)));
+    } else if (view === 'overlap') {
+      opt.legend = legend(t, { data: ['Expert win', 'Expert win (excl. ties)'] });
+      opt.series.push(rangeSeries('Gap', j.map((r, i) => [r.ov_win, r.ov_nontie, i]), t.line2, 2, false));
+      opt.series.push(point('Expert win', j.map((r) => r.ov_win), t.s[0], j.map((r) => r.ov_win_s)));
+      opt.series.push(point('Expert win (excl. ties)', j.map((r) => r.ov_nontie), t.s[0], j.map((r) => r.ov_nontie_s), true));
+      opt.series[1].label.position = 'left';
+    } else {
+      opt.series.push(rangeSeries('95% CP', j.map((r, i) => [r.ci[0], r.ci[1], i]), t.ink3, 1.5, true));
+      opt.series.push(point('Expert win', j.map((r) => r.win), t.s[0], j.map((r) => r.win_s)));
+      opt.series[1].label.position = 'top';
+      opt.series[1].label.distance = 6;
+    }
+    return opt;
+  }
+
+  function kp4Outcome(t) {
+    const j = TB.kp4.jurors;
+    const parts = [
+      ['Expert win', 'wins', t.s[0], [4, 0, 0, 4]],
+      ['Tie', 'ties', t.neutral, 0],
+      ['Novice win', 'novice', t.s[1], [0, 4, 4, 0]],
+    ];
+    return Object.assign(base(t), {
+      legend: legend(t, { icon: 'roundRect' }),
+      grid: { left: 8, right: 16, top: 34, bottom: 8, containLabel: true },
+      xAxis: valueAxis(t),
+      yAxis: catAxis(t, j.map((r) => r.label), { inverse: true, axisLabel: { color: t.ink, fontFamily: t.mono, fontSize: 12 } }),
+      tooltip: Object.assign(base(t).tooltip, {
+        trigger: 'axis', axisPointer: { type: 'shadow', shadowStyle: { color: t.surface2 } },
+        formatter: (ps) => {
+          const r = j[ps[0].dataIndex];
+          return tip(r.label + ' · ' + r.subset, parts.map((p) => [p[0], r[p[1]] + ' / ' + r.n, p[2]]));
+        },
+      }),
+      series: parts.map((p) => ({
+        type: 'bar', name: p[0], stack: 'all', barWidth: 16,
+        itemStyle: { color: p[2], borderRadius: p[3], borderColor: t.surface, borderWidth: 1 },
+        data: j.map((r) => r[p[1]] / r.n),
+      })),
+    });
+  }
+
+  function kp4Agree(t) {
+    const j = TB.kp4.jurors;
+    const keys = j.map((r) => r.key);
+    const data = [];
+    TB.kp4.pairwise.forEach((p) => {
+      const [a, b] = p.pair.split(' vs ');
+      const ia = keys.indexOf(a); const ib = keys.indexOf(b);
+      data.push([ia, ib, p.agree, p.agree_s]);
+      data.push([ib, ia, p.agree, p.agree_s]);
+    });
+    const labels = j.map((r) => r.label);
+    return Object.assign(base(t), {
+      grid: { left: 8, right: 8, top: 8, bottom: 8, containLabel: true },
+      xAxis: catAxis(t, labels, { position: 'top', axisLabel: { color: t.ink2, fontSize: 11, fontFamily: t.mono, interval: 0, width: 80, overflow: 'break' }, axisLine: { show: false } }),
+      yAxis: catAxis(t, labels, { inverse: true, axisLabel: { color: t.ink2, fontSize: 11, fontFamily: t.mono }, axisLine: { show: false } }),
+      visualMap: { show: false, min: 0.6, max: 0.75, inRange: { color: [t.seq[1], t.seq[3], t.seq[5]] } },
+      tooltip: Object.assign(base(t).tooltip, { trigger: 'item', formatter: (p) => tip('Agreement on overlap_145', [[labels[p.value[0]] + ' × ' + labels[p.value[1]], p.value[3]]]) }),
+      series: [{
+        type: 'heatmap', data,
+        itemStyle: { borderColor: t.surface, borderWidth: 3, borderRadius: 4 },
+        label: { show: true, formatter: (p) => p.value[3], color: t.ink, fontSize: 12 },
+      }],
+    });
+  }
+
+  function kp1aLens(t, el, view) {
+    if (view === 'dumbbell') return resultsKp1aDumbbell(t, el);
+    const m = TB.kp1a.models;
+    const labels = m.map((r) => r.label);
+    const axisLabel = {
+      lineHeight: 15,
+      formatter: (v, i) => '{a|' + v + '}\n{b|' + m[i].effort + ' · ' + m[i].episodes + ' ep.}',
+      rich: { a: { color: t.ink, fontSize: 12, fontFamily: t.mono }, b: { color: t.ink3, fontSize: 11 } },
+    };
+    const opt = Object.assign(base(t), {
+      grid: { left: 8, right: isNarrow(el) ? 40 : 155, top: 8, bottom: 8, containLabel: true },
+      xAxis: valueAxis(t),
+      yAxis: catAxis(t, labels, { inverse: true, axisLabel }),
+      tooltip: Object.assign(base(t).tooltip, {
+        trigger: 'item',
+        formatter: (p) => {
+          const r = m[p.data && p.data.idx !== undefined ? p.data.idx : p.dataIndex];
+          return tip(r.label + ' (' + r.effort + ')', [
+            ['Claude lens', r.claude.s],
+            ['Codex lens', r.codex ? r.codex.s : 'excluded (same family)'],
+            ['Answer mean', r.mean_s + ' · ' + r.episodes + ' ep. ' + r.range_s],
+            ['D4 factual (votes)', r.d4.s],
+            ['Leakage ↓ (votes)', r.preisgabe.s],
+            ['Turns', r.turns + ' (' + Object.entries(r.sims).map((e) => e[1] + ' ' + e[0]).join(' / ') + ')'],
+          ]);
+        },
+      }),
+      series: [],
+    });
+    if (view === 'mean') {
+      opt.series.push(rangeSeries('Episode span', m.map((r, i) => [r.ep_range[0], r.ep_range[1], i]), t.ink3, 1.5, true));
+      opt.series.push({
+        type: 'scatter', name: 'Answer mean', symbolSize: 12, z: 3,
+        itemStyle: { color: t.s[0], borderColor: t.surface, borderWidth: 2 },
+        label: { show: true, position: 'top', distance: 6, color: t.ink, fontSize: 12, formatter: (p) => m[p.dataIndex].mean_s },
+        data: m.map((r, i) => ({ value: [r.mean, i], idx: i })),
+      });
+      return opt;
+    }
+    const lens = view === 'codex' ? 'codex' : 'claude';
+    opt.series.push({
+      type: 'bar', name: lens === 'codex' ? 'Codex lens' : 'Claude lens', barWidth: 12,
+      itemStyle: { color: t.s[0], borderRadius: [0, 4, 4, 0] },
+      label: {
+        show: true, position: 'right', distance: 8, color: t.ink, fontSize: 12,
+        formatter: (p) => (m[p.dataIndex][lens] ? m[p.dataIndex][lens].s : 'excluded (family)'),
+      },
+      data: m.map((r, i) => ({ value: r[lens] ? r[lens].k / r[lens].n : null, idx: i })),
+    });
+    return opt;
+  }
+
+  const ABO_METRICS = [
+    ['pf', 'Check (D4-gated)'], ['d4', 'D4 factual'], ['passung', 'Pedagogical fit'],
+    ['preisgabe', 'Leakage ↓'], ['syco', 'Sycophancy ↓'], ['doppelfrage', 'DOPPELFRAGE ↓'],
+  ];
+
+  function aboStyle(t, id) {
+    const hatch = { symbol: 'rect', symbolSize: 1, dashArrayX: [1, 0], dashArrayY: [2, 3], rotation: -Math.PI / 4, color: 'rgba(255,255,255,.55)' };
+    return { terra: { color: t.s[0] }, terra_matched: { color: t.s[0], decal: hatch }, sonnet_v1: { color: t.s[1] }, sonnet_v2: { color: t.s[1], decal: hatch } }[id];
+  }
+
+  function aboPanel(t, el, view) {
+    const runs = TB.kp1a.abo.filter((r) => view !== 'matched' || r.id === 'terra_matched' || r.id === 'sonnet_v1');
+    const metrics = ABO_METRICS;
+    return Object.assign(base(t), {
+      aria: { enabled: true, decal: { show: false } },
+      legend: legend(t, { icon: 'roundRect', data: runs.map((r) => r.label) }),
+      grid: { left: 8, right: 24, top: isNarrow(el) ? 58 : 34, bottom: 8, containLabel: true },
+      xAxis: valueAxis(t),
+      yAxis: catAxis(t, metrics.map((m) => m[1]), { inverse: true }),
+      tooltip: Object.assign(base(t).tooltip, {
+        trigger: 'item',
+        formatter: (p) => {
+          const r = runs[p.seriesIndex];
+          const cell = r[metrics[p.dataIndex][0]];
+          return tip(r.label, [
+            [metrics[p.dataIndex][1], cell ? cell.s : '—'],
+            ['Turns ok', r.ok + '/' + r.planned],
+            ['Simulator / state judge / juror', r.judge],
+            ['UTC window', r.window],
+          ]);
+        },
+      }),
+      series: runs.map((r) => ({
+        type: 'bar', name: r.label, barWidth: view === 'matched' ? 10 : 7, barGap: '30%',
+        itemStyle: Object.assign({ borderRadius: [0, 3, 3, 0] }, aboStyle(t, r.id)),
+        data: metrics.map((m) => (r[m[0]] ? r[m[0]].k / r[m[0]].n : null)),
+      })),
+    });
+  }
+
+  function sonnetStops(t, el) {
+    const sc = TB.scenarios;
+    const runs = TB.kp1a.abo.filter((r) => r.id === 'sonnet_v1' || r.id === 'sonnet_v2');
+    const marker = (r, idx) => ({
+      type: 'scatter', name: r.label + ' · stop', z: 4,
+      symbol: idx === 0 ? 'circle' : 'diamond', symbolSize: idx === 0 ? 12 : 14,
+      symbolOffset: [0, idx === 0 ? -7 : 7],
+      itemStyle: idx === 0 ? { color: t.surface, borderColor: t.s[1], borderWidth: 2.5 } : { color: t.s[1], borderColor: t.surface, borderWidth: 1.5 },
+      label: { show: true, position: 'right', distance: 6, color: t.ink2, fontSize: 11, offset: [0, idx === 0 ? -7 : 7], formatter: (p) => 'T' + p.value[0] },
+      data: sc.map((s, i) => [r.stops[s.id], i]),
+    });
+    return Object.assign(base(t), {
+      legend: legend(t, { data: runs.map((r) => r.label + ' · stop') }),
+      grid: { left: 8, right: 34, top: isNarrow(el) ? 54 : 34, bottom: 8, containLabel: true },
+      xAxis: valueAxis(t, { min: 0, max: TB.planned_turns, interval: 2, axisLabel: { color: t.ink3, fontSize: 11, formatter: (v) => (v ? 'T' + v : '') } }),
+      yAxis: catAxis(t, sc.map((s) => s.label), { inverse: true }),
+      tooltip: Object.assign(base(t).tooltip, {
+        trigger: 'item',
+        formatter: (p) => {
+          if (p.seriesType === 'bar') return tip(sc[p.dataIndex].label, [['Planned', TB.planned_turns + ' turns']]);
+          const r = runs[p.seriesIndex - 1];
+          return tip(r.label, [[sc[p.dataIndex].label, 'Stopped at T' + p.value[0]], ['Status', 'simulator_zustand_fehler'], ['UTC window', r.window], ['State judge', r.judge], ['Log', 'No raw state-judge JSON']]);
+        },
+      }),
+      series: [
+        { type: 'bar', name: 'planned', barWidth: 4, silent: false, itemStyle: { color: t.surface3, borderRadius: 2 }, data: sc.map(() => TB.planned_turns) },
+        marker(runs[0], 0),
+        marker(runs[1], 1),
+      ],
+    });
+  }
+
+  function kp2aArms(t, el, view) {
+    const a = TB.kp2a.arms;
+    const labels = a.map((r) => r.arm);
+    const axisLabel = {
+      formatter: (v) => (v === 'p1_falschhinweis' ? '{a|' + v + '}\n{b|T2 only}' : v === 'p1_frontier_coach' ? '{a|' + v + '}\n{b|Claude only}' : '{a|' + v + '}'),
+      rich: { a: { color: t.ink, fontSize: 12, fontFamily: t.mono }, b: { color: t.ink3, fontSize: 11 } },
+      lineHeight: 15,
+    };
+    const tooltip = (i) => {
+      const r = a[i];
+      return tip(r.arm, [
+        ['Follow-up (n=' + r.nachlauf.n + ')', r.nachlauf.mean_s + ' · ' + r.nachlauf.sum_s, armColor(t, r.arm)],
+        ['Repeat L2 (n=' + r.l2.n + ')', r.l2.mean_s + ' · ' + r.l2.sum_s, armColor(t, r.arm)],
+        ['Combined mean', r.gesamt.mean_s + ' · ' + r.gesamt.n + '/' + r.gesamt.planned],
+        ['Both Yes / >=1 Yes', r.gesamt.codex ? r.gesamt.both.s.split(' (')[0] + ' / ' + r.gesamt.any.s.split(' (')[0] : r.gesamt.both.s.split(' (')[0] + ' (1 judge)'],
+        ['Claude / Codex', r.gesamt.claude.s.split(' (')[0] + ' / ' + (r.gesamt.codex ? r.gesamt.codex.s.split(' (')[0] : 'excluded (family)')],
+        ['Best–Worst /Plan', r.gesamt.span_s],
+      ]);
+    };
+    const opt = Object.assign(base(t), {
+      grid: { left: 8, right: 24, top: isNarrow(el) && view !== 'lenses' && view !== 'bounds' ? 62 : 34, bottom: 8, containLabel: true },
+      xAxis: valueAxis(t),
+      yAxis: catAxis(t, labels, { inverse: true, axisLabel }),
+      tooltip: Object.assign(base(t).tooltip, { trigger: 'item', formatter: (p) => tooltip(p.value[1]) }),
+      series: [],
+    });
+    const scatter = (name, rows, style, size, symbol) => ({
+      type: 'scatter', name, symbol: symbol || 'circle', symbolSize: size, z: 3,
+      itemStyle: { color: t.ink3 },
+      data: rows.filter((r) => r).map((r) => ({ value: [r[0], r[1]], itemStyle: style(r[1]) })),
+    });
+    const filled = (i) => ({ color: armColor(t, a[i].arm), borderColor: t.surface, borderWidth: 1.5 });
+    const hollow = (i) => ({ color: t.surface, borderColor: armColor(t, a[i].arm), borderWidth: 2 });
+    const diamond = () => ({ color: t.ink, borderColor: t.surface, borderWidth: 1.5 });
+    if (view === 'lenses') {
+      opt.legend = legend(t, { data: [{ name: 'Claude lens', icon: 'circle' }, { name: 'Codex lens', icon: 'rect' }] });
+      const rows = a.map((r, i) => (r.gesamt.codex ? [r.gesamt.claude.k / r.gesamt.claude.n, r.gesamt.codex.k / r.gesamt.codex.n, i] : null)).filter((r) => r);
+      opt.series.push(rangeSeries('Judge gap', rows, (k) => armColor(t, a[rows[k][2]].arm), 2, false));
+      opt.series.push(scatter('Claude lens', a.map((r, i) => [r.gesamt.claude.k / r.gesamt.claude.n, i]), filled, 11));
+      opt.series.push(scatter('Codex lens', a.map((r, i) => (r.gesamt.codex ? [r.gesamt.codex.k / r.gesamt.codex.n, i] : null)), hollow, 10, 'rect'));
+      return opt;
+    }
+    if (view === 'bounds') {
+      opt.legend = legend(t, { data: [{ name: 'Judge agreement bounds', icon: 'roundRect' }, { name: 'Combined mean', icon: 'diamond' }] });
+      opt.series.push(Object.assign(rangeSeries('Judge agreement bounds', a.map((r, i) => [r.gesamt.both.k / r.gesamt.both.n, r.gesamt.any.k / r.gesamt.any.n, i]), (k) => armColor(t, a[k].arm), 7, false), { name: 'Judge agreement bounds', itemStyle: { color: t.ink3 } }));
+      opt.series.push(scatter('Combined mean', a.map((r, i) => [r.gesamt.mean, i]), diamond, 13, 'diamond'));
+      return opt;
+    }
+    opt.legend = legend(t, { data: [
+      { name: 'Follow-up (n=145)', icon: 'circle', itemStyle: { color: t.surface, borderColor: t.ink, borderWidth: 2 } },
+      { name: 'Repeat L2 (n=146)', icon: 'circle', itemStyle: { color: t.ink } },
+      { name: 'Combined mean (n=291)', icon: 'diamond', itemStyle: { color: t.ink } },
+    ] });
+    opt.series.push(rangeSeries('Run-to-run', a.map((r, i) => [r.nachlauf.mean, r.l2.mean, i]), (k) => armColor(t, a[k].arm), 2, false));
+    opt.series.push(scatter('Follow-up (n=145)', a.map((r, i) => [r.nachlauf.mean, i]), hollow, 11));
+    opt.series.push(scatter('Repeat L2 (n=146)', a.map((r, i) => [r.l2.mean, i]), filled, 11));
+    opt.series.push(scatter('Combined mean (n=291)', a.map((r, i) => [r.gesamt.mean, i]), diamond, 12, 'diamond'));
+    return opt;
+  }
+
+  function clusterHeat(t, el, view) {
+    const arms = TB.arms;
+    const cl = TB.kp2a.clusters;
+    const narrow = isNarrow(el);
+    const short = (arm) => arm.replace('p1_', '').replace('frontier_coach', 'coach').replace('falschhinweis', 'wrong');
+    const data = [];
+    const empty = [];
+    cl.forEach((row, y) => arms.forEach((arm, x) => {
+      const c = row.cells[arm];
+      if (!c) { empty.push([x, y, 0]); return; }
+      const pair = c[view];
+      data.push({ value: [x, y, pair[0] / pair[1]], s: c[view + '_s'], display: c.display });
+    }));
+    const hi = (v) => (t.dark ? v > 0.62 : v > 0.5);
+    return Object.assign(base(t), {
+      grid: { left: 8, right: 8, top: narrow ? 46 : 30, bottom: 44, containLabel: true },
+      xAxis: catAxis(t, arms.map(short), { position: 'top', axisLabel: { color: t.ink2, fontFamily: t.mono, fontSize: 11, interval: 0, rotate: narrow ? 40 : 0 }, axisLine: { show: false } }),
+      yAxis: catAxis(t, cl.map((r) => r.label + ' · Turn ' + TB.kp2a.case_turn[r.case]), { inverse: true, axisLine: { show: false }, axisLabel: { color: t.ink, fontSize: 11.5 } }),
+      visualMap: {
+        seriesIndex: 0, min: 0, max: 1, calculable: false, orient: 'horizontal', left: 'center', bottom: 0,
+        itemWidth: 10, itemHeight: 140, text: ['100%', '0%'], textStyle: { color: t.ink3, fontSize: 11 },
+        inRange: { color: [t.seq[0], t.seq[2], t.seq[4], t.seq[6]] },
+      },
+      tooltip: Object.assign(base(t).tooltip, {
+        trigger: 'item',
+        formatter: (p) => {
+          if (p.seriesIndex === 1) return tip(cl[p.value[1]].label, [[arms[p.value[0]], 'not planned (T2 only)']]);
+          const row = cl[p.value[1]];
+          const c = row.cells[arms[p.value[0]]];
+          return tip(row.label + ' · ' + arms[p.value[0]], [
+            ['Combined [Follow-up + L2]', c.gesamt_s], ['Follow-up', c.nachlauf_s], ['Repeat L2', c.l2_s], ['Table cell', c.display],
+          ]);
+        },
+      }),
+      series: [
+        {
+          type: 'heatmap', data,
+          itemStyle: { borderColor: t.surface, borderWidth: 2, borderRadius: 3 },
+          label: { show: true, fontSize: narrow ? 10 : 12, fontFamily: t.font, formatter: (p) => p.data.s, color: t.ink },
+          labelLayout: null,
+          emphasis: { itemStyle: { borderColor: t.ink, borderWidth: 1.5 } },
+        },
+        {
+          type: 'heatmap', data: empty, silent: false,
+          itemStyle: { color: t.surface2, borderColor: t.surface, borderWidth: 2, borderRadius: 3 },
+          label: { show: true, formatter: '—', color: t.ink3 },
+        },
+      ],
+      _labelInk: hi,
+    });
+  }
+
+  function coachSplit(t) {
+    const c = TB.kp2a.coach;
+    const models = [['meta/muse-ember', 'muse-ember', t.ink, 'circle'], ['qwen/qwen3.8-flash', 'qwen3.8-flash', t.ink3, 'rect']];
+    const runs = [['nachlauf', 'Follow-up'], ['l2', 'Repeat L2']];
+    return Object.assign(base(t), {
+      legend: legend(t, { data: models.map((m) => ({ name: m[1], icon: m[3] })) }),
+      grid: { left: 8, right: 30, top: 36, bottom: 8, containLabel: true },
+      xAxis: catAxis(t, runs.map((r) => r[1]), { boundaryGap: ['22%', '22%'] }),
+      yAxis: valueAxis(t),
+      tooltip: Object.assign(base(t).tooltip, {
+        trigger: 'item',
+        formatter: (p) => {
+          const m = models[p.seriesIndex]; const r = runs[p.dataIndex]; const v = c[r[0]][m[0]];
+          return tip(m[1] + ' · p1_frontier_coach', [[r[1] + ' (Claude lens)', v.k + '/' + v.n]]);
+        },
+      }),
+      series: models.map((m, si) => ({
+        type: 'line', name: m[1], symbol: m[3], symbolSize: 10, lineStyle: { color: m[2], width: 2 },
+        itemStyle: { color: m[2], borderColor: t.surface, borderWidth: 1.5 },
+        label: { show: true, color: t.ink, fontSize: 12, distance: 8, formatter: (p) => { const v = c[runs[p.dataIndex][0]][m[0]]; return v.k + '/' + v.n; } },
+        data: runs.map((r) => {
+          const own = c[r[0]][m[0]].k / c[r[0]][m[0]].n;
+          const other = models.filter((o) => o !== m).map((o) => c[r[0]][o[0]].k / c[r[0]][o[0]].n)[0];
+          return { value: own, label: { position: own >= other && si === 0 ? 'top' : own > other ? 'top' : 'bottom' } };
+        }),
+      })),
+    });
+  }
+
+  function kp2bDrift(t, el, view) {
+    const b = TB.kp2b;
+    const turns = b.turn_total.map((n, i) => (i + 1) + '\n(' + n + ')');
+    const narrow = isNarrow(el);
+    const event = (idx, label, strong) => ({
+      xAxis: idx, label: { show: !narrow || strong, formatter: label, color: strong ? t.ink : t.ink3, fontSize: 10.5, position: 'end', distance: 6 },
+      lineStyle: { color: strong ? t.ink2 : t.line2, width: strong ? 1.5 : 1, type: 'solid' },
+    });
+    const marks = {
+      symbol: ['none', 'none'], silent: true,
+      data: [event(2, 'Commitment', true)].concat(b.hints.map((h) => event(h - 1, 'Checkpoint', false))).concat([event(23, 'Hold', false)]),
+    };
+    const gesamt = {
+      type: 'line', name: 'All arms', z: 5, symbol: 'circle', symbolSize: 6, showSymbol: true,
+      lineStyle: { color: t.ink, width: 2.5 }, itemStyle: { color: t.ink, borderColor: t.surface, borderWidth: 1.5 },
+      data: b.turn_df.map((k, i) => ({ value: k / b.turn_total[i], k, n: b.turn_total[i] })),
+      markLine: marks,
+      markArea: { silent: true, itemStyle: { color: t.surface2 }, label: { show: false }, data: [[{ xAxis: 0 }, { xAxis: 1 }]] },
+    };
+    const armSeries = b.arms.map((a) => ({
+      type: 'line', name: a.arm, symbol: 'circle', symbolSize: 4, showSymbol: false,
+      lineStyle: { color: armColor(t, a.arm), width: 1.5 }, itemStyle: { color: armColor(t, a.arm) },
+      data: a.turn_df.map((k, i) => (a.turn_total[i] ? { value: k / a.turn_total[i], k, n: a.turn_total[i] } : { value: null, k: 0, n: 0 })),
+      connectNulls: false,
+    }));
+    const series = view === 'arms' ? [Object.assign({}, gesamt, { lineStyle: { color: t.ink, width: 2.5, opacity: 0.35 }, itemStyle: { color: t.ink, opacity: 0.35 }, showSymbol: false })].concat(armSeries) : [gesamt];
+    return Object.assign(base(t), {
+      legend: legend(t, { type: 'scroll', data: series.map((s) => s.name), icon: 'roundRect', itemHeight: 3, itemWidth: 14 }),
+      grid: { left: 8, right: 18, top: narrow ? 62 : 52, bottom: 14, containLabel: true },
+      xAxis: catAxis(t, turns, {
+        boundaryGap: false,
+        axisLabel: { color: t.ink3, fontSize: 10, lineHeight: 13, interval: narrow ? (idx) => [0, 2, 7, 12, 17, 22, 23].includes(idx) : 0 },
+      }),
+      yAxis: valueAxis(t),
+      tooltip: Object.assign(base(t).tooltip, {
+        trigger: 'axis',
+        axisPointer: { type: 'line', lineStyle: { color: t.line2 } },
+        formatter: (ps) => tip('Turn ' + (ps[0].dataIndex + 1) + ' · DOPPELFRAGE', ps.filter((p) => p.data && p.data.n).map((p) => [p.seriesName, p.data.k + '/' + p.data.n, p.color])),
+      }),
+      series,
+    });
+  }
+
+  function kp2bWindows(t, el, view) {
+    const b = TB.kp2b;
+    const narrow = isNarrow(el);
+    const key = { z4: ['df_z4', 'n_z4', 'z4_s'], z3: ['df_z3', 'n_z3', 'z3_s'], all: ['df_all', 'n_all', 'all_s'] }[view || 'z4'];
+    const rows = b.arms.slice().sort((x, y) => y[key[0]] / y[key[1]] - x[key[0]] / x[key[1]]);
+    const total = b.total;
+    const ref = { z4: [total.df_z4, total.n_z4, b.total_s.z4], z3: [total.df_z3, total.n_z3, b.total_s.z3], all: [total.df_all, total.n_all, b.total_s.all] }[view || 'z4'];
+    return Object.assign(base(t), {
+      grid: { left: 8, right: narrow ? 92 : 138, top: 40, bottom: 8, containLabel: true },
+      xAxis: valueAxis(t, { max: 0.8, interval: 0.2 }),
+      yAxis: catAxis(t, rows.map((r) => r.arm), { inverse: true, axisLabel: { color: t.ink, fontFamily: t.mono, fontSize: narrow ? 10.5 : 12 } }),
+      tooltip: Object.assign(base(t).tooltip, {
+        trigger: 'item',
+        formatter: (p) => {
+          const r = rows[p.dataIndex];
+          return tip(r.arm, [['All turns', r.all_s], ['Turn 3+', r.z3_s], ['Turn 4+', r.z4_s], ['Episodes ok', r.cells_ok + '/' + r.cells]]);
+        },
+      }),
+      series: [{
+        type: 'bar', barWidth: 12, z: 3,
+        itemStyle: { borderRadius: [0, 4, 4, 0] },
+        label: {
+          show: true, position: 'right', distance: 6, color: t.ink, fontSize: narrow ? 10.5 : 11.5,
+          backgroundColor: t.surface, padding: [1, 3],
+          formatter: (p) => {
+            const s = rows[p.dataIndex][key[2]];
+            return narrow ? s.split(' ')[1].replace(/[()]/g, '') : s;
+          },
+        },
+        data: rows.map((r) => ({ value: r[key[0]] / r[key[1]], itemStyle: { color: armColor(t, r.arm) } })),
+        markLine: {
+          symbol: ['none', 'none'], silent: true, z: 1,
+          lineStyle: { color: t.ink2, width: 1.5, type: 'dashed' },
+          label: { formatter: 'All arms ' + ref[2], position: 'start', distance: 8, color: t.ink, fontSize: 11 },
+          data: [{ xAxis: ref[0] / ref[1] }],
+        },
+      }],
+    });
+  }
+
+  /* FIXED Bug #3: n === 0 encodes null (not 0%) and labels explicitly as 'No cell reached (0/6)'. */
+  function kp2bJury(t, el) {
+    const b = TB.kp2b;
+    const turns = [['z23', 'Turn 23 primary', t.seq[3]], ['z24', 'Turn 24 hold', t.seq[6]]];
+    return Object.assign(base(t), {
+      legend: legend(t, { icon: 'roundRect', data: turns.map((x) => x[1]) }),
+      grid: { left: 8, right: isNarrow(el) ? 40 : 125, top: 34, bottom: 8, containLabel: true },
+      xAxis: valueAxis(t),
+      yAxis: catAxis(t, b.arms.map((a) => a.arm), { inverse: true, axisLabel: { color: t.ink, fontFamily: t.mono, fontSize: 12 } }),
+      tooltip: Object.assign(base(t).tooltip, {
+        trigger: 'item',
+        formatter: (p) => {
+          const a = b.arms[p.dataIndex]; const r = a[turns[p.seriesIndex][0]];
+          return tip(a.arm + ' · ' + turns[p.seriesIndex][1], [
+            ['Answer mean', r.s],
+            ['Both Yes / >=1 Yes', r.n ? r.both + ' / ' + r.any : 'n/a'],
+            ['Reached cells', r.n + ' of 6'],
+          ]);
+        },
+      }),
+      series: turns.map((x) => ({
+        type: 'bar', name: x[1], barWidth: 8, barGap: '35%',
+        itemStyle: { color: x[2], borderRadius: [0, 3, 3, 0] },
+        label: {
+          show: true, position: 'right', distance: 6, color: t.ink2, fontSize: 11,
+          formatter: (p) => {
+            const r = b.arms[p.dataIndex][x[0]];
+            return r.n ? r.s.split('(')[1].replace(')', '') : 'no cell (0/6)';
+          },
+        },
+        data: b.arms.map((a) => (a[x[0]].n ? a[x[0]].sum / a[x[0]].n : null)),
+      })),
+    });
+  }
+
+  function costs(t, el) {
+    const rows = TB.costs.rows;
+    return Object.assign(base(t), {
+      grid: { left: 8, right: isNarrow(el) ? 70 : 110, top: 8, bottom: 8, containLabel: true },
+      xAxis: { type: 'value', min: 0, axisLabel: { color: t.ink3, fontSize: 11, formatter: (v) => '$' + v }, splitLine: { lineStyle: { color: t.grid } } },
+      yAxis: catAxis(t, rows.map((r) => r.short), { inverse: true, axisLabel: { color: t.ink, fontSize: 12, width: isNarrow(el) ? 110 : 220, overflow: 'break' } }),
+      tooltip: Object.assign(base(t).tooltip, {
+        trigger: 'item',
+        formatter: (p) => { const r = rows[p.dataIndex]; return tip(r.short, [['Live diff', '$' + r.live_s], ['Journal', r.journal_s], ['Cap', r.cap_s]]); },
+      }),
+      series: [{
+        type: 'bar', barWidth: 12, itemStyle: { color: t.s[0], borderRadius: [0, 4, 4, 0] },
+        label: { show: true, position: 'right', distance: 8, color: t.ink, fontSize: 12, formatter: (p) => '$' + rows[p.dataIndex].live_s },
+        data: rows.map((r) => r.live),
+      }],
+    });
+  }
+
+  const BUILDERS = {
+    resultsHintPlacebo, resultsKp1aDumbbell, resultsT8Dots, resultsKp2bTurns, resultsBridgeOverlap,
+    kp4Win, kp4Outcome, kp4Agree, kp1aLens, aboPanel, sonnetStops, kp2aArms, clusterHeat, coachSplit, kp2bDrift, kp2bWindows, kp2bJury, costs,
+  };
+
+  function applyLabelInk(opt, t) {
+    if (!opt._labelInk) return opt;
+    const hi = opt._labelInk;
+    opt.series[0].data.forEach((d) => { d.label = { color: hi(d.value[2]) ? (t.dark ? '#0e1013' : '#ffffff') : t.ink }; });
+    delete opt._labelInk;
+    return opt;
+  }
+
+  function render(el) {
+    const inst = mounted.get(el);
+    if (!inst) return;
+    const t = theme();
+    const opt = applyLabelInk(BUILDERS[el.dataset.chart](t, el, el.dataset.view), t);
+    inst.setOption(opt, true);
+  }
+
+  function mount(el) {
+    if (mounted.has(el) || !window.echarts || el.clientWidth === 0) return;
+    const inst = window.echarts.init(el, null, { renderer: 'svg' });
+    mounted.set(el, inst);
+    render(el);
+    let narrow = isNarrow(el);
+    new ResizeObserver(() => {
+      if (!el.clientWidth) return;
+      if (isNarrow(el) !== narrow) { narrow = isNarrow(el); inst.resize(); render(el); return; }
+      inst.resize();
+    }).observe(el);
+  }
+
+  function mountVisible(root) {
+    (root || document).querySelectorAll('[data-chart]').forEach((el) => {
+      if (el.offsetParent !== null) mount(el);
+    });
+  }
+
+  function rerenderAll() { mounted.forEach((_, el) => render(el)); }
+
+  function onSegClick(ev) {
+    const btn = ev.target.closest('.seg[data-for] button[data-view]');
+    if (!btn) return;
+    const seg = btn.parentElement;
+    seg.querySelectorAll('button').forEach((b) => b.setAttribute('aria-pressed', String(b === btn)));
+    const el = document.getElementById(seg.dataset.for);
+    el.dataset.view = btn.dataset.view;
+    render(el);
+  }
+
+  function init() {
+    document.addEventListener('click', onSegClick);
+    mountVisible();
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((e) => { if (e.isIntersecting) mount(e.target); });
+    }, { rootMargin: '200px' });
+    document.querySelectorAll('[data-chart]').forEach((el) => io.observe(el));
+    window.addEventListener('beforeprint', () => {
+      mountVisible();
+      mounted.forEach((inst, el) => { if (el.clientWidth) inst.resize({ width: Math.min(el.clientWidth, PRINT_WIDTH) }); });
+    });
+    window.addEventListener('afterprint', () => mounted.forEach((inst, el) => { if (el.clientWidth) inst.resize(); }));
+  }
+
+  window.TBCharts = { init, mountVisible, rerenderAll };
+})();
+
+</script>
+<script>
+/* Shared page behaviour: theme switch, sortable/filterable tables, CSV export. */
+(function () {
+  'use strict';
+  const THEME_KEY = 'tutor-bench-theme';
+
+  function storedTheme() {
+    try { return localStorage.getItem(THEME_KEY); } catch (e) { return null; }
+  }
+
+  function applyTheme(mode) {
+    const root = document.documentElement;
+    if (mode === 'light' || mode === 'dark') root.setAttribute('data-theme', mode);
+    else root.removeAttribute('data-theme');
+    document.querySelectorAll('[data-theme-toggle]').forEach((b) => {
+      const dark = getComputedStyle(root).getPropertyValue('color-scheme').trim() === 'dark';
+      b.setAttribute('aria-label', dark ? 'Switch to light theme' : 'Switch to dark theme');
+      b.setAttribute('aria-pressed', String(dark));
+    });
+    if (window.TBCharts) window.TBCharts.rerenderAll();
+  }
+
+  function toggleTheme() {
+    const dark = getComputedStyle(document.documentElement).getPropertyValue('color-scheme').trim() === 'dark';
+    const next = dark ? 'light' : 'dark';
+    try { localStorage.setItem(THEME_KEY, next); } catch (e) { /* storage unavailable: session-only switch */ }
+    applyTheme(next);
+  }
+
+  function cellValue(td) {
+    const v = td.getAttribute('data-v');
+    return v !== null ? v : td.textContent.trim();
+  }
+
+  function sortTable(th) {
+    const table = th.closest('table');
+    const index = Array.from(th.parentElement.children).indexOf(th);
+    const numeric = th.dataset.sort === 'num';
+    const dir = th.getAttribute('aria-sort') === 'descending' ? 'ascending' : 'descending';
+    table.querySelectorAll('th[aria-sort]').forEach((h) => h.removeAttribute('aria-sort'));
+    th.setAttribute('aria-sort', dir);
+    const body = table.tBodies[0];
+    // Total and empty-state rows stay pinned below the sorted data rows.
+    const pinned = (r) => r.classList.contains('total') || r.classList.contains('empty-row');
+    const rows = Array.from(body.rows).filter((r) => !pinned(r));
+    const totals = Array.from(body.rows).filter(pinned);
+    rows.sort((a, b) => {
+      const x = cellValue(a.cells[index]); const y = cellValue(b.cells[index]);
+      const cmp = numeric ? (parseFloat(x) || 0) - (parseFloat(y) || 0) : x.localeCompare(y, 'en');
+      return dir === 'ascending' ? cmp : -cmp;
+    });
+    rows.concat(totals).forEach((r) => body.appendChild(r));
+  }
+
+  function applyFilters(panel) {
+    const table = panel.querySelector('table[data-x]');
+    if (!table) return;
+    const input = panel.querySelector('input[data-search]');
+    const query = input ? input.value.trim().toLowerCase() : '';
+    const active = Array.from(panel.querySelectorAll('.chips')).map((g) => {
+      const on = g.querySelector('[aria-pressed="true"]');
+      return on ? on.dataset.filter : '';
+    }).filter(Boolean);
+    let shown = 0;
+    Array.from(table.tBodies[0].rows).forEach((row) => {
+      if (row.classList.contains('empty-row')) return;
+      // Rows without data-tags (kept attribute-free for the consistency checker) filter on their label cell.
+      const tags = row.dataset.tags ? row.dataset.tags.split(' ') : null;
+      const label = row.cells[0].textContent;
+      const hit = (f) => (tags ? tags.includes(f) : label.includes(f));
+      const ok = (!query || row.textContent.toLowerCase().includes(query)) && active.every(hit);
+      row.hidden = !ok;
+      if (ok) shown += 1;
+    });
+    const empty = table.querySelector('.empty-row');
+    if (empty) empty.hidden = shown !== 0;
+  }
+
+  function csvEscape(s) {
+    const v = s.replace(/\s+/g, ' ').trim();
+    return /[";\n]/.test(v) ? '"' + v.replace(/"/g, '""') + '"' : v;
+  }
+
+  function downloadCsv(table, name) {
+    const rows = Array.from(table.rows).filter((r) => !r.hidden && !r.classList.contains('empty-row'));
+    const text = rows.map((r) => Array.from(r.cells).map((c) => csvEscape(c.getAttribute('data-csv') || c.textContent)).join(';')).join('\r\n');
+    const blob = new Blob(['﻿' + text], { type: 'text/csv;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url; a.download = name + '.csv';
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+  }
+
+  function onClick(ev) {
+    const t = ev.target;
+    const th = t.closest('th[data-sort]');
+    if (th) { sortTable(th); return; }
+    if (t.closest('[data-theme-toggle]')) { toggleTheme(); return; }
+    const chip = t.closest('.chips button');
+    if (chip) {
+      chip.parentElement.querySelectorAll('button').forEach((b) => b.setAttribute('aria-pressed', String(b === chip)));
+      applyFilters(chip.closest('.panel'));
+      return;
+    }
+    const csv = t.closest('button[data-csv]');
+    if (csv) downloadCsv(document.getElementById(csv.dataset.csv), csv.dataset.csv);
+  }
+
+  function onKey(ev) {
+    const th = ev.target.closest && ev.target.closest('th[data-sort]');
+    if (th && (ev.key === 'Enter' || ev.key === ' ')) { ev.preventDefault(); sortTable(th); }
+  }
+
+  function init() {
+    applyTheme(storedTheme());
+    document.addEventListener('click', onClick);
+    document.addEventListener('keydown', onKey);
+    document.addEventListener('input', (ev) => {
+      if (ev.target.matches('input[data-search]')) applyFilters(ev.target.closest('.panel'));
+    });
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => applyTheme(storedTheme()));
+  }
+
+  window.TBUi = { init };
+})();
+
+</script>
+<script>
+/* Results summary boot: initialize theme switcher and ECharts figures. */
+(function () {
+  'use strict';
+
+  function init() {
+    window.TBUi.init();
+    window.TBCharts.init();
+  }
+
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
+  else init();
+})();
+
+</script>
+</body>
+</html>
