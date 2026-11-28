@@ -1,6 +1,6 @@
 # AI Tutor Bench
 
-Reproducible evaluation of AI tutor behavior using versioned scenarios, deterministic checks, and blind exports (an independent open-source harness by David Weigend, distinct from Scale AI's TutorBench). It tests whether a tutor diagnoses a learner's obstacle, chooses a fitting move, avoids giving away solutions, checks understanding, and returns to the learning goal after diversions.
+Reproducible evaluation of AI tutor behavior using versioned scenarios, deterministic checks, and blind exports. It tests whether a tutor diagnoses a learner's obstacle, chooses a fitting move, avoids giving away solutions, checks understanding, and returns to the learning goal after diversions.
 
 > **Scope:** `ai-tutor-bench` measures **tutoring behavior in simulated dialogues**, not human learning gains, retention, or transfer.
 
