@@ -17,11 +17,12 @@ carry their own licenses.
 
 The interactive HTML benchmark reports under `docs/study-v45/` bundle local
 copies of third-party client libraries and web fonts so every page works offline
-without external CDN requests:
+without external CDN requests. Full upstream license and notice texts are
+included in [`docs/study-v45/vendor/LICENSES/`](docs/study-v45/vendor/LICENSES/):
 
-- **Apache ECharts `5.5.1`** (`echarts.min.js`) — licensed under the Apache License, Version 2.0 (`Apache-2.0`).
-- **IBM Plex Sans & IBM Plex Mono** (`@fontsource/ibm-plex-sans`, `@fontsource/ibm-plex-mono`) — licensed under the SIL Open Font License 1.1 (`SIL OFL 1.1`).
-- **Source Serif 4** (`@fontsource-variable/source-serif-4`) — licensed under the SIL Open Font License 1.1 (`SIL OFL 1.1`).
+- **Apache ECharts `5.5.1`** (`echarts.min.js`) — licensed under the Apache License, Version 2.0 ([Apache-2.0.txt](docs/study-v45/vendor/LICENSES/Apache-2.0.txt) · [ECHARTS-NOTICE.txt](docs/study-v45/vendor/LICENSES/ECHARTS-NOTICE.txt)).
+- **IBM Plex Sans & IBM Plex Mono** (`@fontsource/ibm-plex-sans`, `@fontsource/ibm-plex-mono`) — licensed under the SIL Open Font License 1.1 ([OFL-1.1-IBM-Plex.txt](docs/study-v45/vendor/LICENSES/OFL-1.1-IBM-Plex.txt)).
+- **Source Serif 4** (`@fontsource-variable/source-serif-4`) — licensed under the SIL Open Font License 1.1 ([OFL-1.1-Source-Serif-4.txt](docs/study-v45/vendor/LICENSES/OFL-1.1-Source-Serif-4.txt)).
 
 ## Data exclusions
 

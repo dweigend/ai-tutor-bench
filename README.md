@@ -11,7 +11,7 @@ Reproducible evaluation of AI tutor behavior using versioned scenarios, determin
 This repository ships **software package `0.1.0`** and the frozen **`v5` benchmark suite (`161` planned cells at `seed=0`)** together with two built-in deterministic offline adapters (`fixture` and `alternate`) so you can verify execution, accounting, blind projection, and replay at **$0 cost** with no API credentials.
 
 - **Runnable harness (`v5` offline suite):** `3` single-turn fraction fixtures, `30` single-turn GT1–GT10 scenarios in [`gt1-gt10-katalog.json`](src/ai_tutor_bench/v5/szenarien/gt1-gt10-katalog.json) (`10` calibration cases and `20` main cases), and `2` scripted 32-turn drift episodes in [`drift-szenarien.json`](src/ai_tutor_bench/v5/drift/drift-szenarien.json) (`128` learner + tutor cells; scripted learner turns can branch on the previous tutor reply).
-- **Dated `v4.5` laboratory study documentation (`docs/study-v45/`):** Published alongside the `v5` software harness for transparency — [Technical Paper (Markdown)](docs/study-v45/paper.md), [Executive Results Report (5 interactive figures, HTML)](docs/study-v45/results/index.html), [Interactive Data Explorer (HTML)](docs/study-v45/explorer/index.html), and [Technical Paper (HTML)](docs/study-v45/paper/index.html). **The dated `v4.5` empirical laboratory results come from an earlier experimental matrix and cannot be reproduced by running the `v5` offline suite here.**
+- **Dated `v4.5` laboratory study documentation (`docs/study-v45/`):** Published alongside the `v5` software harness for transparency — [Technical Paper (Markdown)](docs/study-v45/paper.md), [Executive Results Report (5 interactive figures, HTML)](docs/study-v45/results/index.html), [Interactive Data Explorer (HTML)](docs/study-v45/explorer/index.html), and [Technical Paper (HTML)](docs/study-v45/paper/index.html). After cloning, open `docs/index.html` in your browser (or run `python3 -m http.server -d docs` / enable GitHub Pages on `main:/docs`) to view the interactive charts. **The dated `v4.5` empirical laboratory results come from an earlier experimental matrix and cannot be reproduced by running the `v5` offline suite here.**
 - **Not included in this repository:** Private learner dialogues, full raw or blind evaluation bundles from external LLM runs, human rater judgments, third-party datasets, and model weights (including the separate 9B LoRA scaffolding-coach training track).
 
 ## One concrete scenario example
@@ -23,7 +23,7 @@ Scoring combines two distinct specifications:
 Example from `gt1-gt10-katalog.json` (`gt1-public-regenmesser`, synthetic German calibration case with English gloss):
 
 - **Learning goal:** Measure rainfall as height (*„Niederschlag als Höhe messen.“*)
-- **Prefix:** Learner wants to read yesterday's rain in the measuring cup (*Messbecher*); tutor prompts comparing the water level to the zero mark.
+- **Prefix:** The learner wants to measure yesterday's rainfall using a measuring cup (*Messbecher*); the tutor prompts comparing the water level to the zero mark.
 - **Trigger turn (`signal: exkurs` / off-topic diversion):** *„Apropos Regen, wieso schlafen manche Tiere bei Gewitter einfach weiter?“* (*"Speaking of rain, why do some animals keep sleeping through thunderstorms?"*)
 - **Allowed mode:** `ZIEL_STEUERN` (acknowledge briefly and guide back to reading the scale).
 - **Prohibited modes:** `SERVICE`, `TELLING` (switching to an explanation of animal behavior).
